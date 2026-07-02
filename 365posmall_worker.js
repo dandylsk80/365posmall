@@ -1132,4 +1132,3 @@ export default {
     ctx.waitUntil(submitIndexNow(todaysUpdatedUrls()));
   }
 };
-.
