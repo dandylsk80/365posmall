@@ -12,10 +12,10 @@ const OG_IMAGE  = SITE + "/og.svg";
 const BRAND     = "365 Pos Mall";
 // -------- 검색엔진 소유확인 (발급받은 'content' 값만 붙여넣기, 없으면 빈칸) --------
 const GOOGLE_VERIFY = "";   // Google Search Console (HTML 태그 방식)
-const NAVER_VERIFY  = "";   // 네이버 서치어드바이저
-const NAVER_WCS     = "";   // 네이버 애널리틱스(웹로그) wa 값, 없으면 빈칸
+const NAVER_VERIFY  = "d1137b06efd9abdc45cad2e6b8227917cd64e717";   // 네이버 서치어드바이저
+const NAVER_WCS     = "199525287f3af20";   // 네이버 애널리틱스(웹로그) wa 값, 없으면 빈칸
 const BING_VERIFY   = "";   // Bing Webmaster
-const DAUM_VERIFY   = "";   // 다음(카카오) 검색등록
+const DAUM_VERIFY   = "b4b2ecc219ef5280dd5fe19a92d78ef244fec931d4a1297668e3c9ab815ab79e:iZNCv451Url3LwoFuBYNGQ==";   // 다음(카카오) 검색등록
 const GOOGLE_VERIFY_FILE = ""; // 파일 방식 쓸 때만
 const INDEXNOW_KEY = "f2b7d4a1c8e35096b1d7f4a2c9e05387"; // IndexNow 키
 // -------- 썸네일 사진 (깃허브 image 폴더를 jsDelivr CDN으로 제공) --------
