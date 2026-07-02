@@ -102,7 +102,28 @@ const SYN=[
  ["부분",["부분","대목"]],
  ["떠올려",["떠올려","그려"]],
  ["갖춰",["갖춰","마련해"]],
- ["살펴",["살펴","들여다"]]
+ ["살펴",["살펴","들여다"]],
+ ["필요합니다",["필요합니다","있어야 합니다","갖춰야 합니다"]],
+ ["도움이",["도움이","보탬이","힘이"]],
+ ["확인",["확인","점검","체크"]],
+ ["준비",["준비","채비"]],
+ ["시작",["시작","출발"]],
+ ["운영",["운영","꾸리는 일","장사"]],
+ ["매끄럽게",["매끄럽게","막힘없이","수월하게"]],
+ ["빠르게",["빠르게","신속하게","지체 없이"]],
+ ["줄어듭니다",["줄어듭니다","덜어집니다","가벼워집니다"]],
+ ["늘어",["늘어","불어"]],
+ ["맞춰",["맞춰","맞게","기준으로"]],
+ ["고려하면",["고려하면","따져 보면","감안하면"]],
+ ["실제로",["실제로","막상","현장에서는"]],
+ ["처음",["처음","초기","시작 단계"]],
+ ["요즘",["요즘","최근","근래"]],
+ ["다양한",["다양한","여러","폭넓은"]],
+ ["알맞은",["알맞은","적합한","걸맞은"]],
+ ["꼼꼼히",["꼼꼼히","세심하게","빈틈없이"]],
+ ["든든한",["든든한","믿음직한","안정적인"]],
+ ["기본",["기본","기초","바탕"]],
+ ["흐름",["흐름","과정","순서"]]
 ];
 function applySyn(s,seed){
   for(let i=0;i<SYN.length;i++){
@@ -334,23 +355,35 @@ function buildArticle(R){
     const sh=shuffle(pool, hash(R.s+id));
     const k=Math.min(pool.length, kbase+(hash(R.s+id+"k")%2));
     const sents=sh.slice(0,k);
-    const rl1=pick(RLINE,hash(R.s+id+"r1"));
-    let rl2=pick(RLINE,hash(R.s+id+"r2")); if(rl2===rl1) rl2=RLINE[(RLINE.indexOf(rl1)+1)%RLINE.length];
-    sents.splice(hash(R.s+id+"p1")%(sents.length+1),0,rl1);
-    sents.splice(hash(R.s+id+"p2")%(sents.length+1),0,rl2);
+    const nrl=1+(hash(R.s+id+"n")%2);            // RLINE 1~2개(가변)
+    for(let t=0;t<nrl;t++){
+      let rl=pick(RLINE,hash(R.s+id+"r"+t));
+      sents.splice(hash(R.s+id+"p"+t)%(sents.length+1),0,rl);
+    }
     return esc(fill(sents.join(" "), R));
   };
   const SEC = (id)=>"<h2><span class='h2ic "+iconCls(id)+"'>"+ICON[id]+"</span>"+h(id)+"</h2><p>"+compose(id,2)+"</p>";
 
+  // --- 답변 우선 요약 박스 (AEO/GEO: AI·음성 검색이 인용) ---
+  const ANS=[
+    "{F}에서 포스기와 카드단말기 설치·교체를 방문으로 안내합니다. 업종과 매장 동선에 맞춰 유선·무선 단말기, 포스기, 간편결제(QR·앱)를 구성하고, 가맹 등록부터 개통·사후관리까지 한 번에 진행합니다.",
+    "{D} 매장이라면 결제 규모와 운영 방식에 따라 카드단말기 단독 또는 포스기 연동으로 구성합니다. 상담 → 가맹·서류 → 방문 설치·개통 → 교육·사후의 순서로 며칠 안에 마무리됩니다.",
+    "{G} 지역 포스기·카드단말기 설치 안내입니다. 신규 설치와 기존 장비 교체 모두 가능하며, 유선·무선·간편결제를 매장에 맞게 골라 드립니다. 사용법 교육과 이후 관리까지 이어집니다."
+  ];
+  const answer="<div class='ansbox'><div class='ansbox-t'>💬 요약</div><p>"+esc(fill(pick(ANS,hash(R.s+"ans")),R))+" 상담·문의 "+PHONE+".</p></div>";
+
+  const KB1=["{D} 어디서나 포스기·카드단말기 설치와 교체를 안내합니다.","{D} 전역으로 방문해 포스기·카드단말기를 설치·교체합니다.","{D} 매장까지 찾아가 포스기와 카드단말기를 맞춰 드립니다."];
+  const KB2=["업종과 매장 동선을 기준으로 필요한 장비만 골라 구성합니다.","가게 규모와 운영 방식에 맞춰 장비를 과하지 않게 구성합니다.","메뉴 수·회전율·결제 습관을 보고 필요한 만큼만 갖춥니다."];
+  const KB3=["가맹 등록과 서류부터 개통, 사후관리까지 {G} 한 흐름으로 진행합니다.","상담·가맹·설치·교육을 {G}에서 끊김 없이 한 번에 처리합니다.","서류 준비부터 개통, 이후 관리까지 {G} 안에서 이어집니다."];
   const keybox="<div class='keybox'><div class='keybox-t'>✅ 한눈에 보기</div><ul>"+
-    "<li>"+esc(fill("{D} 어디서나 포스기·카드단말기 설치와 교체를 안내합니다.",R))+"</li>"+
-    "<li>"+esc(fill("업종과 매장 동선을 기준으로 필요한 장비만 골라 구성합니다.",R))+"</li>"+
-    "<li>"+esc(fill("가맹 등록과 서류부터 개통, 사후관리까지 {G} 한 흐름으로 진행합니다.",R))+"</li>"+
+    "<li>"+esc(fill(pick(KB1,hash(R.s+"kb1")),R))+"</li>"+
+    "<li>"+esc(fill(pick(KB2,hash(R.s+"kb2")),R))+"</li>"+
+    "<li>"+esc(fill(pick(KB3,hash(R.s+"kb3")),R))+"</li>"+
     "</ul></div>";
   const compare="<div class='compare'>"+
-    "<div class='cmp'><div class='cmp-ic c-juchil'>💳</div><div class='cmp-t'>카드단말기</div><div class='cmp-d'>"+esc(fill("결제 처리에 집중한 구성입니다. {D}에서 단순 결제 위주로 도는 매장에 알맞습니다.",R))+"</div></div>"+
+    "<div class='cmp'><div class='cmp-ic c-juchil'>💳</div><div class='cmp-t'>카드단말기</div><div class='cmp-d'>"+esc(fill(pick(["결제 처리에 집중한 구성입니다. {D}에서 단순 결제 위주로 도는 매장에 알맞습니다.","결제만 빠르게 끝내면 되는 매장에 맞습니다. {D}의 소규모 점포가 대표적입니다.","군더더기 없이 결제에 특화된 장비입니다. {D}에서 회전이 단순한 가게에 적합합니다."],hash(R.s+"cm1")),R))+"</div></div>"+
     "<div class='cmp-vs'>VS</div>"+
-    "<div class='cmp'><div class='cmp-ic c-gunchung'>🖥️</div><div class='cmp-t'>포스기</div><div class='cmp-d'>"+esc(fill("주문·매출·정산까지 한 화면에. {D}의 메뉴 많고 바쁜 매장에 힘이 됩니다.",R))+"</div></div>"+
+    "<div class='cmp'><div class='cmp-ic c-gunchung'>🖥️</div><div class='cmp-t'>포스기</div><div class='cmp-d'>"+esc(fill(pick(["주문·매출·정산까지 한 화면에. {D}의 메뉴 많고 바쁜 매장에 힘이 됩니다.","주문 관리와 매출 집계를 한 번에 잡습니다. {D}의 회전 빠른 매장에 유리합니다.","계산·정산·재고를 묶어 관리합니다. {D}에서 메뉴가 많은 가게일수록 값을 합니다."],hash(R.s+"cm2")),R))+"</div></div>"+
     "</div>";
   const flow="<div class='flow'>"+
     "<div class='fstep'><span class='fic c-juchil'>📞</span><b>상담</b><i>위치·업종만</i></div><div class='farr'>→</div>"+
@@ -359,15 +392,26 @@ function buildArticle(R){
     "<div class='fstep'><span class='fic c-chija'>🤝</span><b>교육·사후</b><i>계속 지원</i></div>"+
     "</div>";
   const callout="<div class='callout'><span class='co-ic'>💡</span><p>"+esc(fill(pick(RLINE,hash(R.s+"tip")),R))+"</p></div>";
+
+  // --- 섹션 순서 랜덤화 (지역마다 골격이 달라짐) ---
+  const midIds=shuffle(["s2","s3","s4","s5","s6","s7","s8","s10","s11","s12","s13","s14","s15","s16","s17","s18","s19"], hash(R.s+"ord"));
+  let items = midIds.map(SEC);
+
+  // --- 시각 블록을 가변 위치에 삽입 ---
+  const vis = shuffle([keybox,compare,flow,callout], hash(R.s+"vis"));
+  const n=items.length;
+  const base=[1, Math.floor(n*0.28)+1, Math.floor(n*0.55)+1, Math.floor(n*0.8)+1];
+  const inserts = vis.map(function(b,idx){
+    let p=base[idx]+(hash(R.s+"j"+idx)%2);
+    if(p>items.length)p=items.length;
+    return {b:b,p:p};
+  }).sort(function(a,b){return b.p-a.p;});
+  inserts.forEach(function(x){ items.splice(x.p,0,x.b); });
+
   let html = "<p class=lead>"+compose("s1",2)+"</p>";
-  html += keybox;
-  html += SEC("s2")+SEC("s10");
-  html += compare;
-  html += SEC("s3")+SEC("s11")+SEC("s16");
-  html += callout;
-  html += SEC("s4")+SEC("s12")+SEC("s5");
-  html += flow;
-  html += SEC("s17")+SEC("s6")+SEC("s13")+SEC("s7")+SEC("s14")+SEC("s18")+SEC("s8")+SEC("s15")+SEC("s19");
+  html += answer;
+  html += items.join("");
+
   // FAQ
   html += "<h2><span class='h2ic c-cheong'>❓</span>"+esc(applySyn(pick(HEADS.faq,hash(R.s+"faq")),R._syn))+"</h2><div class=faq>";
   faqItems(R).forEach((it,i)=>{
@@ -437,7 +481,7 @@ a{color:inherit;text-decoration:none}
 .top{position:sticky;top:0;z-index:30;background:rgba(255,255,255,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
 .top .row{display:flex;align-items:center;justify-content:space-between;height:62px}
 .brand{display:inline-flex;align-items:center;gap:10px}
-.logo-seal{display:inline-flex;align-items:center;justify-content:center;height:34px;padding:0 10px;background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;border-radius:9px;font-weight:900;font-size:14px;letter-spacing:.04em;box-shadow:0 4px 12px -4px rgba(30,91,216,.55);flex-shrink:0}
+.logo-seal{display:inline-flex;align-items:center;justify-content:center;height:37px;padding:0 12px;background:linear-gradient(135deg,var(--blue),var(--blue2));color:#fff;border-radius:10px;font-weight:900;font-size:18px;letter-spacing:.06em;-webkit-text-stroke:.6px #fff;text-shadow:0 1px 0 rgba(0,0,0,.18);box-shadow:0 5px 14px -4px rgba(30,91,216,.6);flex-shrink:0}
 .logo-word{font-weight:800;font-size:19px;letter-spacing:-.02em;color:var(--ink)}
 .logo-word b{color:var(--blue)}
 .flogo{display:inline-flex;align-items:center;gap:10px}
@@ -591,7 +635,7 @@ article p.lead{font-size:18px;color:var(--ink);font-weight:500}
 .fstep b{font-weight:800;font-size:14.5px;color:var(--ink)}
 .fstep i{font-style:normal;font-size:12.5px;color:var(--muted)}
 .farr{align-self:center;color:var(--blue);font-weight:900;font-size:22px}
-.callout{display:flex;gap:13px;align-items:flex-start;margin:26px 0;padding:16px 20px;background:rgba(240,160,32,.09);border:1.5px solid rgba(240,160,32,.4);border-radius:14px}
+.callout{display:flex;gap:13px;align-items:flex-start;margin:26px 0;padding:16px 20px;background:rgba(240,160,32,.09);border:1.5px solid rgba(240,160,32,.4);border-radius:14px}.ansbox{margin:18px 0;padding:16px 18px;background:linear-gradient(135deg,rgba(30,91,216,.07),rgba(122,92,240,.06));border:1px solid rgba(30,91,216,.18);border-radius:14px}.ansbox-t{font-weight:800;font-size:13px;color:var(--blue);margin-bottom:6px;letter-spacing:.02em}.ansbox p{margin:0;font-size:15px;line-height:1.75;color:var(--ink)}
 .co-ic{font-size:22px;flex-shrink:0;line-height:1.5}
 .callout p{font-size:15px;line-height:1.85;color:#26303F;margin:0}
 .faq details{border:1px solid var(--line);border-radius:12px;padding:4px 18px;margin:10px 0;background:var(--soft)}
@@ -831,7 +875,14 @@ function regionPage(R){
     "headline":R._dong+" 포스기·카드단말기 설치 안내","inLanguage":"ko-KR",
     "datePublished":isoDate(pub),"dateModified":isoDate(mod),
     "author":{"@type":"Organization","name":BRAND},"publisher":{"@type":"Organization","name":BRAND},
-    "mainEntityOfPage":url,"image":photoFor(seed),"about":R.n+" 포스기·카드단말기 설치"},
+    "mainEntityOfPage":url,"image":photoFor(seed),"about":R.n+" 포스기·카드단말기 설치",
+    "speakable":{"@type":"SpeakableSpecification","cssSelector":[".lead",".ansbox"]}},
+   {"@context":"https://schema.org","@type":"HowTo","name":R._dong+" 포스기·카드단말기 설치 절차","totalTime":"P3D","step":[
+     {"@type":"HowToStep","position":1,"name":"상담","text":"매장 위치와 업종을 알려주시면 필요한 장비를 안내합니다."},
+     {"@type":"HowToStep","position":2,"name":"가맹·서류","text":"사업자등록증 등 기본 서류로 카드사 가맹 등록을 진행합니다."},
+     {"@type":"HowToStep","position":3,"name":"설치·개통","text":"방문 설치 후 결제 테스트로 개통을 확인합니다."},
+     {"@type":"HowToStep","position":4,"name":"교육·사후","text":"사용법 교육과 이후 관리·교체를 지원합니다."}]},
+   {"@context":"https://schema.org","@type":"LocalBusiness","name":BRAND+" — "+R._dong,"telephone":PHONE,"areaServed":{"@type":"Place","name":R.n},"priceRange":"상담 후 안내","url":url,"description":"{F} 포스기·카드단말기 설치·교체 방문 안내".replace("{F}",R.n)},
    {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
      {"@type":"ListItem","position":1,"name":"홈","item":SITE+"/"},
      {"@type":"ListItem","position":2,"name":R._sido},
@@ -1036,6 +1087,12 @@ const LLMS_TXT="# "+BRAND+" (365posmall.com)\n\n"
 +"- 장비 종류: 포스기(POS), 유선 카드단말기, 무선(휴대용) 단말기, 간편결제(QR·앱)\n"
 +"- 지역: 전국 17개 시·도, 시·군·구, 읍·면·동(약 6,597개 동네)\n"
 +"- 제공: 가맹 등록·서류 안내, 방문 설치, 교체, 교육, 사후 지원\n\n"
++"## 자주 묻는 질문\n"
++"- Q. 포스기와 카드단말기 중 무엇이 필요한가요? A. 단순 결제 위주면 카드단말기, 주문·매출·정산 관리가 필요하면 포스기를 권합니다. 단계적 확장도 가능합니다.\n"
++"- Q. 설치까지 얼마나 걸리나요? A. 상담·가맹·서류 정리 후 방문 설치·개통까지 보통 며칠 안에 마무리됩니다.\n"
++"- Q. 기존 장비 교체도 되나요? A. 됩니다. 가맹 정보를 살리면서 장비만 최신으로 바꾸는 경우가 많아 영업 공백이 거의 없습니다.\n"
++"- Q. 어떤 결제 수단을 지원하나요? A. 신용·체크카드, 각종 간편결제(QR·앱), 유선·무선 단말기를 폭넓게 지원합니다.\n\n"
++"## 서비스 제공 주체\n- 상호: "+BRAND+"\n- 서비스: 전국 포스기·카드단말기 신규 설치 및 교체, 방문 설치\n- 지역: 대한민국 전역(17개 시·도)\n\n"
 +"## 연락\n- 전화 및 문자: "+PHONE+"\n";
 
 // ---------- IndexNow (빙/얀덱스 등 즉시 색인 알림) ----------
