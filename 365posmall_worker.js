@@ -466,7 +466,7 @@ function buildArticle(R){
   // ── 숫자 강조 블록 ──
   function sminiBlk(){
     return "<div class='smini'>"+
-      "<div class='sm'><div class='sm-n'>당일</div><div class='sm-c'>교체 시 최단 개통</div></div>"+
+      "<div class='sm'><div class='sm-n'>빠른</div><div class='sm-c'>교체 시 신속 개통</div></div>"+
       "<div class='sm'><div class='sm-n'>4단계</div><div class='sm-c'>상담·서류·설치·사후</div></div>"+
       "<div class='sm'><div class='sm-n'>전국</div><div class='sm-c'>"+esc(R._sido)+" 방문 설치</div></div>"+
       "</div>";
@@ -655,8 +655,8 @@ footer a:hover{color:var(--blue)}
 /* outline type marquee */
 .mq{overflow:hidden;background:#fff;border-bottom:1px solid var(--line);padding:30px 0}
 .mqin{display:flex;align-items:center;gap:64px;white-space:nowrap;width:max-content;animation:mqx 30s linear infinite}
-.mqin span{font-weight:800;font-size:clamp(44px,6.4vw,80px);letter-spacing:-.02em;line-height:1;color:transparent;-webkit-text-stroke:1.6px #C4D3EE}
-.mqin span.f{color:var(--blue);-webkit-text-stroke:0}
+.mqin span{font-weight:800;font-size:clamp(44px,6.4vw,80px);letter-spacing:-.02em;line-height:1;color:#123A9E;-webkit-text-stroke:0}
+.mqin span.f{color:#C81E1E}
 @keyframes mqx{to{transform:translateX(-50%)}}
 /* --- sections --- */
 .jsec{padding:104px 0}
@@ -939,7 +939,6 @@ function homePage(){
       "<div class='bc b1 reveal'><div class='bic'>"+icPos+"</div><h3>포스기</h3><p>주문·메뉴·매출·정산을 한 화면에서. 몰리는 시간에도 계산대가 밀리지 않도록, 회전 빠른 매장의 하루를 설계합니다.</p><div class='bars' aria-hidden='true'><i></i><i></i><i></i><i></i><i></i></div></div>"+
       "<div class='bc reveal' style='transition-delay:60ms'><div class='bic'>"+icCard+"</div><h3>유선 단말기</h3><p>고정 계산대의 끊김 없는 기본기.</p><span class='ba'>&rsaquo;</span></div>"+
       "<div class='bc reveal' style='transition-delay:120ms'><div class='bic'>"+icWifi+"</div><h3>무선 단말기</h3><p>테이블로, 문 앞으로, 행사장으로.</p><span class='ba'>&rsaquo;</span></div>"+
-      "<div class='bc reveal' style='transition-delay:180ms'><div class='bic'>"+icQr+"</div><h3>간편결제</h3><p>카드에 더해 각종 페이·QR까지 전부.</p><span class='ba'>&rsaquo;</span></div>"+
     "</div>";
 
   const steps=[
@@ -985,7 +984,7 @@ function homePage(){
          "<p>그래서 시·도가 아니라 읍·면·동까지 좁혀서 봅니다. 지역의 결제 흐름을 먼저 읽고, 과한 사양도 부족한 구성도 없이 딱 맞게 담는 것. 작아 보여도 매일의 영업 속도를 가르는 차이입니다.</p>"+
        "</div>"+
        "<div class='dstat'>"+
-         "<div class='ds'><b>당일<em> 개통</em></b><span>교체 시 최단 기준</span></div>"+
+         "<div class='ds'><b>빠른<em> 개통</em></b><span>교체 시 신속 기준</span></div>"+
          "<div class='ds'><b>6,500<em>+</em></b><span>읍·면·동 단위 페이지</span></div>"+
          "<div class='ds'><b>1<em>번의 전화</em></b><span>상담 → 설치 → 사후까지</span></div>"+
        "</div>"+
