@@ -595,7 +595,7 @@ footer a:hover{color:var(--blue)}
 .jhero::before,.jhero::after{z-index:1}
 .hbg{position:absolute;inset:0;z-index:0}
 .hbg img{width:100%;height:100%;object-fit:cover;display:block;filter:saturate(.9)}
-.hbg::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,rgba(7,15,29,.95) 0%,rgba(7,15,29,.86) 42%,rgba(8,18,36,.62) 100%),linear-gradient(180deg,rgba(7,15,29,.2) 50%,rgba(7,15,29,.93) 100%)}
+.hbg::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,rgba(7,15,29,.82) 0%,rgba(7,15,29,.6) 40%,rgba(8,18,36,.28) 100%),linear-gradient(180deg,rgba(7,15,29,0) 55%,rgba(7,15,29,.8) 100%)}
 .hgrid{display:grid;grid-template-columns:1.02fr .98fr;gap:44px;align-items:center}
 .jlabel{display:inline-flex;align-items:center;gap:9px;font-size:12px;letter-spacing:.14em;color:#BFD3F7;font-weight:700;border:1px solid rgba(191,211,247,.32);border-radius:999px;padding:8px 16px;background:rgba(255,255,255,.05)}
 .jlabel::before{content:"";width:7px;height:7px;border-radius:50%;background:#3D7BFF;box-shadow:0 0 10px #3D7BFF}
@@ -661,6 +661,11 @@ footer a:hover{color:var(--blue)}
 /* --- sections --- */
 .jsec{padding:104px 0}
 .jsec.alt{background:linear-gradient(180deg,#F3F6FC 0%,#FAFBFC 100%)}
+.secbg{position:relative;overflow:hidden}
+.secbg>.wrap{position:relative;z-index:2}
+.sbg{position:absolute;inset:0;z-index:0}
+.sbg img{width:100%;height:100%;object-fit:cover;display:block}
+.sbg::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,rgba(250,251,252,.97) 0%,rgba(250,251,252,.92) 40%,rgba(250,251,252,.55) 72%,rgba(250,251,252,.25) 100%)}
 .jkr{display:inline-flex;align-items:center;gap:9px;font-size:12px;letter-spacing:.12em;color:var(--blue);font-weight:800;margin-bottom:20px;background:var(--sky);border-radius:999px;padding:8px 16px}
 .jkr i{font-style:normal;opacity:.6}
 .jh2{font-weight:800;font-size:clamp(27px,4.2vw,44px);line-height:1.2;letter-spacing:-.033em;color:var(--ink);max-width:19em}
@@ -694,6 +699,10 @@ footer a:hover{color:var(--blue)}
 .bars i:nth-child(4)::after{content:"PEAK";position:absolute;transform:translate(-4px,-22px);font-size:9px;letter-spacing:.14em;color:var(--blue);font-weight:800}
 /* quote band */
 .vquote{position:relative;padding:88px 28px;background:linear-gradient(135deg,#0E1B2E 0%,#123E9E 100%);overflow:hidden}
+.vbg{position:absolute;inset:0;z-index:0}
+.vbg img{width:100%;height:100%;object-fit:cover;display:block;opacity:.32;mix-blend-mode:luminosity}
+.vbg::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,rgba(14,27,46,.86) 0%,rgba(18,62,158,.66) 60%,rgba(18,62,158,.4) 100%)}
+.vquote>.vin{position:relative;z-index:2}
 .vquote::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(255,255,255,.13) 1px,transparent 1px);background-size:24px 24px;-webkit-mask-image:radial-gradient(80% 100% at 70% 50%,#000 20%,transparent 100%);mask-image:radial-gradient(80% 100% at 70% 50%,#000 20%,transparent 100%)}
 .vquote .vin{position:relative;max-width:1120px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:28px}
 .vquote .vt{font-weight:800;font-size:clamp(26px,4.4vw,46px);line-height:1.3;letter-spacing:-.025em;color:#F4F7FD}
@@ -718,6 +727,10 @@ footer a:hover{color:var(--blue)}
 /* closing */
 .jclose{padding:0 0 110px}
 .cbox{position:relative;background:linear-gradient(150deg,#0A1424 0%,#122A55 100%);border-radius:26px;padding:88px 40px;text-align:center;overflow:hidden;box-shadow:0 40px 90px -40px rgba(8,20,50,.6)}
+.cbg{position:absolute;inset:0;z-index:0}
+.cbg img{width:100%;height:100%;object-fit:cover;display:block;opacity:.34;mix-blend-mode:luminosity}
+.cbg::after{content:"";position:absolute;inset:0;background:linear-gradient(150deg,rgba(10,20,36,.8) 0%,rgba(18,42,85,.6) 100%)}
+.cbox>*:not(.cbg){position:relative;z-index:2}
 .cbox::before{content:"";position:absolute;inset:-30%;background:radial-gradient(500px 360px at 50% -10%,rgba(61,123,255,.45),transparent 65%)}
 .cbox .ct{position:relative;font-weight:800;font-size:clamp(27px,4.4vw,44px);color:#fff;line-height:1.25;max-width:17em;margin:0 auto;letter-spacing:-.03em}
 .cbox .cb{position:relative;font-size:16px;color:rgba(226,236,252,.7);margin-top:18px}
@@ -975,7 +988,7 @@ function homePage(){
 
    "<div class='mq' aria-hidden='true'><div class='mqin'>"+mqset+mqset+"</div></div>"+
 
-   "<section class='jsec'><div class='wrap reveal'>"+
+   "<section class='jsec secbg'><div class='sbg'><img src=\""+IMG_BASE+"main/222.jpg\" alt=\"\" loading=\"lazy\"></div><div class='wrap reveal'>"+
      "<div class='jkr'><i>01</i>지역 기준</div>"+
      "<h2 class='jh2'>전국 평균이 아니라,<br>우리 매장 기준으로.</h2>"+
      "<div class='jwhy-grid'>"+
@@ -997,7 +1010,7 @@ function homePage(){
      bento+
    "</div></section>"+
 
-   "<div class='vquote reveal'><div class='vin'>"+
+   "<div class='vquote reveal'><div class='vbg'><img src=\""+IMG_BASE+"main/333.jpg\" alt=\"\" loading=\"lazy\"></div><div class='vin'>"+
      "<div class='vt'>빠른 계산대가<br><em>매출</em>을 지킵니다.</div>"+
      "<a class='vbtn' href=\"tel:"+PHONE_TEL+"\">전화 상담 "+PHONE+"</a>"+
    "</div></div>"+
@@ -1008,14 +1021,14 @@ function homePage(){
      "<div class='tl'>"+steps+"</div>"+
    "</div></section>"+
 
-   "<section class='jsec alt'><div class='wrap reveal'>"+
+   "<section class='jsec secbg'><div class='sbg'><img src=\""+IMG_BASE+"main/444.jpg\" alt=\"\" loading=\"lazy\"></div><div class='wrap reveal'>"+
      "<div class='jkr'><i>04</i>지역 선택</div>"+
      "<h2 class='jh2'>당신의 동네를 눌러 보세요.</h2>"+
      "<p class='jbody' style='margin:16px 0 0;color:var(--muted)'>위 검색창에 동 이름을 적어도 좋고, 아래에서 시·도를 골라도 좋습니다.</p>"+
      "<div class='jogak'>"+patches+"</div>"+
    "</div></section>"+
 
-   "<div class='jclose'><div class='wrap'><div class='cbox reveal'>"+
+   "<div class='jclose'><div class='wrap'><div class='cbox reveal'><div class='cbg'><img src=\""+IMG_BASE+"main/555.jpg\" alt=\"\" loading=\"lazy\"></div>"+
      "<div class='ct'>우리 동네에서, 결제 걱정 없이 시작하세요.</div>"+
      "<p class='cb'>매장 위치와 업종만 알려 주시면, 나머지는 저희가 정리합니다.</p>"+
      "<div class='btns'>"+
