@@ -967,7 +967,7 @@ function homePage(){
   const body =
    "<div class='jhome'>"+
 
-   "<section class='jhero'><div class='hbg'><img src=\""+IMG_BASE+"main/111.jpg\" alt=\"\" fetchpriority=\"high\"></div><div class='wrap'>"+
+   "<section class='jhero'><div class='hbg'><img src=\""+IMG_BASE+"main/111.jpg\" alt=\"포스기·카드단말기 전국 방문 설치\" fetchpriority=\"high\"></div><div class='wrap'>"+
      "<div class='hgrid'>"+
        "<div>"+
          "<span class='jlabel'>전국 방문 설치 — 포스기 &amp; 카드단말기</span>"+
@@ -991,7 +991,7 @@ function homePage(){
 
    "<div class='mq' aria-hidden='true'><div class='mqin'>"+mqset+mqset+"</div></div>"+
 
-   "<section class='jsec secbg'><div class='sbg'><img src=\""+IMG_BASE+"main/222.jpg\" alt=\"\" loading=\"lazy\"></div><div class='wrap reveal'>"+
+   "<section class='jsec secbg'><div class='sbg'><img src=\""+IMG_BASE+"main/222.jpg\" alt=\"지역별 맞춤 카드단말기 설치 안내\" loading=\"lazy\"></div><div class='wrap reveal'>"+
      "<div class='jkr'><i>01</i>지역 기준</div>"+
      "<h2 class='jh2'>전국 평균이 아니라,<br>우리 매장 기준으로.</h2>"+
      "<div class='jwhy-grid'>"+
@@ -1013,7 +1013,7 @@ function homePage(){
      bento+
    "</div></section>"+
 
-   "<div class='vquote reveal'><div class='vbg'><img src=\""+IMG_BASE+"main/333.jpg\" alt=\"\" loading=\"lazy\"></div><div class='vin'>"+
+   "<div class='vquote reveal'><div class='vbg'><img src=\""+IMG_BASE+"main/333.jpg\" alt=\"매장 카드단말기·포스기 결제 환경\" loading=\"lazy\"></div><div class='vin'>"+
      "<div class='vt'>빠른 계산대가<br><em>매출</em>을 지킵니다.</div>"+
      "<a class='vbtn' href=\"tel:"+PHONE_TEL+"\">전화 상담 "+PHONE+"</a>"+
    "</div></div>"+
@@ -1024,14 +1024,14 @@ function homePage(){
      "<div class='tl'>"+steps+"</div>"+
    "</div></section>"+
 
-   "<section class='jsec secbg secbg2'><div class='sbg'><img src=\""+IMG_BASE+"main/444.jpg\" alt=\"\" loading=\"lazy\"></div><div class='wrap reveal'>"+
+   "<section class='jsec secbg secbg2'><div class='sbg'><img src=\""+IMG_BASE+"main/444.jpg\" alt=\"전국 시·도 카드단말기 설치 지역\" loading=\"lazy\"></div><div class='wrap reveal'>"+
      "<div class='jkr'><i>04</i>지역 선택</div>"+
      "<h2 class='jh2'>당신의 동네를 눌러 보세요.</h2>"+
      "<p class='jbody' style='margin:16px 0 0;color:var(--muted)'>위 검색창에 동 이름을 적어도 좋고, 아래에서 시·도를 골라도 좋습니다.</p>"+
      "<div class='jogak'>"+patches+"</div>"+
    "</div></section>"+
 
-   "<div class='jclose'><div class='wrap'><div class='cbox reveal'><div class='cbg'><img src=\""+IMG_BASE+"main/555.jpg\" alt=\"\" loading=\"lazy\"></div>"+
+   "<div class='jclose'><div class='wrap'><div class='cbox reveal'><div class='cbg'><img src=\""+IMG_BASE+"main/555.jpg\" alt=\"카드단말기 설치 상담 안내\" loading=\"lazy\"></div>"+
      "<div class='ct'>우리 동네에서, 결제 걱정 없이 시작하세요.</div>"+
      "<p class='cb'>매장 위치와 업종만 알려 주시면, 나머지는 저희가 정리합니다.</p>"+
      "<div class='btns'>"+
@@ -1375,7 +1375,7 @@ export default {
   async fetch(request, env){
     const url=new URL(request.url);
     let path=decodeURIComponent(url.pathname);
-    if(path==="/api/track"&&request.method==="POST"){try{const b=await request.json();const ip=request.headers.get("CF-Connecting-IP")||"";const ua=request.headers.get("User-Agent")||"";const isBot=/bot|crawl|spider|slurp|mediapartners|googlebot|bingbot|yandex|baidu|duckduckbot|facebookexternalhit|semrush|ahrefs|mj12bot|dotbot|petalbot|bytespider|headlesschrome|python-requests|curl|wget/i.test(ua);const ts=new Date().toISOString();if(env&&env.DB&&!(b.type==="view"&&isBot)&&(b.type==="tel"||b.type==="sms"||b.type==="contact"||b.type==="view")){await env.DB.prepare("INSERT INTO events (site,type,page,ref,ip,ts) VALUES (?,?,?,?,?,?)").bind("365posmall",b.type,(b.page||"").slice(0,300),(b.ref||"").slice(0,120),ip,ts).run();}}catch(e){}return new Response(JSON.stringify({ok:true}),{headers:{"Content-Type":"application/json","Access-Control-Allow-Origin":"*"}});}
+    if(path==="/api/track"&&request.method==="POST"){try{const b=await request.json();const ip=request.headers.get("CF-Connecting-IP")||"";const ts=new Date().toISOString();if(env&&env.DB&&(b.type==="tel"||b.type==="sms"||b.type==="contact"||b.type==="view")){await env.DB.prepare("INSERT INTO events (site,type,page,ref,ip,ts) VALUES (?,?,?,?,?,?)").bind("365posmall",b.type,(b.page||"").slice(0,300),(b.ref||"").slice(0,120),ip,ts).run();}}catch(e){}return new Response(JSON.stringify({ok:true}),{headers:{"Content-Type":"application/json","Access-Control-Allow-Origin":"*"}});}
     if(path==="/api/track"&&request.method==="OPTIONS")return new Response(null,{headers:{"Access-Control-Allow-Origin":"*","Access-Control-Allow-Methods":"POST,OPTIONS","Access-Control-Allow-Headers":"Content-Type"}});
     if(path==="/") return resp(homePage(),"text/html; charset=UTF-8");
     if(path==="/robots.txt") return new Response(ROBOTS,{headers:{"content-type":"text/plain; charset=UTF-8","cache-control":"no-cache, no-store, max-age=0"}});
