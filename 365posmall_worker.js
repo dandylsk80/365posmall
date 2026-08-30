@@ -1,3 +1,41 @@
+function reEsc(x){ return x.replace(/[.*+?^${}()|[\]\\]/g,"\\$&"); }
+/* 이름 뒤 조사를 받침에 맞게 고른다 (danmalgi 검증본을 13개 공통으로 사용) */
+function josaFor(word,j){
+  const ch=String(word).charCodeAt(String(word).length-1)-0xAC00;
+  const hasJ=(ch>=0&&ch<=11171)?((ch%28)!==0):false;
+  const isRieul=(ch>=0&&ch<=11171)?((ch%28)===8):false;
+  switch(j){
+    case "\uc740": case "\ub294": return hasJ?"\uc740":"\ub294";
+    case "\uc774": case "\uac00": return hasJ?"\uc774":"\uac00";
+    case "\uc744": case "\ub97c": return hasJ?"\uc744":"\ub97c";
+    case "\uc640": case "\uacfc": return hasJ?"\uacfc":"\uc640";
+    case "\uc73c\ub85c": case "\ub85c": return (!hasJ||isRieul)?"\ub85c":"\uc73c\ub85c";
+    case "\uc774\ub098": case "\ub098": return hasJ?"\uc774\ub098":"\ub098";
+    case "\uc774\ub77c": case "\ub77c": return hasJ?"\uc774\ub77c":"\ub77c";
+    case "\uc774\uba70": case "\uba70": return hasJ?"\uc774\uba70":"\uba70";
+    default: return j;
+  }
+}
+/* 주어진 단어들 뒤에 붙은 조사만 골라 교정한다 (동사 어미는 건드리지 않음) */
+function fixJosa(s,names){
+  for(const nm of names){
+    if(!nm) continue;
+    s=s.replace(new RegExp(reEsc(String(nm))+"(\uc73c\ub85c|\uc774\ub098|\uc774\ub77c|\uc774\uba70|[\uc740\ub294\uc774\uac00\uc744\ub97c\uc640\uacfc\ub85c\ub098\ub77c\uba70])(?=[\\s.,!?)\u00b7\u2019\u201d]|$)","g"),
+      function(m,j){ return nm+josaFor(nm,j); });
+  }
+  return s;
+}
+
+/* ===== 한국어 조사 자동 판별 (받침 유무) — 13개 사이트 공통 =====
+   J("강남동","은","는") -> "강남동은"   J("제주시","은","는") -> "제주시는"
+   J(x,"으로","로") 은 ㄹ 받침도 처리한다. 한글이 아니면 받침 없음으로 본다. */
+function hasJong(w){ if(w==null) return false; w=String(w).trim(); if(!w) return false;
+  const c=w.charCodeAt(w.length-1); return (c>=0xAC00&&c<=0xD7A3) ? (c-0xAC00)%28!==0 : false; }
+function J(w,a,b){ w=String(w==null?"":w);
+  const c=w.charCodeAt(w.length-1)-0xAC00, j=(c<0||c>11171)?-1:c%28;
+  if(a==="\uc73c\ub85c"||b==="\ub85c") return w+((j<=0||j===8)?"\ub85c":"\uc73c\ub85c");
+  return w+(j>0?a:b); }
+
 /* ===== 방문 상세 메타: 기기 / 유입경로 / 검색 키워드 ===== */
 function tkDevice(ua){
   ua = ua || "";
@@ -178,13 +216,14 @@ const SYN=[
 function applySyn(s,seed){
   for(let i=0;i<SYN.length;i++){
     const g=SYN[i], rep=g[1][(seed+i*13)%g[1].length];
-    if(rep!==g[0]) s=s.split(g[0]).join(rep);
+    if(rep!==g[0]){ s=s.split(g[0]).join(rep); s=fixJosa(s,[rep]); }
   }
   return s;
 }
 function fill(s,R){
   s=s.replace(/\{F\}/g,R.n).replace(/\{S\}/g,R._sido).replace(/\{G\}/g,R._gungu||R._sido).replace(/\{D\}/g,R._dong);
   s=applySyn(s,R._syn);
+  s=fixJosa(s,[R.n,R._sido,R._gungu||R._sido,R._dong]);
   if(R._dedup){ // 시도/시군구 글: 같은 지역명이 인접 반복되는 경우 정리
     const names=[R._dong,R._gungu,R._sido].filter(function(v,i,a){return v&&a.indexOf(v)===i;});
     for(const nm of names){ let prev; do{ prev=s;
