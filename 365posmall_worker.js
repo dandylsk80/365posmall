@@ -1397,9 +1397,16 @@ const AI_BOTS=["GPTBot","OAI-SearchBot","ChatGPT-User","PerplexityBot","Perplexi
 const ROBOTS=(DAUM_VERIFY?"#DaumWebMasterTool:"+DAUM_VERIFY+"\n":"")+(NAVER_VERIFY?"#naver-site-verification:"+NAVER_VERIFY+"\n":"")
   +"User-agent: *\nAllow: /\n\n"
   +AI_BOTS.map(function(b){return "User-agent: "+b+"\nAllow: /\n";}).join("\n")
-  +"\nSitemap: "+SITE+"/sitemap.xml\n";
+  +"\n# llms.txt: "+SITE+"/llms.txt\nLlms-txt: "+SITE+"/llms.txt\nSitemap: "+SITE+"/sitemap.xml\n";
 const LLMS_TXT="# "+BRAND+" (365posmall.com)\n\n"
 +"> 전국 시·군·구·읍·면·동 단위 포스기·카드단말기 설치 안내 서비스. 포스기(POS), 유선·무선 카드단말기, 간편결제를 업종과 매장 동선에 맞춰 안내합니다. 무료 상담, 방문 설치, 교체·신규 모두 가능. 문의 "+PHONE+".\n\n"
++"## 주요 서비스\n"
++"- 포스기(POS) 설치 — 주문 접수·매출 집계·정산·재고 관리를 한 화면에서 처리하는 매장 운영 시스템\n"
++"- 카드단말기 설치 — 유선 데스크형과 무선 휴대형, 신용·체크카드와 간편결제 지원\n"
++"- 업종·동선 맞춤 구성 — 카페·음식점·소매·뷰티·병의원 등 매장 형태에 맞춰 장비와 배치를 제안\n"
++"- 카드 가맹 신청 대행 — 사업자등록증 등 서류 안내와 가맹 등록 절차 진행\n"
++"- 방문 설치와 사용 교육 — 설치 후 현장에서 사용법을 안내\n"
++"- 교체와 사후 지원 — 기존 가맹 정보를 유지한 장비 교체, 설치 후 고장·오류 대응\n\n"
 +"## 핵심 페이지\n"
 +"- [전체 목록]("+SITE+"/list): 전국 지역별 안내 색인\n"
 +"- [사이트맵]("+SITE+"/sitemap.xml)\n"
