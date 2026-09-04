@@ -526,8 +526,9 @@ function buildArticle(R){
     return esc(fill(sents.join(" "), R));
   };
   const nn=(i)=>((i<9?"0":"")+(i+1));
-  const SEC = (id)=>"<h2>"+h(id)+"</h2><p>"+compose(id,3)+"</p>";
-  const SECMORE = (id)=>"<h2>"+h(id)+"</h2><p>"+compose(id,3)+"</p>";
+  const geo = (id)=>(hash(R.s+id+"geo")%10 < 7) ? esc(R._dong)+" " : "";
+  const SEC = (id)=>"<h2>"+geo(id)+h(id)+"</h2><p>"+compose(id,3)+"</p>";
+  const SECMORE = (id)=>"<h2>"+geo(id)+h(id)+"</h2><p>"+compose(id,3)+"</p>";
   const SECMINI = (id)=>"<h3>"+h(id)+"</h3><p>"+compose(id,2)+"</p>";
 
   // --- 답변 우선 요약 박스 (AEO/GEO: AI·음성 검색이 인용) ---
@@ -574,11 +575,11 @@ function buildArticle(R){
   html += SEC(coreIds[2]);
 
   // 진행 절차
-  html += "<h2>"+(hash(R.s+"flowh")%2?"설치는 이렇게 진행됩니다":"신청부터 개통까지")+"</h2>";
+  html += "<h2>"+geo("flowh")+(hash(R.s+"flowh")%2?"설치는 이렇게 진행됩니다":"신청부터 개통까지")+"</h2>";
   html += flow;
 
   // 더 알아두면 좋은 것들 — 섹션 사이에 시각 블록을 끼워 리듬 부여
-  html += "<h2>"+(hash(R.s+"moreh")%2?"더 알아두면 좋은 것들":"자세한 안내")+"</h2>";
+  html += "<h2>"+geo("moreh")+(hash(R.s+"moreh")%2?"더 알아두면 좋은 것들":"자세한 안내")+"</h2>";
   html += keybox;
 
   // ── 후기 블록 (표시용 예시 — 실제 후기로 교체 권장) ──
@@ -646,12 +647,12 @@ function buildArticle(R){
   });
 
   // FAQ
-  html += "<h2>"+esc(applySyn(pick(HEADS.faq,hash(R.s+"faq")),R._syn))+"</h2><div class=faq>";
+  html += "<h2>"+geo("faq")+esc(applySyn(pick(HEADS.faq,hash(R.s+"faq")),R._syn))+"</h2><div class=faq>";
   faqItems(R).forEach((it,i)=>{
     html += "<details"+(i===0?" open":"")+"><summary>"+esc(it.q)+"</summary><p>"+esc(it.a)+"</p></details>";
   });
   html += "</div>";
-  html += "<h2>"+(hash(R.s+"end")%2?"마무리하며":"끝으로")+"</h2><p>"+compose("s9",3)+"</p>";
+  html += "<h2>"+geo("end")+(hash(R.s+"end")%2?"마무리하며":"끝으로")+"</h2><p>"+compose("s9",3)+"</p>";
   return html;
 }
 function faqItems(R){
@@ -1078,6 +1079,37 @@ function bgArt(){return "<svg viewBox='0 0 1440 900' preserveAspectRatio='xMidYM
  "<rect width='1440' height='900' fill='url(#g1)'/>"+
  "</svg>";}
 // ---------- 메인 페이지 ----------
+/* 홈 하단 지역 색인 — 크롤러가 지역 페이지로 들어오는 정적 경로.
+   검색창(SEARCH_JS)은 JS 로만 링크를 만들어 크롤러가 따라오지 못한다.
+   REGIONS 정렬이 매 요청마다 돌면 CPU 를 먹으므로 날짜 단위로 캐시한다. */
+let hriDay = -1, hriHtml = null;
+function homeRegionIndex(){
+  const day = Math.floor(Date.now()/86400000);
+  if(hriDay === day && hriHtml) return hriHtml;
+  const sido = SIDOS.map(function(s){
+    const sl = SIDO_SLUGS[s] || "";
+    return sl ? "<a href=\"/sido/"+sl+"\">"+esc(s)+"</a>" : "";
+  }).join("");
+  const gk = [];
+  for(const k in GUNGU_SLUGS) gk.push([k, (GROUPS.get(k)||[]).length]);
+  gk.sort(function(a,b){ return b[1]-a[1] || a[0].localeCompare(b[0],"ko"); });
+  const gungu = gk.slice(0,60).map(function(p){
+    const t = p[0].split("|");
+    return "<a href=\"/sigungu/"+GUNGU_SLUGS[p[0]]+"\">"+esc(t[1])+" <small>"+esc(t[0])+"</small></a>";
+  }).join("");
+  const recent = REGIONS.slice().sort(function(a,b){
+    return modifiedDate(hash(b.s)) - modifiedDate(hash(a.s)) || a.s.localeCompare(b.s);
+  }).slice(0,60).map(function(r){
+    return "<a href=\"/r/"+r.s+"\">"+esc(r._dong)+" <small>"+esc(r._gungu||r._sido)+"</small></a>";
+  }).join("");
+  hriHtml = "<div class='wrap'>"+
+    "<div class='near'><h3>\ud83d\uddfa\ufe0f \uc2dc \u00b7 \ub3c4\ubcc4 \uc548\ub0b4</h3><div class='g'>"+sido+"</div></div>"+
+    "<div class='near'><h3>\ud83c\udfd9\ufe0f \uc8fc\uc694 \uc2dc \u00b7 \uad70 \u00b7 \uad6c</h3><div class='g'>"+gungu+"</div></div>"+
+    "<div class='near'><h3>\ud83c\udd95 \ucd5c\uadfc \uc5c5\ub370\uc774\ud2b8\ub41c \uc9c0\uc5ed</h3><div class='g'>"+recent+"</div></div>"+
+    "</div>";
+  hriDay = day;
+  return hriHtml;
+}
 function homePage(){
   const patches=SIDOS.map(function(s,i){
     return "<a class='jpatch reveal' style='transition-delay:"+(i*18)+"ms' href='/sido/"+(SIDO_SLUGS[s]||"")+"'><span class='jk'>"+esc(s)+"</span><span class='ar'>&rsaquo;</span></a>";
@@ -1205,6 +1237,7 @@ function homePage(){
      "</div>"+
    "</div></div></div>"+
 
+   homeRegionIndex()+
    "</div>";
   return shell({title:BRAND+" — 포스기·카드단말기 전국 방문 설치", desc:"포스기·카드단말기 전국 방문 설치. 유선·무선·간편결제를 업종과 매장 동선 기준으로 구성. 상담부터 설치·사후관리까지 한 번에.", url:SITE+"/",
     jsonld:[{"@context":"https://schema.org","@type":"Organization","name":BRAND,"url":SITE,"telephone":PHONE},
