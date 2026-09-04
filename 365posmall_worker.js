@@ -1502,10 +1502,12 @@ function listPage(){
   return shell({title:"전체 안내 목록 — "+BRAND, desc:"전국 시·군·구·읍·면·동 포스기·카드단말기 설치 안내 전체 목록과 최근 업데이트.", url:SITE+"/list", image:photoFor(hash("list")),
     jsonld:{"@context":"https://schema.org","@type":"CollectionPage","name":"전체 안내 목록","url":SITE+"/list"}}, body);
 }
+const BLOCK_BOTS=["SemrushBot","AhrefsBot","AhrefsSiteAudit","MJ12bot","DotBot","DataForSeoBot","BLEXBot","rogerbot","SEOkicks","Barkrowler","serpstatbot"];
 const AI_BOTS=["GPTBot","OAI-SearchBot","ChatGPT-User","PerplexityBot","Perplexity-User","Google-Extended","ClaudeBot","anthropic-ai","Claude-Web","Applebot-Extended","CCBot","Amazonbot","Bytespider","Bingbot","YandexBot"];
 const ROBOTS=(DAUM_VERIFY?"#DaumWebMasterTool:"+DAUM_VERIFY+"\n":"")+(NAVER_VERIFY?"#naver-site-verification:"+NAVER_VERIFY+"\n":"")
   +"User-agent: *\nAllow: /\n\n"
-  +AI_BOTS.map(function(b){return "User-agent: "+b+"\nAllow: /\n";}).join("\n")
+  +AI_BOTS.map(function(b){return "User-agent: "+b+"\nAllow: /\n"+(b==="GPTBot"?"Crawl-delay: 10\n":"");}).join("\n")
+  +"\n# SEO 분석 크롤러 — 색인에 도움 안 되므로 차단\n"+BLOCK_BOTS.map(function(b){return "User-agent: "+b+"\nDisallow: /\n";}).join("")
   +"\n# llms.txt: "+SITE+"/llms.txt\nLlms-txt: "+SITE+"/llms.txt\nSitemap: "+SITE+"/sitemap.xml\n";
 const LLMS_TXT="# "+BRAND+" (365posmall.com)\n\n"
 +"> 전국 시·군·구·읍·면·동 단위 포스기·카드단말기 설치 안내 서비스. 포스기(POS), 유선·무선 카드단말기, 간편결제를 업종과 매장 동선에 맞춰 안내합니다. 무료 상담, 방문 설치, 교체·신규 모두 가능. 문의 "+PHONE+".\n\n"
