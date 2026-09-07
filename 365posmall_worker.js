@@ -170,6 +170,22 @@ const BOT_UA_RE = /bot|crawl|spider|slurp|mediapartners|googlebot|bingbot|yandex
 //  · 발행일 고정, 수정일은 18일 주기로 자동 갱신(항상 최신 유지)
 //  -------- 수정 포인트 --------
 const SITE      = "https://365posmall.com";
+/* 전화번호 노출 실험(2주): 본문·푸터에서는 번호를 감추고, 버튼을 누르면
+   번호가 보이면서 tel: 링크가 그대로 걸린다. 헤더·플로팅 버튼과
+   /api/track 전환 추적은 손대지 않는다. */
+const TELBTN_JS = `
+(function(){var N='010-9876-8282';
+function show(e){try{var t=e.target;if(!t||!t.closest)return;var a=t.closest('a[data-tel]');
+if(!a||a.getAttribute('data-tel')==='on')return;a.setAttribute('data-tel','on');
+var s=a.querySelector('.tel-lb');if(s)s.textContent=N;}catch(err){}}
+document.addEventListener('pointerdown',show,true);
+document.addEventListener('click',show,true);})();
+`;
+/* 본문·푸터용 전화 버튼. aria-label 을 고정해 추적 라벨(b)이 흔들리지 않게 한다 */
+function telBtn(cls, label, attrs){
+  return "<a "+(cls?"class='"+cls+"' ":"")+(attrs?attrs+" ":"")+"href=\"tel:"+PHONE_TEL+"\" data-tel aria-label=\"전화 상담\"><span class=tel-lb>"+(label||"전화 상담")+"</span></a>";
+}
+
 const PHONE     = "010-9876-8282";               // 표시용 전화번호
 const PHONE_TEL = "01098768282";                 // tel/sms 링크용(숫자만)
 const OG_IMAGE  = SITE + "/og.svg";
@@ -537,7 +553,7 @@ function buildArticle(R){
     "{D} 매장이라면 결제 규모와 운영 방식에 따라 카드단말기 단독 또는 포스기 연동으로 구성합니다. 상담 → 가맹·서류 → 방문 설치·개통 → 교육·사후의 순서로 며칠 안에 마무리됩니다.",
     "{G} 지역 포스기·카드단말기 설치 안내입니다. 신규 설치와 기존 장비 교체 모두 가능하며, 유선·무선·간편결제를 매장에 맞게 골라 드립니다. 사용법 교육과 이후 관리까지 이어집니다."
   ];
-  const answer="<div class='ansbox'><div class='ansbox-t'>요약</div><p>"+esc(fill(pick(ANS,hash(R.s+"ans")),R))+" 상담·문의 "+PHONE+".</p></div>";
+  const answer="<div class='ansbox'><div class='ansbox-t'>요약</div><p>"+esc(fill(pick(ANS,hash(R.s+"ans")),R))+"</p></div>";
 
   const KB1=["{D} 어디서나 포스기·카드단말기 설치와 교체를 안내합니다.","{D} 전역으로 방문해 포스기·카드단말기를 설치·교체합니다.","{D} 매장까지 찾아가 포스기와 카드단말기를 맞춰 드립니다."];
   const KB2=["업종과 매장 동선을 기준으로 필요한 장비만 골라 구성합니다.","가게 규모와 운영 방식에 맞춰 장비를 과하지 않게 구성합니다.","메뉴 수·회전율·결제 습관을 보고 필요한 만큼만 갖춥니다."];
@@ -618,7 +634,7 @@ function buildArticle(R){
   // ── 강조 인용 블록 ──
   function pquoteBlk(){
     const q=pick(RLINE,hash(R.s+"pq"));
-    return "<div class='pquote'><p>"+esc(fill(q,R))+"</p><div class='pq-sub'>"+esc(R._dong)+" 매장 상담 "+PHONE+"</div></div>";
+    return "<div class='pquote'><p>"+esc(fill(q,R))+"</p><div class='pq-sub'>"+esc(R._dong)+" 매장 상담</div></div>";
   }
 
   // ── 설치 전 체크리스트 블록 ──
@@ -1061,13 +1077,13 @@ function shell(o, body){
     "<footer><div class=wrap><div class=flogo>"+logo+"</div>"+
       "<p style=\"margin-top:12px\">포스기 · 카드단말기 설치 안내 — 유선 · 무선 · 간편결제</p>"+
       "<p style=\"margin-top:5px\">전국 시 · 군 · 구 · 읍 · 면 · 동 방문 설치.</p>"+
-      "<p style=\"margin-top:16px;font-size:13.5px\"><a href=\"tel:"+PHONE_TEL+"\">전화 "+PHONE+"</a> &nbsp;·&nbsp; <a href=\"sms:"+PHONE_TEL+"\">문자 상담</a> &nbsp;·&nbsp; <a href=\"/list\">전체 목록</a></p>"+
+      "<p style=\"margin-top:16px;font-size:13.5px\">"+telBtn("")+" &nbsp;·&nbsp; <a href=\"sms:"+PHONE_TEL+"\">문자 상담</a> &nbsp;·&nbsp; <a href=\"/list\">전체 목록</a></p>"+
     "</div></footer>"+
     "<div class=floatbtns>"+
       "<a class='fab fab-call' href=\"tel:"+PHONE_TEL+"\"><span class=fab-ic>"+icTel+"</span><span class=fab-t>전화 상담</span></a>"+
       "<a class='fab fab-sms' href=\"sms:"+PHONE_TEL+"\"><span class=fab-ic>"+icMsg+"</span><span class=fab-t>문자 상담</span></a>"+
     "</div>"+
-    "<script>"+SEARCH_JS+REVEAL_JS+"</script>"+
+    "<script>"+SEARCH_JS+REVEAL_JS+TELBTN_JS+"</script>"+
     "<script>(function(){var U='/api/track',S={},W=30000;function K(ty){return 'tk_'+ty+'_'+location.pathname;}function seen(ty){var k=K(ty),n=Date.now();if(S[k]&&n-S[k]<W)return 1;try{var v=sessionStorage.getItem(k);if(v&&n-(+v)<W)return 1;}catch(e){}return 0;}function mark(ty){var k=K(ty),n=Date.now();S[k]=n;try{sessionStorage.setItem(k,''+n);}catch(e){}}function t(ty,b){try{var d=JSON.stringify({type:ty,page:location.pathname,ref:document.referrer,b:b||''}),ok=false;if(navigator.sendBeacon){try{ok=navigator.sendBeacon(U,new Blob([d],{type:'application/json'}));}catch(e){}}if(!ok){try{fetch(U,{method:'POST',headers:{'Content-Type':'application/json'},body:d,keepalive:true}).catch(function(){});}catch(e){}}}catch(e){}}function c(ty,b){if(seen(ty))return;mark(ty);t(ty,b);}function L(a){try{var s=(a.getAttribute&&a.getAttribute('aria-label'))||a.textContent||'';var o='',sp=0,i,ch;for(i=0;i<s.length;i++){ch=s.charCodeAt(i);if(ch===32||ch===9||ch===10||ch===13){if(!sp){o+=' ';sp=1;}}else{o+=s.charAt(i);sp=0;}}return o.trim().slice(0,40);}catch(e){return '';}}function WV(v){try{if(navigator.userAgent.indexOf('; wv)')<0)return;var i=v.indexOf(':');if(i<0)return;var sch=v.slice(0,i),num='',j,ch;if(sch!=='tel'&&sch!=='sms')return;for(j=i+1;j<v.length;j++){ch=v.charCodeAt(j);if(ch>=48&&ch<=57)num+=v.charAt(j);}if(!num)return;var sc=sch==='tel'?'tel':'smsto',ac=sch==='tel'?'DIAL':'SENDTO',done=0;var f=function(){done=1;};document.addEventListener('visibilitychange',f,{once:true});window.addEventListener('pagehide',f,{once:true});setTimeout(function(){if(done||document.visibilityState!=='visible')return;location.href='intent://'+num+'#Intent;scheme='+sc+';action=android.intent.action.'+ac+';end';},800);}catch(e){}}function h(e,early){var a=e.target&&e.target.closest&&e.target.closest('a,button,[data-tk]');if(!a)return;var k=(a.getAttribute&&a.getAttribute('data-tk'))||'',v=(a.getAttribute&&a.getAttribute('href'))||'';if(!k&&!v&&a.closest){var p=a.closest('a[href]');if(p){a=p;v=p.getAttribute('href')||'';}}if(k==='tel'||v.indexOf('tel:')===0){c('tel',L(a));if(!early)WV(v);}else if(k==='sms'||v.indexOf('sms:')===0){c('sms',L(a));if(!early)WV(v);}else if(!early&&k==='contact')c('contact',L(a));}document.addEventListener('pointerdown',function(e){h(e,1);},true);document.addEventListener('click',function(e){h(e,0);},true);if(location.pathname.indexOf('/api/')!==0)t('view');})();<\/script>"+
     "</body></html>";
 }
@@ -1175,7 +1191,7 @@ function homePage(){
            "<div class='results' id='res'></div>"+
          "</div>"+
          "<p class='jhint'>시·군·구·읍·면·동 어디든, 지역별 안내가 준비되어 있습니다.</p>"+
-         "<p class='jtel'>상담 <a href=\"tel:"+PHONE_TEL+"\">"+PHONE+"</a></p>"+
+         "<p class='jtel'>"+telBtn("")+"</p>"+
        "</div>"+
        mock+
      "</div>"+
@@ -1212,7 +1228,7 @@ function homePage(){
 
    "<div class='vquote reveal'><div class='vbg'><img src=\""+IMG_BASE+"main/333.jpg\" alt=\"\" loading=\"lazy\"></div><div class='vin'>"+
      "<div class='vt'>빠른 계산대가<br><em>매출</em>을 지킵니다.</div>"+
-     "<a class='vbtn' href=\"tel:"+PHONE_TEL+"\">전화 상담 "+PHONE+"</a>"+
+     telBtn("vbtn")+
    "</div></div>"+
 
    "<section class='jsec'><div class='wrap reveal'>"+
@@ -1232,7 +1248,7 @@ function homePage(){
      "<div class='ct'>우리 동네에서, 결제 걱정 없이 시작하세요.</div>"+
      "<p class='cb'>매장 위치와 업종만 알려 주시면, 나머지는 저희가 정리합니다.</p>"+
      "<div class='btns'>"+
-       "<a class='go' href=\"tel:"+PHONE_TEL+"\">전화 상담 "+PHONE+"</a>"+
+       telBtn("go")+
        "<a class='gs' href=\"sms:"+PHONE_TEL+"\">문자로 문의하기</a>"+
      "</div>"+
    "</div></div></div>"+
@@ -1296,7 +1312,7 @@ function regionPage(R){
      heroBanner(photoFor(seed), esc(R.n), R._dong+" 포스기·카드단말기 설치 안내")+
      "<div class='meta2'><span>발행 <b>"+korDate(pub)+"</b></span><span>수정 <b>"+korDate(mod)+"</b></span><span><b>"+esc(R._sido)+"</b></span></div>"+
      buildArticle(R)+
-     "<div class=cta><div class=t>"+esc(fill(pick(CTA_T,hash(R.s+"ct")),R))+"</div><p>"+esc(fill(pick(CTA_B,hash(R.s+"cb")),R))+"</p><a href=\"tel:"+PHONE_TEL+"\">전화 상담 "+PHONE+"</a></div>"+
+     "<div class=cta><div class=t>"+esc(fill(pick(CTA_T,hash(R.s+"ct")),R))+"</div><p>"+esc(fill(pick(CTA_B,hash(R.s+"cb")),R))+"</p>"+telBtn("")+"</div>"+
      near+
    "</article></div>";
 
@@ -1341,7 +1357,7 @@ function listingPage(o){
      "<h2>"+esc(o.gridTitle||"바로가기")+"</h2>"+
      "<p class='listing-intro'>"+esc(o.intro)+"</p>"+
      "<div class='lgrid'>"+items+"</div>"+
-     "<div class=cta><div class=t>"+esc(o.ctaT)+"</div><p>"+esc(o.ctaB)+"</p><a href=\"tel:"+PHONE_TEL+"\">전화 상담 "+PHONE+"</a></div>"+
+     "<div class=cta><div class=t>"+esc(o.ctaT)+"</div><p>"+esc(o.ctaB)+"</p>"+telBtn("")+"</div>"+
    "</article></div>";
   return shell({title:o.title,desc:o.desc,url:o.url,article:true,jsonld:o.jsonld,image:o.image}, body);
 }
