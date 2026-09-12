@@ -1566,7 +1566,7 @@ function todaysUpdatedUrls(){
   for(const r of REGIONS){ if(isoDate(modifiedDate(hash(r.s)))===td) urls.push(SITE+"/r/"+r.s); }
   return urls;
 }
-async function submitIndexNow(urls){
+async function submitIndexNow(urls,env,ctx,source){
   if(!INDEXNOW_KEY || !urls || !urls.length) return {sent:0,batches:0};
   const host=new URL(SITE).host, keyLocation=SITE+"/"+INDEXNOW_KEY+".txt";
   let sent=0,batches=0;
@@ -1575,7 +1575,8 @@ async function submitIndexNow(urls){
     try{
       const r=await indexnowFetch({method:"POST",headers:{"Content-Type":"application/json; charset=utf-8"},body:JSON.stringify({host:host,key:INDEXNOW_KEY,keyLocation:keyLocation,urlList:batch})});
       if(r.status>=200&&r.status<300) sent+=batch.length;
-    }catch(e){}
+      await logIndexnow(env, null, { source:source||"", start:i, count:batch.length, status:r.status, ep:r.ep||"", attempt:1, note:r.err||"" });
+    }catch(e){ await logIndexnow(env, null, { source:source||"", start:i, count:batch.length, status:0, ep:"", attempt:1, note:String((e&&e.message)||e).slice(0,200) }); }
   }
   return {sent:sent,batches:batches};
 }
@@ -1713,7 +1714,63 @@ function blockScraper(request){
   return null;
 }
 
-export default {
+/* ═══════════════ 크롤러 방문 · IndexNow 제출 기록 (semogwa 2026-09-11 이식) ═══════════════
+   events 는 브라우저 JS 비컨으로만 채워져서 크롤러는 한 줄도 안 남는다.
+   "네이버 Yeti 가 실제로 오는가"를 보려면 서버가 직접 crawl_hits 에 적어야 한다. */
+const CRAWLER_BOTS = [
+  [/yeti/i,                                  "Yeti"],        /* 네이버 */
+  [/daumoa|cs\.daum\.net|compatible;\s*daum\//i, "Daum"],
+  [/google-inspectiontool/i,                 "GoogleInspect"],
+  [/googleother/i,                           "GoogleOther"],
+  [/googlebot|mediapartners-google/i,        "Googlebot"],
+  [/bingbot|adidxbot/i,                      "bingbot"],
+  [/yandex/i,                                "YandexBot"],
+  [/petalbot/i,                              "PetalBot"],
+  [/bytespider/i,                            "Bytespider"],
+  [/applebot/i,                              "Applebot"],
+  [/gptbot|oai-searchbot|chatgpt-user/i,     "OpenAI"],
+  [/claudebot|claude-web|anthropic/i,        "ClaudeBot"],
+  [/perplexity/i,                            "PerplexityBot"],
+  [/facebookexternalhit|meta-external/i,     "Facebook"],
+];
+function crawlerName(ua){
+  if(!ua) return "";
+  for(const [re,name] of CRAWLER_BOTS) if(re.test(ua)) return name;
+  return BOT_UA_RE.test(ua) ? "기타봇" : "";
+}
+/* 응답을 돌려준 뒤 waitUntil 로 적는다. D1 이 느리거나 실패해도 응답에는 영향이 없다. */
+function logCrawl(env, ctx, request, status){
+  try{
+    if(!env||!env.DB) return;
+    const ua=request.headers.get("user-agent")||"";
+    const bot=crawlerName(ua);
+    if(!bot) return;
+    const u=new URL(request.url);
+    const q=(u.pathname+u.search).replace(/([?&]key=)[^&]*/gi,"$1***");   /* /indexnow/*?key= 마스킹 */
+    const cf=request.cf||{};
+    const pr=env.DB.prepare('INSERT INTO crawl_hits (site,bot,ua,host,path,status,ts,ip,asn,country) VALUES (?,?,?,?,?,?,?,?,?,?)')
+      .bind('365posmall', bot, ua.slice(0,250), u.host.slice(0,80), q.slice(0,300),
+            status|0, new Date().toISOString(), request.headers.get("cf-connecting-ip")||"",
+            cf.asn|0, cf.country||"")
+      .run();
+    const done=Promise.resolve(pr).catch(()=>{});
+    if(ctx&&ctx.waitUntil) ctx.waitUntil(done);
+  }catch(e){}
+}
+/* IndexNow 제출 결과 — 응답 코드를 버리지 않고 배치마다 한 줄씩 남긴다. */
+function logIndexnow(env, ctx, row){
+  try{
+    if(!env||!env.DB) return;
+    const pr=env.DB.prepare('INSERT INTO indexnow_log (site,ts,source,start_idx,count,status,endpoint,attempt,note) VALUES (?,?,?,?,?,?,?,?,?)')
+      .bind('365posmall', new Date().toISOString(), row.source||"", row.start|0, row.count|0,
+            row.status|0, (row.ep||"").slice(0,80), row.attempt|0, (row.note||"").slice(0,200))
+      .run();
+    const done=Promise.resolve(pr).catch(()=>{});
+    if(ctx&&ctx.waitUntil) ctx.waitUntil(done); else return done;
+  }catch(e){}
+}
+
+const __APP = {
   async fetch(request, env, ctx){
     const __blk = blockScraper(request); if(__blk) return __blk;
     const url=new URL(request.url);
@@ -1735,7 +1792,7 @@ const ua=request.headers.get("User-Agent")||"";if(!TG_BOT_RE.test(ua)&&TG_LABEL[
     if(path==="/indexnow/today"||path==="/indexnow/all"){
       if(url.searchParams.get("key")!==INDEXNOW_KEY) return new Response("forbidden",{status:403});
       const urls=path.endsWith("/all")?allUrls():todaysUpdatedUrls();
-      const res=await submitIndexNow(urls);
+      const res=await submitIndexNow(urls,env,null,"manual");
       return new Response(JSON.stringify({requested:urls.length,sent:res.sent,batches:res.batches}),{headers:{"content-type":"application/json; charset=UTF-8"}});
     }
     if(path==="/sitemap.xml") return resp(sitemap(),"application/xml; charset=UTF-8");
@@ -1769,6 +1826,16 @@ const ua=request.headers.get("User-Agent")||"";if(!TG_BOT_RE.test(ua)&&TG_LABEL[
     return new Response(notFound(),{status:404,headers:{"content-type":"text/html; charset=UTF-8"}});
   },
   async scheduled(event,env,ctx){
-    ctx.waitUntil(submitIndexNow(todaysUpdatedUrls()));
+    ctx.waitUntil(submitIndexNow(todaysUpdatedUrls(),env,null,"cron"));
   }
+};
+
+/* 기존 라우팅(__APP.fetch)을 감싸 응답 뒤에 크롤러 방문을 기록한다 */
+export default {
+  async fetch(request, env, ctx){
+    const res = await __APP.fetch(request, env, ctx);
+    logCrawl(env, ctx, request, res.status);      /* 실패해도 응답에는 영향 없음 */
+    return res;
+  },
+  async scheduled(event, env, ctx){ return __APP.scheduled(event, env, ctx); }
 };
