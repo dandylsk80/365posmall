@@ -1109,7 +1109,7 @@ function shell(o, body){
     "<footer><div class=wrap><div class=flogo>"+logo+"</div>"+
       "<p style=\"margin-top:12px\">포스기 · 카드단말기 설치 안내 — 유선 · 무선 · 간편결제</p>"+
       "<p style=\"margin-top:5px\">전국 시 · 군 · 구 · 읍 · 면 · 동 방문 설치.</p>"+
-      "<p style=\"margin-top:16px;font-size:13.5px\">"+telBtn("")+" &nbsp;·&nbsp; <a href=\"sms:"+PHONE_TEL+"\">문자 상담</a> &nbsp;·&nbsp; <a href=\"/list\">전체 목록</a></p>"+
+      "<p style=\"margin-top:16px;font-size:13.5px\">"+telBtn("")+" &nbsp;·&nbsp; <a href=\"sms:"+PHONE_TEL+"\">문자 상담</a> &nbsp;·&nbsp; <a href=\"/post/\">포스기 정보</a> &nbsp;·&nbsp; <a href=\"/list\">전체 목록</a></p>"+
     "</div></footer>"+
     "<div class=floatbtns>"+
       "<a class='fab fab-call' href=\"tel:"+PHONE_TEL+"\"><span class=fab-ic>"+icTel+"</span><span class=fab-t>전화 상담</span></a>"+
@@ -1480,6 +1480,7 @@ function sitemap(){
   let u="<?xml version=\"1.0\" encoding=\"UTF-8\"?><urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">";
   u+="<url><loc>"+SITE+"/</loc><lastmod>"+today+"</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>";
   u+="<url><loc>"+SITE+"/list</loc><lastmod>"+today+"</lastmod><changefreq>daily</changefreq><priority>0.6</priority></url>";
+  u+=postSitemapXml();   /* 정보성 글 — lastmod 는 실제 발행일 */
   SIDOS.forEach(function(s){ const sl=SIDO_SLUGS[s]; if(sl){ const m=isoDate(modifiedDate(hash("sido:"+s))); u+="<url><loc>"+SITE+"/sido/"+sl+"</loc><lastmod>"+m+"</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>"; } });
   for(const k in GUNGU_SLUGS){ const m=isoDate(modifiedDate(hash("gungu:"+k))); u+="<url><loc>"+SITE+"/sigungu/"+GUNGU_SLUGS[k]+"</loc><lastmod>"+m+"</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>"; }
   for(const r of REGIONS){
@@ -1489,6 +1490,112 @@ function sitemap(){
   return u+"</urlset>";
 }
 function rfc822(d){ return d.toUTCString(); }
+
+/* ===================== 정보성 글 (/post) =====================
+   글은 공용 D1 posts 테이블에 있고 이 사이트는 자기 글(published)만 읽는다.
+   발행 전환은 allcarestudy 워커의 크론 한 곳에서만 한다.
+
+   목록은 메모리에 5분 캐시한다 — 사이트맵·RSS·목록이 매 요청 D1 을 치면
+   응답이 느려지고 D1 읽기도 낭비된다. 본문은 상세 요청에서만 읽는다.
+   사이트맵·RSS 생성 함수는 동기라 인자로 넘기지 않고 이 캐시를 직접 읽는다.
+   (라우터가 응답을 만들기 직전 await loadPosts(env) 로 채워 준다) */
+const POST_SITE = "365posmall";
+const POST_ORIGIN = SITE;
+const POST_TTL = 300000;
+let POSTS_CACHE = { at: 0, rows: [] };
+async function loadPosts(env) {
+  if (Date.now() - POSTS_CACHE.at < POST_TTL) return POSTS_CACHE.rows;
+  if (!env || !env.DB) return POSTS_CACHE.rows;
+  try {
+    const r = await env.DB.prepare(
+      "SELECT slug,title,summary,published_at FROM posts WHERE site=? AND status='published' ORDER BY published_at DESC LIMIT 200"
+    ).bind(POST_SITE).all();
+    POSTS_CACHE = { at: Date.now(), rows: r.results || [] };
+  } catch (e) { POSTS_CACHE = { at: Date.now(), rows: POSTS_CACHE.rows }; }
+  return POSTS_CACHE.rows;
+}
+async function getPost(env, slug) {
+  if (!env || !env.DB) return null;
+  try {
+    return await env.DB.prepare(
+      "SELECT slug,title,summary,body_html,published_at FROM posts WHERE site=? AND slug=? AND status='published'"
+    ).bind(POST_SITE, slug).first();
+  } catch (e) { return null; }
+}
+const postEsc = (s) => String(s == null ? "" : s).replace(/[&<>"']/g,
+  (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const postDate = (p) => String((p && p.published_at) || "").slice(0, 10);
+
+/* 목록·상세 본문 — 사이트 CSS 에 의존하지 않도록 인라인 스타일만 쓴다.
+   바깥 컨테이너만 그 사이트의 클래스를 그대로 빌린다(고정 헤더 여백 때문). */
+function postCards(posts) {
+  if (!posts.length) return '<p style="color:#666">아직 등록된 글이 없습니다.</p>';
+  return posts.map((p) =>
+    '<a href="/post/' + postEsc(p.slug) + '/" style="display:block;background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:20px 22px;margin-bottom:12px">'
+    + '<div style="font-size:17px;font-weight:800;line-height:1.4">' + postEsc(p.title) + '</div>'
+    + '<p style="font-size:14px;color:#555;line-height:1.7;margin:8px 0 0">' + postEsc(p.summary || "") + '</p>'
+    + '<div style="font-size:12px;color:#999;margin-top:8px">' + postEsc(postDate(p)) + '</div></a>').join("");
+}
+function postArticle(p) {
+  return '<div style="font-size:12px;color:#999;margin-bottom:18px">' + postEsc(postDate(p)) + ' · 365포스</div>'
+    + '<div class="post-body" style="font-size:15px;line-height:1.85;color:#333">' + p.body_html + '</div>'
+    + '<style>.post-body h2{font-size:19px;font-weight:800;line-height:1.4;margin:32px 0 12px;color:#111}'
+    + '.post-body h3{font-size:16px;font-weight:700;margin:22px 0 8px;color:#111}'
+    + '.post-body p{margin:0 0 14px}</style>';
+}
+
+/* 사이트맵·RSS 조각 — lastmod·pubDate 는 실제 발행일을 쓴다
+   (지역 페이지처럼 해시로 돌리면 글의 신선도 신호가 사라진다) */
+function postSitemapXml() {
+  const ps = POSTS_CACHE.rows || [];
+  const top = ps.length ? postDate(ps[0]) : new Date().toISOString().slice(0, 10);
+  return '<url><loc>' + POST_ORIGIN + '/post/</loc><lastmod>' + top + '</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>'
+    + ps.map((p) => '<url><loc>' + POST_ORIGIN + '/post/' + p.slug + '/</loc><lastmod>' + postDate(p)
+      + '</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>').join("");
+}
+function postRssXml() {
+  return (POSTS_CACHE.rows || []).map((p) => {
+    const dt = p.published_at ? new Date(p.published_at) : new Date();
+    const u = POST_ORIGIN + '/post/' + postEsc(p.slug) + '/';
+    return '<item><title>' + postEsc(p.title) + '</title><link>' + u + '</link>'
+      + '<guid isPermaLink="true">' + u + '</guid><pubDate>' + dt.toUTCString() + '</pubDate>'
+      + '<description>' + postEsc(p.summary || p.title) + '</description></item>';
+  }).join("");
+}
+/* 캐시 무효화 토큰 — 사이트맵을 Cache API 에 넣는 사이트는 키에 이 값을 붙인다.
+   글이 늘거나 새로 발행되면 값이 바뀌어 하루짜리 캐시를 기다리지 않아도 된다. */
+function postVer() {
+  const ps = POSTS_CACHE.rows || [];
+  return ps.length ? ps.length + "-" + postDate(ps[0]) : "0";
+}
+/* IndexNow — 최근 7일 안에 발행된 글은 배치 앞에 실어 색인을 앞당긴다 */
+function postFreshUrls() {
+  const fresh = (POSTS_CACHE.rows || [])
+    .filter((p) => p.published_at && Date.now() - Date.parse(p.published_at) < 7 * 86400000)
+    .map((p) => POST_ORIGIN + '/post/' + p.slug + '/');
+  return fresh.length ? fresh.concat([POST_ORIGIN + '/post/']) : [];
+}
+
+function pagePostList(posts) {
+  const body = "<main class=wrap style=\"padding:28px 0 60px\">"
+    + "<nav style=\"font-size:12px;color:#8a8f98\"><a href=\"/\">홈</a> › 포스기 정보</nav>"
+    + "<h1 style=\"font-size:26px;line-height:1.35;margin:10px 0 8px\">포스기 정보</h1>"
+    + "<p style=\"font-size:15px;line-height:1.85;margin-bottom:24px\">포스기와 카드단말기를 들이고 쓰는 동안 사장님들이 실제로 묻는 것을 한 편씩 정리합니다. 업종별 장비 조합, 설치 절차, 매출 관리 기능을 다룹니다.</p>"
+    + postCards(posts) + "</main>";
+  return shell({ title: "포스기 정보 | " + BRAND,
+    desc: "포스기·카드단말기를 들이고 쓰는 데 필요한 정보를 정리했습니다. 업종별 장비 조합, 설치 절차, 매출 관리까지 " + BRAND + "이 한 편씩 올리는 매장 운영 안내입니다.",
+    url: SITE + "/post/" }, body);
+}
+function pagePost(p) {
+  const body = "<main class=wrap style=\"padding:28px 0 60px\">"
+    + "<nav style=\"font-size:12px;color:#8a8f98\"><a href=\"/\">홈</a> › <a href=\"/post/\">포스기 정보</a> › " + postEsc(p.title) + "</nav>"
+    + "<h1 style=\"font-size:26px;line-height:1.35;margin:10px 0 8px\">" + postEsc(p.title) + "</h1>"
+    + postArticle(p)
+    + "<p style=\"margin-top:26px\"><a href=\"/post/\">포스기 정보 전체</a> · <a href=\"/list\">전체 목록</a> · <a href=\"/find\">동네 찾기</a></p></main>";
+  return shell({ title: p.title + " | " + BRAND, desc: (p.summary || p.title),
+    url: SITE + "/post/" + p.slug + "/", article: true }, body);
+}
+
 function rssFeed(){
   const now=new Date();
   const list=REGIONS.map(function(r){return {r:r,m:modifiedDate(hash(r.s))};}).sort(function(a,b){return b.m-a.m;}).slice(0,50);
@@ -1499,6 +1606,7 @@ function rssFeed(){
   x+='<atom:link href="'+SITE+'/rss.xml" rel="self" type="application/rss+xml"/>';
   x+='<description>전국 시·군·구·읍·면·동 포스기·카드단말기 설치 안내. 유선·무선·포스·간편결제, 동네 상황에 맞춘 기준으로.</description>';
   x+='<language>ko</language><lastBuildDate>'+rfc822(now)+'</lastBuildDate><ttl>1440</ttl>';
+  x+=postRssXml();   /* 정보성 글을 맨 앞에 둔다 */
   list.forEach(function(o){ const r=o.r, u=SITE+"/r/"+r.s, desc=fill(pick(DESC,hash(r.s)),r);
     x+='<item>';
     x+='<title><![CDATA['+r._dong+' 포스기·카드단말기 설치 안내 — '+r.n+']]></title>';
@@ -1828,6 +1936,15 @@ const ua=request.headers.get("User-Agent")||"";if(!TG_BOT_RE.test(ua)&&TG_LABEL[
       const res=await submitIndexNow(urls,env,null,"manual");
       return new Response(JSON.stringify({requested:urls.length,sent:res.sent,batches:res.batches}),{headers:{"content-type":"application/json; charset=UTF-8"}});
     }
+    /* 정보성 글 — 지역 슬러그 판정보다 앞에 둔다 */
+    if(path==="/post"||path==="/post/"){ return resp(pagePostList(await loadPosts(env)),"text/html; charset=UTF-8"); }
+    if(path.startsWith("/post/")){
+      const __s=path.slice(6).replace(/\/+$/,"");
+      if(__s && __s.indexOf("/")<0){ const __p=await getPost(env,__s); if(__p) return resp(pagePost(__p),"text/html; charset=UTF-8"); }
+      return new Response(notFound(),{status:404,headers:{"content-type":"text/html; charset=UTF-8"}});
+    }
+    /* 사이트맵·RSS 생성 함수는 동기라 POSTS_CACHE 를 먼저 채워 준다 */
+    if(path.startsWith("/sitemap")||path==="/rss.xml"||path==="/feed.xml"||path==="/rss"||path==="/feed"||path==="/atom.xml"||path==="/atom") await loadPosts(env);
     if(path==="/sitemap.xml") return resp(sitemap(),"application/xml; charset=UTF-8");
     if(path==="/rss.xml"||path==="/feed.xml"||path==="/rss"||path==="/feed") return resp(rssFeed(),"application/rss+xml; charset=UTF-8");
     if(path==="/atom.xml"||path==="/atom") return resp(atomFeed(),"application/atom+xml; charset=UTF-8");
@@ -1859,7 +1976,9 @@ const ua=request.headers.get("User-Agent")||"";if(!TG_BOT_RE.test(ua)&&TG_LABEL[
     return new Response(notFound(),{status:404,headers:{"content-type":"text/html; charset=UTF-8"}});
   },
   async scheduled(event,env,ctx){
-    ctx.waitUntil(submitIndexNow(todaysUpdatedUrls(),env,null,"cron"));
+    try{ POSTS_CACHE.at=0; await loadPosts(env); }catch(e){}
+    /* 최근 7일 안에 발행된 글은 배치 앞에 실어 색인을 앞당긴다 */
+    ctx.waitUntil(submitIndexNow(postFreshUrls().concat(todaysUpdatedUrls()),env,null,"cron"));
   }
 };
 
