@@ -937,6 +937,8 @@ footer a:hover{color:var(--blue)}
 .reveal.in{opacity:1;transform:none}
 /* floating */
 .floatbtns{position:fixed;right:18px;bottom:18px;z-index:60;display:flex;flex-direction:column;gap:9px}
+/* 모바일: 하단 우측은 브라우저 툴바·홈 인디케이터·스크롤 동선과 겹쳐 오터치가 난다 → 화면 세로 중앙 우측으로 */
+@media(max-width:768px){.floatbtns{top:50%;bottom:auto;transform:translateY(-50%);gap:12px}}
 .fab{display:inline-flex;align-items:center;gap:8px;padding:12px 17px;border-radius:10px;font-weight:700;font-size:14px;box-shadow:0 8px 24px -10px rgba(11,21,38,.4);transition:transform .15s}
 .fab:hover{transform:translateY(-2px)}
 .fab .fab-ic{display:inline-flex;width:17px;height:17px}
