@@ -180,7 +180,25 @@ function tkMeta(ua, ref, selfHost, qs){
    아웃바운드 IP 에 429(TooManyRequests)를 반환하는 경우가 많다. IndexNow 는 참여
    엔드포인트 한 곳만 성공하면 나머지 엔진으로 전파되므로 순차 폴백한다. */
 const INDEXNOW_FALLBACK_EPS = ["https://api.indexnow.org/indexnow","https://yandex.com/indexnow","https://search.seznam.cz/indexnow"];
+/* 네이버는 IndexNow 참여 엔드포인트지만 위 폴백 체인에 넣으면 안 된다 — 체인은 한 곳이
+   200 을 주는 순간 멈추므로 yandex 가 먼저 성공하면 네이버로는 영영 안 간다.
+   같은 본문을 체인 밖에서 따로 보내고 status 를 따로 남긴다.
+   루트 URL 하나만 담긴 배치는 422 "Invalid urls" 지만 하위 경로가 섞이면 200 이다(2026-09-21 실측). */
+const INDEXNOW_NAVER_EP = "https://searchadvisor.naver.com/indexnow";
+async function indexnowNaver(body){
+  try{
+    const r=await fetch(INDEXNOW_NAVER_EP,{method:"POST",headers:{"content-type":"application/json; charset=utf-8"},body});
+    return r.status;
+  }catch(e){ return 0; }
+}
+
 async function indexnowFetch(opt){
+  const naverP=indexnowNaver(opt&&opt.body);
+  const r=await indexnowFetchChain(opt);
+  try{ r.naver=await naverP; }catch(e){}
+  return r;
+}
+async function indexnowFetchChain(opt){
   let last=null;
   for(const ep of INDEXNOW_FALLBACK_EPS){
     try{
@@ -1858,16 +1876,17 @@ function todaysUpdatedUrls(){
 async function submitIndexNow(urls,env,ctx,source){
   if(!INDEXNOW_KEY || !urls || !urls.length) return {sent:0,batches:0};
   const host=new URL(SITE).host, keyLocation=SITE+"/"+INDEXNOW_KEY+".txt";
-  let sent=0,batches=0;
+  let sent=0,batches=0; const naver=[];
   for(let i=0;i<urls.length;i+=1000){
     const batch=urls.slice(i,i+1000); batches++;
     try{
       const r=await indexnowFetch({method:"POST",headers:{"Content-Type":"application/json; charset=utf-8"},body:JSON.stringify({host:host,key:INDEXNOW_KEY,keyLocation:keyLocation,urlList:batch})});
       if(r.status>=200&&r.status<300) sent+=batch.length;
-      await logIndexnow(env, null, { source:source||"", start:i, count:batch.length, status:r.status, ep:r.ep||"", attempt:1, note:r.err||"" });
+      naver.push(r.naver);
+      await logIndexnow(env, null, { source:source||"", start:i, count:batch.length, status:r.status, ep:r.ep||"", attempt:1, note:(r.err||"")+" naver="+r.naver });
     }catch(e){ await logIndexnow(env, null, { source:source||"", start:i, count:batch.length, status:0, ep:"", attempt:1, note:String((e&&e.message)||e).slice(0,200) }); }
   }
-  return {sent:sent,batches:batches};
+  return {sent:sent,batches:batches,naver:naver};
 }
 const FAVICON_SVG=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48"><circle cx="24" cy="24" r="24" fill="#1E5BD8"/><text x="24" y="25" text-anchor="middle" dominant-baseline="central" font-family="Pretendard,Arial,sans-serif" font-weight="800" font-size="14" letter-spacing="0.5" fill="#ffffff">POS</text></svg>`;
 const FAVICON_ICO_B64="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";
@@ -2083,7 +2102,7 @@ const ua=request.headers.get("User-Agent")||"";if(!TG_BOT_RE.test(ua)&&TG_LABEL[
       if(url.searchParams.get("key")!==INDEXNOW_KEY) return new Response("forbidden",{status:403});
       const urls=path.endsWith("/all")?allUrls():todaysUpdatedUrls();
       const res=await submitIndexNow(urls,env,null,"manual");
-      return new Response(JSON.stringify({requested:urls.length,sent:res.sent,batches:res.batches}),{headers:{"content-type":"application/json; charset=UTF-8"}});
+      return new Response(JSON.stringify({requested:urls.length,sent:res.sent,batches:res.batches,naver:res.naver}),{headers:{"content-type":"application/json; charset=UTF-8"}});
     }
     /* 정보성 글 — 지역 슬러그 판정보다 앞에 둔다 */
     if(path==="/post"||path==="/post/"){ return resp(pagePostList(await loadPosts(env)),"text/html; charset=UTF-8"); }
