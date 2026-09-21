@@ -439,9 +439,9 @@ const HEADS = {
 };
 const S = {
 s1:[
-"{F}에서 매장을 꾸리고 있다면 계산대 장비가 하루의 속도를 정합니다. 주문을 받고, 결제를 처리하고, 영수증을 건네는 그 몇 초가 손님이 체감하는 서비스로 이어집니다. 포스기와 카드단말기를 어떻게 구성하느냐에 따라 {D}에서의 영업 리듬이 달라집니다. 이 글은 그 구성을 정하는 실전 기준을 정리한 안내입니다.",
-"개업 준비물 목록에서 결제 장비는 늘 뒤로 밀리지만, 실제로는 가장 자주 쓰는 도구입니다. {D}에서 문을 여는 순간부터 카드단말기와 포스기는 매일 수십, 수백 번 손을 탑니다. 처음에 매장 사정에 맞게 구성해 두면 이후 운영에서 손볼 일이 크게 줄어듭니다. {G} 상권에서 어떤 조합이 맞는지 차례대로 살펴보겠습니다.",
-"결제가 밀리면 줄이 밀리고, 줄이 밀리면 손님이 빠져나갑니다. {F}의 매장이라면 이 단순한 공식을 피해 갈 수 없습니다. 카드단말기 하나로 충분한 가게가 있고, 주문과 매출까지 묶는 포스기가 필요한 가게가 있습니다. {D}의 매장 규모와 운영 방식에 맞춰 답을 좁혀 드리겠습니다."
+"{F}에서 매장을 꾸리고 있다면 계산대 장비가 하루의 속도를 정합니다. 주문을 받고, 결제를 처리하고, 영수증을 건네는 그 몇 초가 손님이 체감하는 서비스로 이어집니다. 포스기를 어떻게 구성하느냐에 따라 {D}에서의 영업 리듬이 달라집니다. 이 글은 그 구성을 정하는 실전 기준을 정리한 안내입니다.",
+"개업 준비물 목록에서 결제 장비는 늘 뒤로 밀리지만, 실제로는 가장 자주 쓰는 도구입니다. {D}에서 문을 여는 순간부터 포스기는 매일 수십, 수백 번 손을 탑니다. 처음에 매장 사정에 맞게 구성해 두면 이후 운영에서 손볼 일이 크게 줄어듭니다. {G} 상권에서 어떤 조합이 맞는지 차례대로 살펴보겠습니다.",
+"결제가 밀리면 줄이 밀리고, 줄이 밀리면 손님이 빠져나갑니다. {F}의 매장이라면 이 단순한 공식을 피해 갈 수 없습니다. 결제만 받으면 되는 가게가 있고, 주문과 매출까지 묶는 포스기가 필요한 가게가 있습니다. {D}의 매장 규모와 운영 방식에 맞춰 답을 좁혀 드리겠습니다."
 ],
 s2:[
 "장비 구성의 출발점은 의외로 지역입니다. {S}와 {G}는 손님층과 결제 습관이 다르고, {D} 안에서도 대로변과 골목 상권의 사정이 갈립니다. 전국 공통 답안 대신 {D}의 실제 환경을 기준으로 잡아야 과한 투자도, 부족한 구성도 피할 수 있습니다.",
@@ -449,9 +449,9 @@ s2:[
 "같은 업종의 매장도 동네가 다르면 결제 패턴이 다릅니다. {S} {G}의 손님이 즐겨 쓰는 결제 수단, 붐비는 시간대, 배달 비중까지 고려하면 {D}에 맞는 구성이 자연스럽게 나옵니다. 설치 전에 지역 상황을 먼저 확인하는 이유가 여기에 있습니다."
 ],
 s3:[
-"카드단말기는 결제 처리에 집중한 장비이고, 포스기는 주문과 메뉴, 매출 관리까지 아우르는 운영 장비입니다. 테이블 몇 개로 도는 소규모 매장이라면 단말기만으로 충분한 경우가 많습니다. 반대로 메뉴가 많고 회전이 빠른 {D}의 매장이라면 포스기가 시간을 크게 아껴 줍니다.",
-"둘 중 무엇을 들일지 고민이라면 기준은 간단합니다. 결제만 빠르게 처리하면 되는가, 주문과 정산까지 한 화면에서 관리해야 하는가. {G}의 매장 운영 방식을 떠올리면 답이 나옵니다. 필요하면 단말기로 시작해 포스기로 확장하는 단계적 구성도 가능합니다.",
-"포스기와 카드단말기는 경쟁 관계가 아니라 역할 분담 관계입니다. 포스기가 주문과 매출의 흐름을 잡고, 단말기가 결제를 마무리합니다. {D}에서 어떤 형태로 장사하느냐에 따라 하나만 둘 수도, 둘을 함께 묶을 수도 있습니다."
+"포스기는 주문과 메뉴, 매출 관리까지 아우르는 운영 장비입니다. 테이블 몇 개로 도는 소규모 매장이라면 계산 기능만 쓰는 단출한 구성으로 충분한 경우가 많습니다. 반대로 메뉴가 많고 회전이 빠른 {D}의 매장이라면 포스기가 시간을 크게 아껴 줍니다.",
+"어느 정도 사양으로 갈지 고민이라면 기준은 간단합니다. 계산만 빠르게 처리하면 되는가, 주문과 정산까지 한 화면에서 관리해야 하는가. {G}의 매장 운영 방식을 떠올리면 답이 나옵니다. 필요하면 단출하게 시작해 기능을 붙여 가는 단계적 구성도 가능합니다.",
+"포스기는 주문에서 정산까지를 한 줄로 잇는 장비입니다. 주문을 받아 매출로 쌓고, 마감에서 그 흐름을 정리합니다. {D}에서 어떤 형태로 장사하느냐에 따라 필요한 기능의 폭이 달라집니다."
 ],
 s4:[
 "요즘 손님의 지갑에서는 카드보다 휴대폰이 먼저 나옵니다. 신용카드와 체크카드에 더해 각종 페이와 QR 결제까지 받아 둬야 {D}의 어떤 손님도 되돌아가지 않습니다. 장비를 고를 때 지원하는 결제 수단의 폭을 확인하는 것이 첫 번째 체크포인트입니다.",
@@ -479,7 +479,7 @@ s8:[
 "좋은 장비의 조건에는 관리가 포함됩니다. 문제가 생겼을 때 얼마나 빨리 복구되는지가 실제 만족도를 가릅니다. {D}의 매장에서 쓰는 동안 생기는 사소한 질문도 편하게 해결할 수 있는 환경을 만들어 드립니다."
 ],
 s9:[
-"정리하면 {F}의 장비 구성은 업종, 매장 동선, 손님의 결제 습관 세 가지에서 출발합니다. 카드단말기 단독이든 포스기 연동이든 정답은 매장 안에 있습니다. {D}에서의 시작이 결제 걱정 없이 매끄럽길 바랍니다.",
+"정리하면 {F}의 포스기 구성은 업종, 매장 동선, 손님의 결제 습관 세 가지에서 출발합니다. 단출한 구성이든 전체 연동이든 정답은 매장 안에 있습니다. {D}에서의 시작이 결제 걱정 없이 매끄럽길 바랍니다.",
 "포스기와 단말기 선택이 막막했다면 이 안내가 기준을 잡는 데 도움이 되었길 바랍니다. {F}의 매장 사정을 알려 주시면 거기에 맞는 구성을 함께 정리해 드립니다. 시작은 가벼운 문의 한 번이면 충분합니다.",
 "{D}에서 장사의 기본기는 막힘없는 계산대에서 완성됩니다. 장비 종류와 절차가 복잡하게 느껴질수록 매장 상황부터 이야기하는 것이 빠른 길입니다. 그 첫 단추를 함께 끼워 드리겠습니다."
 ],
@@ -538,9 +538,9 @@ const FAQ = [
  {q:["{D}에도 설치가 가능한가요?","{D} 같은 지역도 방문 설치되나요?"], a:[
    "네, {S} {G} {D}를 포함해 전국 어디든 설치를 안내합니다. 매장 주소만 알려 주시면 일정에 맞춰 진행합니다.",
    "{D}는 물론 {G} 일대 어디든 가능합니다. 위치 때문에 안 되는 경우는 거의 없으니 편하게 문의 주세요."]},
- {q:["포스기와 카드단말기 중 뭐가 맞을까요?","단말기만 있어도 되나요, 포스기가 필요할까요?"], a:[
-   "결제만 처리하면 되는 매장은 단말기, 주문과 매출 관리까지 필요하면 포스기가 맞습니다. {D}의 매장 규모와 운영 방식을 알려 주시면 바로 짚어 드립니다.",
-   "정해진 답은 없고 운영 방식이 기준입니다. 메뉴가 많고 회전이 빠르면 포스기, 단순 결제 위주면 단말기로 충분합니다."]},
+ {q:["포스기는 어느 정도 사양으로 맞춰야 할까요?","작은 가게에도 포스기가 필요할까요?"], a:[
+   "메뉴 수와 회전율이 기준입니다. {D}의 매장 규모와 운영 방식을 알려 주시면 과하지 않은 선으로 바로 짚어 드립니다.",
+   "정해진 답은 없고 운영 방식이 기준입니다. 메뉴가 많고 회전이 빠르면 기능을 넉넉히, 단출하게 도는 가게면 계산 위주로 가볍게 잡습니다."]},
  {q:["설치까지 얼마나 걸리나요?","오픈 전에 맞출 수 있을까요?"], a:[
    "가맹 등록 진행 상황에 따라 다르지만 보통 며칠 안에 마무리됩니다. {D} 매장의 오픈 일정을 알려 주시면 거기에 맞춰 잡아 드립니다.",
    "서류가 준비되어 있다면 빠르게 진행됩니다. 개업 일정이 있다면 미리 신청해 두시는 편이 안전합니다."]},
@@ -549,9 +549,9 @@ const FAQ = [
    "물론입니다. {G}의 매장에서 잔고장이나 속도 문제로 불편하셨다면 교체를 권합니다. 영업 공백 없이 진행됩니다."]}
 ];
 const DESC = [
- "{F} 포스기·카드단말기 설치 안내. 업종과 매장 동선에 맞춘 장비 구성, 가맹 등록부터 개통과 사후관리까지 한 흐름으로 정리했습니다.",
- "{D}에서 포스기나 카드단말기를 새로 들이거나 교체하려는 사장님을 위한 실전 가이드. {G} 상권 특성에 맞춘 선택 기준을 담았습니다.",
- "{F}의 계산대, 무엇부터 준비할까요. 포스기와 단말기의 역할 구분부터 설치 절차까지 매장 기준으로 풀어 드립니다."
+ "{F} 포스기 설치 안내. 업종과 매장 동선에 맞춘 포스기 구성, 가맹 등록부터 개통과 사후관리까지 한 흐름으로 정리했습니다.",
+ "{D}에서 포스기를 새로 들이거나 교체하려는 사장님을 위한 실전 가이드. {G} 상권 특성에 맞춘 선택 기준을 담았습니다.",
+ "{F}의 계산대, 무엇부터 준비할까요. 포스기 사양을 고르는 기준부터 설치 절차까지 매장 기준으로 풀어 드립니다."
 ];
 const CTA_T = [
  "{D} 매장, 견적부터 받아 보세요",
@@ -749,13 +749,13 @@ function buildArticle(R){
 
   // --- 답변 우선 요약 박스 (AEO/GEO: AI·음성 검색이 인용) ---
   const ANS=[
-    "{F}에서 포스기와 카드단말기 설치·교체를 방문으로 안내합니다. 업종과 매장 동선에 맞춰 유선·무선 단말기, 포스기, 간편결제(QR·앱)를 구성하고, 가맹 등록부터 개통·사후관리까지 한 번에 진행합니다.",
-    "{D} 매장이라면 결제 규모와 운영 방식에 따라 카드단말기 단독 또는 포스기 연동으로 구성합니다. 상담 → 가맹·서류 → 방문 설치·개통 → 교육·사후의 순서로 며칠 안에 마무리됩니다.",
-    "{G} 지역 포스기·카드단말기 설치 안내입니다. 신규 설치와 기존 장비 교체 모두 가능하며, 유선·무선·간편결제를 매장에 맞게 골라 드립니다. 사용법 교육과 이후 관리까지 이어집니다."
+    "{F}에서 포스기 설치·교체를 방문으로 안내합니다. 업종과 매장 동선에 맞춰 포스기 사양과 주변 기기, 간편결제(QR·앱)를 구성하고, 가맹 등록부터 개통·사후관리까지 한 번에 진행합니다.",
+    "{D} 매장이라면 결제 규모와 운영 방식에 따라 계산 위주의 단출한 구성 또는 주문·정산 연동으로 잡습니다. 상담 → 가맹·서류 → 방문 설치·개통 → 교육·사후의 순서로 며칠 안에 마무리됩니다.",
+    "{G} 지역 포스기 설치 안내입니다. 신규 설치와 기존 장비 교체 모두 가능하며, 사양과 간편결제를 매장에 맞게 골라 드립니다. 사용법 교육과 이후 관리까지 이어집니다."
   ];
   const answer="<div class='ansbox'><div class='ansbox-t'>요약</div><p>"+esc(fill(pick(ANS,hash(R.s+"ans")),R))+"</p></div>";
 
-  const KB1=["{D} 어디서나 포스기·카드단말기 설치와 교체를 안내합니다.","{D} 전역으로 방문해 포스기·카드단말기를 설치·교체합니다.","{D} 매장까지 찾아가 포스기와 카드단말기를 맞춰 드립니다."];
+  const KB1=["{D} 어디서나 포스기 설치와 교체를 안내합니다.","{D} 전역으로 방문해 포스기를 설치·교체합니다.","{D} 매장까지 찾아가 포스기를 맞춰 드립니다."];
   const KB2=["업종과 매장 동선을 기준으로 필요한 장비만 골라 구성합니다.","가게 규모와 운영 방식에 맞춰 장비를 과하지 않게 구성합니다.","메뉴 수·회전율·결제 습관을 보고 필요한 만큼만 갖춥니다."];
   const KB3=["가맹 등록과 서류부터 개통, 사후관리까지 {G} 한 흐름으로 진행합니다.","상담·가맹·설치·교육을 {G}에서 끊김 없이 한 번에 처리합니다.","서류 준비부터 개통, 이후 관리까지 {G} 안에서 이어집니다."];
   const keybox="<div class='keybox'><div class='keybox-t'>핵심 체크</div><ul>"+
@@ -764,9 +764,9 @@ function buildArticle(R){
     "<li>"+esc(fill(pick(KB3,hash(R.s+"kb3")),R))+"</li>"+
     "</ul></div>";
   const compare="<div class='compare'>"+
-    "<div class='cmp'><div class='cmp-k'>CARD</div><div class='cmp-t'>카드단말기</div><div class='cmp-d'>"+esc(fill(pick(["결제 처리에 집중한 구성입니다. {D}에서 단순 결제 위주로 도는 매장에 알맞습니다.","결제만 빠르게 끝내면 되는 매장에 맞습니다. {D}의 소규모 점포가 대표적입니다.","군더더기 없이 결제에 특화된 장비입니다. {D}에서 회전이 단순한 가게에 적합합니다."],hash(R.s+"cm1")),R))+"</div></div>"+
+    "<div class='cmp'><div class='cmp-k'>LITE</div><div class='cmp-t'>단출형 포스기</div><div class='cmp-d'>"+esc(fill(pick(["계산에 집중한 구성입니다. {D}에서 단순 결제 위주로 도는 매장에 알맞습니다.","계산만 빠르게 끝내면 되는 매장에 맞습니다. {D}의 소규모 점포가 대표적입니다.","군더더기 없이 계산에 특화된 구성입니다. {D}에서 회전이 단순한 가게에 적합합니다."],hash(R.s+"cm1")),R))+"</div></div>"+
     "<div class='cmp-vs'>VS</div>"+
-    "<div class='cmp'><div class='cmp-k'>POS</div><div class='cmp-t'>포스기</div><div class='cmp-d'>"+esc(fill(pick(["주문·매출·정산까지 한 화면에. {D}의 메뉴 많고 바쁜 매장에 힘이 됩니다.","주문 관리와 매출 집계를 한 번에 잡습니다. {D}의 회전 빠른 매장에 유리합니다.","계산·정산·재고를 묶어 관리합니다. {D}에서 메뉴가 많은 가게일수록 값을 합니다."],hash(R.s+"cm2")),R))+"</div></div>"+
+    "<div class='cmp'><div class='cmp-k'>FULL</div><div class='cmp-t'>통합형 포스기</div><div class='cmp-d'>"+esc(fill(pick(["주문·매출·정산까지 한 화면에. {D}의 메뉴 많고 바쁜 매장에 힘이 됩니다.","주문 관리와 매출 집계를 한 번에 잡습니다. {D}의 회전 빠른 매장에 유리합니다.","계산·정산·재고를 묶어 관리합니다. {D}에서 메뉴가 많은 가게일수록 값을 합니다."],hash(R.s+"cm2")),R))+"</div></div>"+
     "</div>";
   const flow="<div class='flow'>"+
     "<div class='fstep'><span class='fnum'>1</span><b>상담</b><i>위치·업종만</i></div><div class='farr'>&rarr;</div>"+
@@ -1489,7 +1489,7 @@ setTimeout(showAll,1400);})();
 function regionPage(R){
   const seed=hash(R.s);
   const pub=publishedDate(seed), mod=modifiedDate(seed);
-  const title=(R._gungu?R._gungu+" ":"")+R._dong+" 포스기·카드단말기 설치 | "+R._sido+(R._gungu?" "+R._gungu:"")+" 포스기·단말기 전문 — "+BRAND;
+  const title=(R._gungu?R._gungu+" ":"")+R._dong+" 포스기 설치 | "+R._sido+(R._gungu?" "+R._gungu:"")+" 포스기 전문 — "+BRAND;
   const desc=fill(pick(DESC,seed),R);
   const url=SITE+"/r/"+encodeURIComponent(R.s);
   // 인근(같은 시군구) 링크
@@ -1508,21 +1508,22 @@ function regionPage(R){
      "<span class=cur>"+esc(R._dong)+"</span>"+
    "</nav>"+
    "<article>"+
-     heroBanner(photoFor(seed), esc(R.n), R._dong+" 포스기·카드단말기 설치 안내")+
+     heroBanner(photoFor(seed), esc(R.n), R._dong+" 포스기 설치 안내")+
      "<div class='meta2'><span>발행 <b>"+korDate(pub)+"</b></span><span>수정 <b>"+korDate(mod)+"</b></span><span><b>"+esc(R._sido)+"</b></span></div>"+
      buildArticle(R)+
+     "<div class=near><h3>함께 보기</h3><div class=g><a href=\"/card/"+R.s+"\">"+esc(R._dong)+" 카드단말기 / 토스단말기 설치 안내 →</a></div></div>"+
      "<div class=cta><div class=t>"+esc(fill(pick(CTA_T,hash(R.s+"ct")),R))+"</div><p>"+esc(fill(pick(CTA_B,hash(R.s+"cb")),R))+"</p>"+telBtn("")+"</div>"+
      near+
    "</article></div>";
 
   const jsonld=[
    {"@context":"https://schema.org","@type":"Article",
-    "headline":R._dong+" 포스기·카드단말기 설치 안내","inLanguage":"ko-KR",
+    "headline":R._dong+" 포스기 설치 안내","inLanguage":"ko-KR",
     "datePublished":isoDate(pub),"dateModified":isoDate(mod),
     "author":{"@type":"Organization","name":BRAND},"publisher":{"@type":"Organization","name":BRAND},
-    "mainEntityOfPage":url,"image":photoFor(seed),"about":R.n+" 포스기·카드단말기 설치",
+    "mainEntityOfPage":url,"image":photoFor(seed),"about":R.n+" 포스기 설치",
     "speakable":{"@type":"SpeakableSpecification","cssSelector":[".lead",".ansbox"]}},
-   {"@context":"https://schema.org","@type":"HowTo","name":R._dong+" 포스기·카드단말기 설치 절차","totalTime":"P3D","step":[
+   {"@context":"https://schema.org","@type":"HowTo","name":R._dong+" 포스기 설치 절차","totalTime":"P3D","step":[
      {"@type":"HowToStep","position":1,"name":"상담","text":"매장 위치와 업종을 알려주시면 필요한 장비를 안내합니다."},
      {"@type":"HowToStep","position":2,"name":"가맹·서류","text":"사업자등록증 등 기본 서류로 카드사 가맹 등록을 진행합니다."},
      {"@type":"HowToStep","position":3,"name":"설치·개통","text":"방문 설치 후 결제 테스트로 개통을 확인합니다."},
@@ -1534,7 +1535,494 @@ function regionPage(R){
      {"@type":"ListItem","position":3,"name":R._gungu||R._sido},
      {"@type":"ListItem","position":4,"name":R._dong,"item":url}]},
    {"@context":"https://schema.org","@type":"FAQPage","mainEntity":faqJsonLd(R)},
-   {"@context":"https://schema.org","@type":"Service","serviceType":"포스기·카드단말기 설치","name":R._dong+" 포스기·카드단말기 설치","provider":{"@type":"Organization","name":BRAND,"telephone":PHONE},"areaServed":{"@type":"Place","name":R.n},"description":desc}
+   {"@context":"https://schema.org","@type":"Service","serviceType":"포스기 설치","name":R._dong+" 포스기 설치","provider":{"@type":"Organization","name":BRAND,"telephone":PHONE},"areaServed":{"@type":"Place","name":R.n},"description":desc}
+  ];
+  return shell({title,desc,url,article:true,jsonld,image:photoFor(seed)}, body);
+}
+
+
+// ============================================================
+// 카드단말기 / 토스단말기 (/card/) 모듈
+//   /r 은 포스기(주문·매출·재고·정산·마감) 축, 여기는 결제 장비
+//   (승인·매입·수수료·회선·개통·교체) 축이다. 문장은 한 줄도 공유하지 않는다.
+//   danmalgi 는 같은 카드단말기라도 '동네 상권·신뢰' 축이라 어휘가 또 다르다.
+// ============================================================
+const KW_C  = "카드단말기";
+const KW_C2 = "토스단말기";
+const D2POOL_C = ["이 상권","같은 골목","이 근방","가까운 거리","이 일대"];
+
+/* H2 자리용 (앞에 동네명이 70% 확률로 붙는다) */
+const HEADS_C = {
+  s1:["계산대에서 카드가 오가는 몇 초","승인 한 번에 걸린 것들"],
+  s2:["상권이 다르면 결제 수단도 다릅니다","동네를 보고 고르는 결제 장비"],
+  s3:["유선으로 둘지, 들고 다닐지","회선이 정하는 단말 자리"],
+  s4:["QR과 앱 결제까지 받아 두기","간편결제를 놓치지 않으려면"],
+  s5:["신청에서 개통까지 걸리는 시간","설치 당일 무엇을 하나"],
+  s6:["가맹 신청에 필요한 서류","개통 전 거치는 심사"],
+  s7:["업종마다 맞는 단말이 다릅니다","장사 방식이 정하는 사양"],
+  s8:["멈췄을 때 누가 오는가","개통 다음이 더 깁니다"],
+  s9:["정리하면 이렇게 고릅니다","마지막으로 짚을 것"],
+  s10:["승인이 늦으면 줄이 섭니다","응답 속도를 재 보는 법"],
+  s11:["통신 방식마다 다른 안정성","회선을 먼저 확인하는 이유"],
+  s12:["매입과 입금은 언제 도나","정산 주기를 알고 쓰기"],
+  s13:["바꿀 때가 됐다는 신호","오래된 장비가 보내는 표시"],
+  s14:["첫 가게라면 여기부터","창업 준비물 중 이것"],
+  s15:["전표와 영수증을 남기는 법","기록이 남아야 편합니다"],
+  s16:["결제가 매끄러운 가게의 인상","계산대에서 갈리는 재방문"],
+  s17:["몰리는 시간에 드러나는 차이","피크타임을 버티는 조건"],
+  s18:["정품 등록과 결제 보안","안전하게 받는다는 것"],
+  s19:["혼자 보는 가게의 계산대","작은 매장의 결제 구성"],
+  faq:["자주 묻는 것들","먼저 풀고 가는 궁금증"]
+};
+/* 완전조합("○○동 카드단말기") 자리 — 반드시 핵심어로 시작한다 */
+const HEADK_C = {
+  s2:["카드단말기, 상권부터 보는 이유","카드단말기 선택이 동네에서 갈리는 까닭"],
+  s3:["카드단말기, 유선과 무선 사이","카드단말기 자리를 정하는 회선"],
+  s4:["카드단말기로 QR·앱 결제까지","카드단말기가 받는 결제 수단의 폭"],
+  s5:["카드단말기 신청에서 개통까지","카드단말기 설치 당일의 순서"],
+  s6:["카드단말기 가맹 서류 정리","카드단말기 개통 전 심사 절차"],
+  s7:["카드단말기는 업종이 기준입니다","카드단말기, 장사 방식에 따라 갈립니다"],
+  s8:["카드단말기 개통 다음이 더 깁니다","카드단말기가 멈췄을 때"],
+  s10:["카드단말기 승인 속도 이야기","카드단말기 응답이 느려질 때"],
+  s11:["카드단말기와 통신 회선","카드단말기 연결을 고르는 기준"],
+  s12:["카드단말기 매입과 입금 주기","카드단말기 정산을 읽는 법"],
+  s13:["카드단말기 교체 시점의 신호","카드단말기를 바꿀 때가 되면"],
+  s17:["카드단말기가 피크타임을 버티려면","카드단말기의 차이는 몰릴 때 납니다"],
+  s19:["카드단말기, 1인 매장의 계산대","카드단말기는 매장 크기와 무관합니다"]
+};
+/* 토스단말기 겹침 — 카드단말기를 반드시 함께 품는다 (카드 H2 비율을 지키려고) */
+const TOSSK_C = {
+  s2:["카드단말기와 토스단말기, 상권부터 보는 이유","카드단말기·토스단말기 선택이 동네에서 갈리는 까닭"],
+  s3:["카드단말기와 토스단말기, 유선과 무선 사이","카드단말기·토스단말기 자리를 정하는 회선"],
+  s4:["카드단말기와 토스단말기로 QR·앱 결제까지","카드단말기·토스단말기가 받는 결제 수단"],
+  s5:["카드단말기와 토스단말기 신청에서 개통까지","카드단말기·토스단말기 설치 당일의 순서"],
+  s6:["카드단말기와 토스단말기 가맹 서류 정리","카드단말기·토스단말기 개통 전 심사"],
+  s7:["카드단말기와 토스단말기, 업종이 기준입니다","카드단말기·토스단말기는 장사 방식에 따라 갈립니다"],
+  s8:["카드단말기와 토스단말기, 개통 다음이 더 깁니다","카드단말기·토스단말기가 멈췄을 때"],
+  s10:["카드단말기와 토스단말기 승인 속도","카드단말기·토스단말기 응답이 느려질 때"],
+  s11:["카드단말기와 토스단말기, 통신 회선 이야기","카드단말기·토스단말기 연결을 고르는 기준"],
+  s12:["카드단말기와 토스단말기 매입 주기","카드단말기·토스단말기 정산을 읽는 법"],
+  s13:["카드단말기와 토스단말기 교체 시점","카드단말기·토스단말기를 바꿀 때가 되면"],
+  s17:["카드단말기와 토스단말기가 피크타임을 버티려면","카드단말기·토스단말기의 차이는 몰릴 때 납니다"],
+  s19:["카드단말기와 토스단말기, 1인 매장의 계산대","카드단말기·토스단말기는 매장 크기와 무관합니다"]
+};
+const TOSSS_C = {
+  s1:["카드단말기와 토스단말기가 놓인 계산대","승인 한 번에 걸린 카드단말기·토스단말기"],
+  s2:["상권이 가르는 카드단말기와 토스단말기","동네를 보고 고르는 카드단말기·토스단말기"],
+  s3:["회선이 정하는 카드단말기와 토스단말기","들고 다니는 카드단말기·토스단말기"],
+  s4:["간편결제를 받는 카드단말기와 토스단말기","QR까지 소화하는 카드단말기·토스단말기"],
+  s5:["개통까지 걸리는 카드단말기와 토스단말기","설치 당일의 카드단말기·토스단말기"],
+  s6:["서류부터 보는 카드단말기와 토스단말기","심사를 거치는 카드단말기·토스단말기"],
+  s7:["업종이 정하는 카드단말기와 토스단말기","장사 방식에 맞추는 카드단말기·토스단말기"],
+  s8:["개통 뒤가 더 긴 카드단말기와 토스단말기","멈췄을 때의 카드단말기·토스단말기"],
+  s9:["정리하는 카드단말기와 토스단말기","마지막으로 짚는 카드단말기·토스단말기"],
+  s10:["승인 속도로 보는 카드단말기와 토스단말기","응답이 빠른 카드단말기·토스단말기"],
+  s11:["통신이 좌우하는 카드단말기와 토스단말기","회선에 기대는 카드단말기·토스단말기"],
+  s12:["매입 주기로 보는 카드단말기와 토스단말기","입금을 읽는 카드단말기·토스단말기"],
+  s13:["교체 신호를 보내는 카드단말기와 토스단말기","오래된 카드단말기·토스단말기"],
+  s14:["첫 가게의 카드단말기와 토스단말기","창업 준비물이 된 카드단말기·토스단말기"],
+  s15:["전표를 남기는 카드단말기와 토스단말기","기록이 남는 카드단말기·토스단말기"],
+  s16:["인상을 만드는 카드단말기와 토스단말기","재방문을 가르는 카드단말기·토스단말기"],
+  s17:["몰릴 때 드러나는 카드단말기와 토스단말기","피크타임의 카드단말기·토스단말기"],
+  s18:["정품으로 등록된 카드단말기와 토스단말기","안전하게 받는 카드단말기·토스단말기"],
+  s19:["혼자 보는 가게의 카드단말기와 토스단말기","작은 매장의 카드단말기·토스단말기"]
+};
+/* 섹션 문단 — /r(포스기) 과 한 문장도 겹치지 않게 승인·매입·수수료·회선 축으로 썼다 */
+const S_C = {
+s1:[
+"{F}에서 손님이 카드를 내미는 순간부터 승인이 떨어지기까지는 몇 초입니다. 그 몇 초가 길어지면 계산대 앞이 술렁이고, 짧으면 아무도 눈치채지 못합니다. {D}에서 장사한다면 이 짧은 구간을 어떻게 다듬을지가 곧 결제 환경입니다. 이 글은 그 기준을 하나씩 짚습니다.",
+"가게를 열 때 결제 장비는 마지막에 정하는 경우가 많습니다. 그런데 {D}에서 문을 연 뒤로 가장 자주 손이 가는 물건이 바로 이것입니다. 처음에 회선과 사양을 제대로 맞춰 두면 뒤에 손볼 일이 확 줄어듭니다. {G} 상권 기준으로 차례차례 정리해 보겠습니다.",
+"승인이 한 번 막히면 손님은 지갑을 다시 열고, 사장님은 그 자리에 묶입니다. {F}에서 이 장면은 생각보다 자주 나옵니다. 회선, 사양, 개통 절차 세 가지만 잡아 두면 대부분 막을 수 있습니다. {D}의 매장 사정에 맞춰 좁혀 드리겠습니다."
+],
+s2:[
+"같은 업종이라도 {S}와 {G}는 손님이 꺼내는 결제 수단이 다릅니다. {D} 안에서도 대로변과 안쪽 골목의 사정이 갈립니다. 전국 공통 답안을 들이대기보다 {D}에서 실제로 오가는 결제를 먼저 보는 편이 빠릅니다.",
+"{D}는 {G} 안에서도 결이 다른 상권입니다. 오피스가 많은지 주거가 많은지, 손님이 몰리는 시간이 언제인지에 따라 필요한 사양이 달라집니다. 범위를 좁혀 볼수록 고르는 기준이 또렷해집니다.",
+"동네가 다르면 결제 습관도 다릅니다. {S} {G}의 손님이 즐겨 쓰는 방식, 붐비는 시간대, 배달 비중까지 놓고 보면 {D}에 맞는 구성이 자연히 좁혀집니다. 설치 전에 상권부터 확인하는 이유입니다."
+],
+s3:[
+"계산대에 붙박이로 둘지, 손에 들고 다닐지가 첫 갈림길입니다. 한자리에서 계산이 끝나는 가게라면 유선이 안정적이고, 테이블을 오가거나 배달이 잦은 {D}의 매장이라면 무선 쪽이 편합니다.",
+"무선은 자유롭지만 전파가 닿아야 하고, 유선은 안정적이지만 자리가 고정됩니다. {G}의 매장 구조를 떠올리면 어느 쪽이 맞는지 대개 바로 나옵니다. 둘을 섞어 두는 가게도 적지 않습니다.",
+"자리를 먼저 정하고 회선을 맞추는 순서가 좋습니다. {D}에서 계산이 실제로 어디서 일어나는지 그려 보면 배선과 사양이 함께 정리됩니다."
+],
+s4:[
+"요즘 손님은 카드만 꺼내지 않습니다. QR을 띄우거나 앱을 열거나 휴대폰을 갖다 댑니다. {D}에서도 이런 결제가 꾸준히 늘고 있어, 받을 수 있는 수단을 미리 넓혀 두는 편이 낫습니다.",
+"간편결제를 받지 못해 손님이 되돌아가는 일은 생각보다 아깝습니다. {G}의 젊은 손님이 많은 가게라면 특히 그렇습니다. 처음 개통할 때 함께 열어 두면 나중에 따로 손댈 일이 없습니다.",
+"결제 수단을 넓히는 데 큰 비용이 드는 것은 아닙니다. {D}의 매장에서 실제로 쓰이는 방식 몇 가지만 챙겨도 계산대에서 막히는 일이 줄어듭니다."
+],
+s5:[
+"신청을 넣으면 서류 확인과 심사를 거쳐 방문 일정이 잡힙니다. {D}라면 일정 조율까지 오래 걸리지 않습니다. 설치 당일에는 자리 잡기, 회선 연결, 시험 승인까지 한 번에 끝냅니다.",
+"개통일에 가장 중요한 것은 시험 승인입니다. 실제로 한 건을 통과시켜 봐야 회선과 설정이 맞았는지 확인됩니다. {G}에서도 이 절차는 똑같이 거칩니다.",
+"설치가 끝나면 기본 조작을 함께 짚어 드립니다. {D}의 매장에서 바로 영업에 들어갈 수 있도록 그 자리에서 정리합니다."
+],
+s6:[
+"가맹 신청에는 사업자등록증과 신분증, 입금 계좌가 기본으로 들어갑니다. {D}에서 준비하기 어려운 서류는 아닙니다. 업종에 따라 인허가 서류가 하나 더 붙는 경우가 있습니다.",
+"서류가 접수되면 심사를 거쳐 가맹번호가 나옵니다. 이 번호가 있어야 승인이 돌기 시작합니다. {G}에서 영업일 기준으로 며칠이면 정리되는 절차입니다.",
+"처음이라면 서류 이름부터 낯설 수 있습니다. {D}의 사장님들이 자주 놓치는 부분은 미리 짚어 드리니 크게 걱정하지 않으셔도 됩니다."
+],
+s7:[
+"카페와 식당, 미용실과 옷가게는 계산이 일어나는 방식이 다릅니다. {D}에서 어떤 장사를 하는지에 따라 자리와 사양이 갈립니다. 테이블을 도는 가게와 계산대에 서는 가게는 답이 다릅니다.",
+"배달 비중이 높은 매장, 예약이 많은 매장, 객단가가 큰 매장은 각각 챙길 것이 따로 있습니다. {G}의 업종 구성을 보면 대체로 방향이 잡힙니다.",
+"업종을 알려 주시면 그에 맞춰 골라 드립니다. {D}에서 비슷한 매장이 실제로 어떻게 쓰고 있는지도 함께 말씀드립니다."
+],
+s8:[
+"개통은 시작일 뿐입니다. 쓰다 보면 용지가 떨어지고, 통신이 끊기고, 설정이 흔들립니다. {D}에서 그럴 때 바로 연락이 닿는지가 실제로는 가장 중요합니다.",
+"장비가 멈춘 시간은 그대로 매출이 빠지는 시간입니다. {G} 안에서 빠르게 움직일 수 있도록 연락 창구를 단순하게 두고 있습니다.",
+"소모품과 점검은 미리 챙기면 사고가 크게 줄어듭니다. {D}의 매장에서 자주 생기는 문제는 대부분 예방이 가능합니다."
+],
+s9:[
+"정리하면 {F}의 결제 장비는 회선, 사양, 업종 세 가지에서 출발합니다. 어느 하나를 과하게 잡을 이유도, 아껴서 불편할 이유도 없습니다. 매장 안에 답이 있습니다.",
+"고민이 길어진다면 지금 계산대에서 무엇이 불편한지부터 떠올려 보십시오. {D}에서 그 불편을 없애는 쪽으로 고르면 대개 맞습니다.",
+"{G}에서 비슷한 매장이 어떻게 쓰고 있는지 알려 드릴 수 있습니다. 위치와 업종만 주시면 그에 맞춰 정리해 드립니다."
+],
+s10:[
+"승인이 도는 데 걸리는 시간은 회선과 장비 상태에 따라 달라집니다. {D}에서 계산대가 붐비는 시간에 이 차이가 그대로 드러납니다.",
+"평소에는 체감되지 않다가 손님이 몰리면 티가 납니다. {G}의 바쁜 시간대를 떠올려 보면 왜 응답 속도를 보는지 이해가 빠릅니다.",
+"느려졌다면 회선부터 확인합니다. {D}의 매장에서 대개 원인은 장비가 아니라 연결 쪽에 있습니다."
+],
+s11:[
+"유선 인터넷에 물릴지, 이동통신을 쓸지, 매장 와이파이에 붙일지에 따라 안정성이 달라집니다. {D}의 건물 사정에 따라 되는 것과 안 되는 것이 갈립니다.",
+"와이파이는 편하지만 사람이 몰리면 흔들립니다. {G}에서 손님이 많은 시간대에 결제가 밀린다면 이 부분을 먼저 봅니다.",
+"설치 전에 회선을 확인하면 개통일에 헛걸음이 없습니다. {D}의 매장 주소만 주셔도 대략 짚어 드릴 수 있습니다."
+],
+s12:[
+"긁힌 금액은 매입 절차를 거쳐 정해진 날에 계좌로 들어옵니다. {D}에서 자금을 굴리려면 이 주기를 알고 있어야 합니다.",
+"주말과 공휴일이 끼면 입금일이 밀립니다. {G}에서 월말 자금을 맞출 때 자주 걸리는 부분입니다.",
+"입금 내역과 실제 매출이 맞는지 가끔 대조해 보면 좋습니다. {D}의 매장에서 이 습관 하나로 새는 돈을 잡는 경우가 있습니다."
+],
+s13:[
+"화면이 흐려지거나 버튼이 눌리지 않거나 승인이 자주 끊기면 바꿀 때가 된 것입니다. {D}에서 오래 쓴 장비는 대개 이런 신호를 먼저 보냅니다.",
+"용지 걸림이 잦아지고 재부팅이 늘어나는 것도 표시입니다. {G}의 매장에서 이 상태로 버티다 피크타임에 멈추는 일이 종종 있습니다.",
+"교체는 생각보다 간단합니다. {D}에서 기존 가맹 정보를 이어 가면서 장비만 바꾸는 경우가 대부분입니다."
+],
+s14:[
+"첫 가게라면 결제 장비는 낯선 항목일 것입니다. {D}에서 창업을 준비한다면 인테리어 일정에 맞춰 신청 시점을 잡아 두시면 좋습니다.",
+"개업일에 맞추려면 서류와 심사 기간을 역산해야 합니다. {G}에서 문을 열기로 한 날이 정해졌다면 그 기준으로 일정을 잡습니다.",
+"몰라도 괜찮습니다. {D}의 첫 창업 사장님들이 밟는 순서를 그대로 안내해 드립니다."
+],
+s15:[
+"전표는 손님에게 건네는 증빙이자 가게에 남는 기록입니다. {D}에서 반품이나 취소가 생기면 이 기록이 기준이 됩니다.",
+"종이로 뽑을지 문자로 보낼지는 가게 사정에 맞추면 됩니다. {G}의 매장에서는 둘을 함께 쓰는 곳도 많습니다.",
+"기록이 잘 남으면 마감이 편해집니다. {D}에서 하루를 닫을 때 확인할 것이 줄어듭니다."
+],
+s16:[
+"계산이 매끄러운 가게는 손님 기억에 남습니다. {D}에서 다시 찾는 이유가 음식이나 물건만은 아닙니다.",
+"마지막에 기다리게 하면 앞의 좋았던 인상이 흐려집니다. {G}의 단골이 쌓이는 가게는 이 끝맺음이 깔끔합니다.",
+"거창한 것이 아닙니다. {D}에서 손님이 지갑을 넣고 돌아서는 그 짧은 순간이 전부입니다."
+],
+s17:[
+"한가할 때는 어떤 장비를 써도 비슷해 보입니다. 차이는 {D}에서 손님이 몰릴 때 드러납니다.",
+"점심이나 퇴근 시간에 줄이 서면 승인 한 건이 몇 초씩 밀립니다. {G}에서 이 몇 초가 쌓이면 회전이 눈에 띄게 달라집니다.",
+"몰리는 시간을 기준으로 골라 두면 나머지 시간은 자연히 여유롭습니다. {D}의 피크 시간대를 알려 주시면 그에 맞춰 잡습니다."
+],
+s18:[
+"결제는 돈이 오가는 일이라 정식으로 등록된 장비를 쓰는 것이 기본입니다. {D}에서도 이 부분은 타협할 대목이 아닙니다.",
+"정품으로 등록되고 가맹이 정상인 상태여야 손님도 사장님도 안심할 수 있습니다. {G}에서 이 확인은 개통 과정에 포함됩니다.",
+"손님이 망설이지 않고 카드를 내미는 가게에는 이런 기본이 갖춰져 있습니다. {D}에서 신뢰는 이런 데서 쌓입니다."
+],
+s19:[
+"혼자 보는 가게일수록 계산이 간단해야 합니다. {D}에서 주방과 계산대를 오가며 장사한다면 더 그렇습니다.",
+"손님이 적은 날에도 한 건 한 건이 중요합니다. {G}의 작은 매장에서 결제가 막히면 타격이 더 큽니다.",
+"규모가 작다고 아쉬운 구성을 쓸 이유는 없습니다. {D}의 1인 매장에 맞는 선이 따로 있습니다."
+]
+};
+/* 핵심어 문장 — {K}=카드단말기, {DK}=동네+카드단말기(완전조합) */
+const KSENT_C = {
+s1:["{K}는 «계산대에서 가장 먼저 손이 가는 물건입니다|하루에 가장 많이 만지는 장비입니다»."],
+s2:["«상권을 보고 고르는|동네를 먼저 보는» {K}가 «결국 오래 갑니다|낭비가 없습니다»."],
+s3:["«회선을 정하고 나면|자리를 잡고 나면» {K} 선택은 «훨씬 단순해집니다|금방 좁혀집니다»."],
+s4:["«간편결제까지 받는|QR을 소화하는» {K}면 «손님을 돌려보낼 일이 없습니다|계산대에서 막히지 않습니다»."],
+s5:["{K} 개통은 «생각보다 빨리 끝납니다|하루면 정리됩니다». «시험 승인까지 그 자리에서 봅니다|설정은 현장에서 맞춥니다»."],
+s6:["{K} 가맹은 «서류만 갖추면 어렵지 않습니다|절차가 정해져 있습니다»."],
+s7:["«업종을 알면|장사 방식을 보면» {K} 사양은 «금방 정해집니다|자연히 좁혀집니다»."],
+s8:["{K}는 «개통보다 그 뒤가 깁니다|쓰는 동안이 훨씬 깁니다»."],
+s9:["«정리하면|결국» {K}는 «매장 사정에 맞추는 것이 답입니다|쓰는 사람 기준으로 고르면 됩니다»."],
+s10:["«승인이 빠른|응답이 가벼운» {K}는 «바쁜 시간에 티가 납니다|줄을 짧게 만듭니다»."],
+s11:["{K}의 «안정성은 회선이 절반입니다|성능은 연결에서 갈립니다»."],
+s12:["{K}로 «찍힌 매출은|받은 결제는» «정해진 주기로 입금됩니다|매입을 거쳐 들어옵니다»."],
+s13:["«오래 쓴|낡은» {K}는 «바꿀 때를 먼저 알려 줍니다|신호를 보냅니다»."],
+s14:["«첫 가게라면|창업이 처음이라면» {K}는 «일정부터 잡아 두면 좋습니다|개업일에 맞춰 준비합니다»."],
+s15:["{K}가 «남기는 전표는|찍어 주는 기록은» «나중에 기준이 됩니다|취소와 반품의 근거입니다»."],
+s16:["«매끄러운|막힘없는» {K}는 «가게의 인상이 됩니다|끝맺음을 깔끔하게 합니다»."],
+s17:["{K}의 «차이는 몰릴 때 드러납니다|진가는 피크타임에 나옵니다»."],
+s18:["«정식으로 등록된|정품인» {K}라야 «안심하고 받을 수 있습니다|신뢰가 갑니다»."],
+s19:["«작은 가게라고|혼자 본다고» {K}까지 «아쉬울 필요는 없습니다|작을 이유는 없습니다»."]
+};
+/* 지역 문장 — /r 의 RLINE 과 한 줄도 겹치지 않는다 */
+const RLINE_C = [
+ "{G} {D}에서 장사하는 분이라면 익숙한 장면일 것입니다.",
+ "{S} 안에서도 {D}는 결제가 도는 속도가 조금 다릅니다.",
+ "{D}의 계산대를 떠올리면 무엇이 필요한지 잡힙니다.",
+ "{G} 일대에서도 같은 이야기를 자주 듣습니다.",
+ "{D}에서 가게를 준비한다면 여기부터 챙기면 좋습니다.",
+ "{S} {G}의 매장이라면 한 번쯤 겪어 봤을 일입니다.",
+ "{D} 골목의 가게들도 대개 비슷한 길을 지나왔습니다.",
+ "{G}에서 문을 여는 분들이 자주 묻는 대목입니다.",
+ "{D}의 손님이 어떤 방식으로 계산하는지 보면 답이 나옵니다.",
+ "{S} {D}에서는 이 차이가 특히 크게 느껴집니다.",
+ "{G} 상권을 알고 나면 고르는 일이 한결 가벼워집니다.",
+ "{D}에서 오래 장사한 분들은 대부분 공감하실 이야기입니다.",
+ "{S}의 다른 동네와 견줘 봐도 {D}는 {D}만의 흐름이 있습니다.",
+ "{D}에서 새로 시작하는 분께는 특히 와닿을 부분입니다.",
+ "{G} 안에서도 {D}는 결이 조금 다릅니다.",
+ "{D}를 오가는 손님을 생각하면 기준이 분명해집니다.",
+ "{S} {G} 일대의 분위기를 보면 이해가 빠릅니다.",
+ "{D}의 가게라면 한 번은 부딪히는 문제입니다.",
+ "{G}에서 하루를 보내 보면 자연히 알게 되는 사실입니다.",
+ "{D}에서 계산이 매끄러운 가게는 인상부터 다릅니다.",
+ "{S}에서도 {D}만의 사정은 따로 있습니다.",
+ "{D} 거리의 매장들이 하나둘 그렇게 바꾸고 있습니다.",
+ "{G}에서 가게를 꾸린다면 미리 알아 두면 좋습니다.",
+ "{D}처럼 사람이 오가는 곳일수록 계산대의 인상은 오래 남습니다.",
+ "{S} {G}에서 장사를 막 시작했다면 더 그렇게 느껴집니다.",
+ "{D}의 작은 차이 하나가 단골로 이어지기도 합니다.",
+ "{G} 어귀의 가게들도 같은 고민을 지나왔습니다.",
+ "{D}를 찾는 발걸음 하나하나가 곧 매출입니다.",
+ "{S} {D}의 손님은 생각보다 빠르게 새 방식에 익숙해집니다.",
+ "{G}에서 계산대를 지키는 분이라면 고개가 끄덕여질 것입니다."
+];
+/* 토스단말기 문장 — 문장당 1회. 고른 4개 섹션에만 들어간다 */
+const TSENT_C = [
+ "{D}에서도 토스단말기를 콕 집어 찾는 분이 늘었습니다. 기존 장비와 나란히 두고 쓰는 가게도 적지 않습니다.",
+ "토스단말기는 «간편결제에 익숙한 손님이 많은|젊은 손님이 오가는» 가게에서 «자주 선택됩니다|반응이 좋습니다».",
+ "«하나로 갈지|두 대를 둘지» 고민이라면 토스단말기를 «보태는 쪽도 방법입니다|함께 두는 구성도 있습니다».",
+ "«토스단말기로 바꾸려는 분도|토스단말기를 새로 들이려는 분도» 기존 «가맹 정보를 이어 갈 수 있는지|조건이 어떻게 되는지» 먼저 확인하면 좋습니다.",
+ "«요즘은|최근에는» 토스단말기를 «먼저 묻는 사장님이 많습니다|찾는 분이 부쩍 늘었습니다». {D}도 예외는 아닙니다.",
+ "토스단말기와 기존 장비의 «차이는 단순합니다|갈림길은 복잡하지 않습니다». {G}의 매장 사정에 맞추면 됩니다."
+];
+const FAQ_C = [
+ {q:["{D}에서도 설치가 되나요?","{D} 같은 동네도 방문하시나요?"], a:[
+   "네, {S} {G} {D}를 포함해 전국 어디나 방문합니다. 위치만 알려 주시면 일정을 잡아 드립니다.",
+   "{D}는 물론 {G} 일대 어디든 가능합니다. 지역을 이유로 안 되는 경우는 거의 없습니다."]},
+ {q:["개통까지 며칠이나 걸리나요?","신청하면 언제부터 쓸 수 있나요?"], a:[
+   "서류가 갖춰지면 심사를 거쳐 영업일 기준 며칠이면 정리됩니다. {D}라면 방문 일정도 빠르게 잡힙니다.",
+   "심사 기간이 대부분을 차지합니다. 개업일이 정해져 있다면 그 날짜에 맞춰 역산해 드립니다."]},
+ {q:["어떤 서류가 필요한가요?","가맹 신청에 뭘 준비하면 되나요?"], a:[
+   "사업자등록증과 신분증, 입금 계좌가 기본입니다. 업종에 따라 인허가 서류가 하나 더 붙기도 합니다.",
+   "기본 서류만 챙기시면 됩니다. {D}의 사장님들이 자주 놓치는 부분은 미리 짚어 드립니다."]},
+ {q:["유선과 무선 중 뭐가 나을까요?","들고 다니는 게 나을까요?"], a:[
+   "계산이 한자리에서 끝나면 유선이 안정적이고, 테이블을 오가거나 배달이 잦으면 무선이 편합니다.",
+   "{D}의 매장 구조를 알려 주시면 어느 쪽이 맞는지 바로 짚어 드립니다. 섞어 쓰는 가게도 많습니다."]},
+ {q:["토스단말기도 설치되나요?","토스단말기로 바꿀 수 있나요?"], a:[
+   "네, 토스단말기도 함께 안내합니다. 기존 가맹 정보를 이어 갈 수 있는지부터 확인해 드립니다.",
+   "신규 설치와 교체 모두 가능합니다. {D}의 매장 사정을 보고 맞는 쪽으로 잡아 드립니다."]},
+ {q:["매출은 언제 입금되나요?","정산은 어떻게 되나요?"], a:[
+   "매입 절차를 거쳐 정해진 날에 계좌로 들어옵니다. 주말과 공휴일이 끼면 하루 이틀 밀립니다.",
+   "입금 주기를 미리 알고 계시면 자금 운용이 편합니다. 신청하실 때 함께 안내해 드립니다."]},
+ {q:["쓰다가 고장 나면 어떻게 하나요?","멈추면 바로 와 주시나요?"], a:[
+   "연락 주시면 {G} 안에서 빠르게 움직입니다. 장비가 멈춘 시간이 곧 매출이라 최우선으로 봅니다.",
+   "간단한 문제는 전화로 바로 해결되는 경우도 많습니다. 우선 연락 주시면 함께 짚어 보겠습니다."]},
+ {q:["기존 장비만 바꿀 수도 있나요?","가맹은 그대로 두고 교체만 되나요?"], a:[
+   "네, 가맹 정보를 유지하면서 장비만 교체하는 경우가 대부분입니다. {D}에서도 자주 있는 일입니다.",
+   "지금 쓰시는 상태를 알려 주시면 교체가 맞는지, 점검으로 될지부터 판단해 드립니다."]}
+];
+const DESC_C = [
+ "{F} 카드단말기·토스단말기 설치 안내. 회선과 사양, 가맹 신청부터 개통과 사후까지 한 흐름으로 정리했습니다.",
+ "{D}에서 카드단말기나 토스단말기를 새로 들이거나 교체하려는 사장님을 위한 안내. {G} 상권에 맞춘 기준을 담았습니다.",
+ "{F}의 계산대, 무엇부터 정할까요. 회선 선택부터 개통 절차까지 매장 기준으로 풀어 드립니다."
+];
+const ANS_C = [
+ "{F}에서 카드단말기와 토스단말기 설치·교체를 방문으로 안내합니다. 유선·무선 회선과 간편결제(QR·앱)를 매장에 맞춰 구성하고, 가맹 신청부터 개통까지 한 번에 처리합니다.",
+ "{D} 매장이라면 계산이 일어나는 자리와 통신 여건에 따라 유선 또는 무선으로 잡습니다. 상담 → 서류·심사 → 방문 설치·개통 → 사후 지원 순으로 진행합니다.",
+ "{G} 지역 카드단말기·토스단말기 설치 안내입니다. 신규 개통과 기존 장비 교체 모두 가능하며, 가맹 정보를 이어 가면서 장비만 바꾸는 것도 됩니다."
+];
+/* 문장 단위 재조합 — /r 과 같은 방식이되 풀이 전부 다르다 */
+const SENT_C={};
+for(const id in S_C){const set=[];for(const v of S_C[id]){v.split(/(?<=[.!?])\s+/).forEach(function(x){x=x.trim();if(x)set.push(x);});}SENT_C[id]=set;}
+/* H2 로 나가는 섹션 — buildCardArticle 의 SEC 호출과 같아야 한다 */
+const SEC_IDS_C = ["s2","s3","s4","s5","s6","s7","s8","s10","s11","s12","s13","s14","s15","s16","s17","s18","s19"];
+
+function fillC(s,R){
+  s=pickVar(s,R._syn);
+  let d2i=0;
+  s=s.replace(/\{DK\}/g,R._dong+" "+KW_C).replace(/\{K\}/g,KW_C)
+     .replace(/\{D2\}/g,function(){ return D2POOL_C[(R._syn+(d2i++)*11)%D2POOL_C.length]; });
+  s=s.replace(/\{F\}/g,R.n).replace(/\{S\}/g,R._sido).replace(/\{G\}/g,R._gungu||R._sido).replace(/\{D\}/g,R._dong);
+  s=applySyn(s,R._syn);
+  s=fixJosa(s,[R.n,R._sido,R._gungu||R._sido,R._dong]);
+  return s;
+}
+
+function buildCardArticle(R){
+  const h = (id)=>esc(applySyn(pick(HEADS_C[id], hash(R.s+"c"+id)), R._syn));
+  /* 완전조합 7~9회를 만들 섹션 — /r 의 8개보다 적게 잡아 danmalgi 와 경합을 피한다 */
+  /* 고정 5회(title·H1·핵심 H2 2개·개통 H2) + 아래 3개 = 7~9회.
+     danmalgi /r 이 11회로 주력을 잡으므로 여기는 낮춰 경합을 피한다. */
+  const DKSEC = new Set(shuffle(Object.keys(KSENT_C), hash(R.s+"cdk")).slice(0,4));
+  /* 토스단말기 본문 문장 — 4개 섹션에 1개씩 (본문 3~5회) */
+  const TXSEC = new Set(shuffle(SEC_IDS_C, hash(R.s+"ctx")).slice(0,4));
+
+  const compose = (id,kbase)=>{
+    const pool=SENT_C[id];
+    const sh=shuffle(pool, hash(R.s+"c"+id));
+    const k=Math.min(pool.length, kbase+(hash(R.s+"c"+id+"k")%2));
+    const sents=sh.slice(0,k);
+    const nrl=1+(hash(R.s+"c"+id+"n")%2);
+    for(let t=0;t<nrl;t++){
+      let rl=pick(RLINE_C,hash(R.s+"c"+id+"r"+t));
+      sents.splice(hash(R.s+"c"+id+"p"+t)%(sents.length+1),0,rl);
+    }
+    if(KSENT_C[id]){
+      let ks=pickVar(pick(KSENT_C[id],hash(R.s+"c"+id+"kw")),hash(R.s+"c"+id+"kv"));
+      if(DKSEC.has(id)) ks=ks.replace("{K}","{DK}");
+      sents.splice(id==="s1"?1:hash(R.s+"c"+id+"kp")%(sents.length+1),0,ks);
+    }
+    if(TXSEC.has(id)) sents.splice(hash(R.s+"c"+id+"tp")%(sents.length+1),0,pickVar(pick(TSENT_C,hash(R.s+"c"+id+"tw")),hash(R.s+"c"+id+"tv")));
+    let txt=sents.join(" "), di=0;
+    txt=txt.replace(/\{D\}/g,function(){ return (hash(R.s+"c"+id+"d"+(di++))%10 < 3) ? "{D2}" : "{D}"; });
+    return esc(fillC(txt, R));
+  };
+  const geo = (id)=>(hash(R.s+"c"+id+"geo")%10 < 7) ? esc(R._dong)+" " : "";
+
+  const __all=shuffle(SEC_IDS_C, hash(R.s+"cord"));
+  const coreIds=__all.slice(0,3), restIds=__all.slice(3);
+  const KH2 = new Set(coreIds.filter((x)=>HEADK_C[x]).slice(0,2));
+  /* H2 절반을 토스단말기 겹침으로. 겹침 제목도 카드단말기를 품으므로 비율이 깎이지 않는다 */
+  /* H2 는 core 3개 + flowh + moreh + faq + end = 7개뿐이다. 전체 섹션에서 고르면
+     실제 H2 와 겹치지 않아 비율이 14%까지 떨어진다 — 반드시 H2 자리 안에서 고른다. */
+  const H2SLOTS = coreIds.concat(["flowh","moreh"]);
+  const TH2 = new Set(shuffle(H2SLOTS, hash(R.s+"cth")).slice(0, 3+(hash(R.s+"cthn")%2)));
+  const headFor = (id)=>{
+    if(KH2.has(id) && HEADK_C[id]){
+      const pool=(TH2.has(id) && TOSSK_C[id]) ? TOSSK_C[id] : HEADK_C[id];
+      return esc(R._dong)+" "+esc(fillC(pick(pool,hash(R.s+"c"+id+"hk")),R));
+    }
+    if(TH2.has(id) && TOSSS_C[id]) return esc(fillC(pick(TOSSS_C[id],hash(R.s+"c"+id+"th")),R));
+    return geo(id)+h(id);
+  };
+  const SEC = (id)=>"<h2>"+headFor(id)+"</h2><p>"+compose(id,3)+"</p>";
+  const SECMINI = (id)=>"<h3>"+h(id)+"</h3><p>"+compose(id,2)+"</p>";
+
+  const answer="<div class='ansbox'><div class='ansbox-t'>요약</div><p>"+esc(fillC(pick(ANS_C,hash(R.s+"cans")),R))+"</p></div>";
+  const KB1C=["{D} 어디서나 카드단말기·토스단말기 설치와 교체를 안내합니다.","{D} 전역으로 방문해 카드단말기와 토스단말기를 개통합니다.","{D} 매장까지 찾아가 결제 장비를 맞춰 드립니다."];
+  const KB2C=["계산이 일어나는 자리와 통신 여건을 보고 회선을 정합니다.","매장 구조에 맞춰 유선과 무선 중 맞는 쪽으로 잡습니다.","간편결제까지 받도록 결제 수단을 넓혀 둡니다."];
+  const KB3C=["가맹 신청과 심사부터 개통, 사후까지 {G} 한 흐름으로 진행합니다.","서류 준비부터 시험 승인까지 {G}에서 끊김 없이 이어집니다.","개통 뒤 장애 대응과 소모품까지 {G} 안에서 챙깁니다."];
+  const keybox="<div class='keybox'><div class='keybox-t'>핵심 체크</div><ul>"+
+    "<li>"+esc(fillC(pick(KB1C,hash(R.s+"ckb1")),R))+"</li>"+
+    "<li>"+esc(fillC(pick(KB2C,hash(R.s+"ckb2")),R))+"</li>"+
+    "<li>"+esc(fillC(pick(KB3C,hash(R.s+"ckb3")),R))+"</li>"+
+    "</ul></div>";
+  const compare="<div class='compare'>"+
+    "<div class='cmp'><div class='cmp-k'>WIRE</div><div class='cmp-t'>유선</div><div class='cmp-d'>"+esc(fillC(pick(["한자리 계산대에 안정적입니다. {D}에서 카운터가 고정된 매장에 맞습니다.","연결이 흔들리지 않습니다. {D}의 계산대가 한곳인 가게에 알맞습니다.","배선만 잡히면 가장 든든합니다. {D}에서 붙박이 계산대라면 이쪽입니다."],hash(R.s+"ccmp1")),R))+"</div></div>"+
+    "<div class='cmp-vs'>VS</div>"+
+    "<div class='cmp'><div class='cmp-k'>MOBILE</div><div class='cmp-t'>무선</div><div class='cmp-d'>"+esc(fillC(pick(["테이블과 배달을 오갑니다. {D}의 홀이 넓은 매장에 유리합니다.","손에 들고 움직입니다. {D}에서 자리 결제가 잦다면 이쪽이 편합니다.","계산 위치가 정해져 있지 않은 {D}의 가게에 맞습니다."],hash(R.s+"ccmp2")),R))+"</div></div>"+
+    "</div>";
+  const flow="<div class='flow'>"+
+    "<div class='fstep'><span class='fnum'>1</span><b>상담</b><i>위치·업종만</i></div><div class='farr'>&rarr;</div>"+
+    "<div class='fstep'><span class='fnum'>2</span><b>서류·심사</b><i>가맹 신청</i></div><div class='farr'>&rarr;</div>"+
+    "<div class='fstep'><span class='fnum'>3</span><b>설치·개통</b><i>시험 승인까지</i></div><div class='farr'>&rarr;</div>"+
+    "<div class='fstep'><span class='fnum'>4</span><b>사후</b><i>장애·소모품</i></div>"+
+    "</div>";
+  const callout="<div class='callout'><span class='co-k'>TIP</span><p>"+esc(fillC(pick(RLINE_C,hash(R.s+"ctip")),R))+"</p></div>";
+
+  let html = "<p class=lead>"+compose("s1",3)+"</p>";
+  html += answer;
+  html += SEC(coreIds[0]);
+  html += compare;
+  html += SEC(coreIds[1]);
+  html += callout;
+  html += SEC(coreIds[2]);
+  html += "<h2>"+(TH2.has("flowh")
+      ? esc(R._dong)+" 카드단말기·토스단말기 "+(hash(R.s+"cflowh")%2?"개통은 이렇게 진행됩니다":"신청부터 개통까지")
+      : esc(R._dong)+" 카드단말기 "+(hash(R.s+"cflowh")%2?"개통은 이렇게 진행됩니다":"신청부터 개통까지"))+"</h2>";
+  html += flow;
+  html += "<h2>"+(TH2.has("moreh")
+      ? geo("moreh")+"카드단말기·토스단말기 더 알아두기"
+      : geo("moreh")+(hash(R.s+"cmoreh")%2?"더 알아두면 좋은 것들":"자세한 안내"))+"</h2>";
+  html += keybox;
+
+  const CHKI_C=["사업자등록증 준비","매장 통신 회선 확인","계산이 일어나는 자리 점검","주력 결제 수단 파악","기존 가맹 상태 확인","개업 예정일 확인","입금 계좌 준비","업종 인허가 서류 확인"];
+  function chkBlk(){
+    const sh=shuffle(CHKI_C,hash(R.s+"cchk")).slice(0,4);
+    return "<div class='chk'><div class='chk-t'>신청 전, 이것만 확인하세요</div><div class='chk-g'>"+
+      sh.map(function(x){return "<div class='chk-i'><span class='ck'>&#10003;</span>"+esc(x)+"</div>";}).join("")+"</div></div>";
+  }
+  function pquoteBlk(){
+    return "<div class='pquote'><p>"+esc(fillC(pick(RLINE_C,hash(R.s+"cpq")),R))+"</p><div class='pq-sub'>"+esc(R._dong)+" 매장 상담</div></div>";
+  }
+  function sminiBlk(){
+    return "<div class='smini'>"+
+      "<div class='sm'><div class='sm-n'>당일</div><div class='sm-c'>설치 시 시험 승인까지</div></div>"+
+      "<div class='sm'><div class='sm-n'>4단계</div><div class='sm-c'>상담·서류·개통·사후</div></div>"+
+      "<div class='sm'><div class='sm-n'>전국</div><div class='sm-c'>"+esc(R._sido)+" 방문 설치</div></div>"+
+      "</div>";
+  }
+  const midBlocks=shuffle([chkBlk(),pquoteBlk(),sminiBlk()], hash(R.s+"cmb"));
+  const pickIds=restIds.slice(0,6);
+  pickIds.forEach(function(id,idx){
+    html += SECMINI(id);
+    if(idx<midBlocks.length){ html += midBlocks[idx]; }
+  });
+
+  html += "<h2>"+geo("faq")+esc(applySyn(pick(HEADS_C.faq,hash(R.s+"cfaq")),R._syn))+"</h2><div class=faq>";
+  cardFaqItems(R).forEach((it,i)=>{
+    html += "<details"+(i===0?" open":"")+"><summary>"+esc(it.q)+"</summary><p>"+esc(it.a)+"</p></details>";
+  });
+  html += "</div>";
+  html += "<h2>"+(hash(R.s+"cend")%2?"카드단말기 선택, 정리하면":"마무리 — 카드단말기 고르는 기준")+"</h2><p>"+compose("s9",3)+"</p>";
+  return html;
+}
+function cardFaqItems(R){
+  return FAQ_C.map(function(f,i){
+    const q=fillC(pick(f.q,hash(R.s+"cfq"+i)),R);
+    const a=fillC(pick(f.a,hash(R.s+"ca"+i))+" "+pick(RLINE_C,hash(R.s+"cfa"+i)),R);
+    return {q:q,a:a};
+  });
+}
+function cardFaqJsonLd(R){
+  return cardFaqItems(R).map(function(it){return {"@type":"Question","name":it.q,"acceptedAnswer":{"@type":"Answer","text":it.a}};});
+}
+const CTA_T_C = ["지금 쓰는 계산대, 한 번 봐 드릴까요","설치도 교체도 방문해서 해 드립니다","어떤 걸 골라야 할지 모르겠다면"];
+const CTA_B_C = ["위치와 업종만 알려 주시면 맞는 구성으로 정리해 드립니다.","전화 한 통이면 됩니다. 매장 사정을 듣고 필요한 만큼만 잡아 드립니다.","지금 불편한 점부터 말씀해 주세요. 거기서 출발하면 답이 빠릅니다."];
+
+function cardPage(R){
+  const seed=hash("card:"+R.s);
+  const pub=publishedDate(seed), mod=modifiedDate(hash("card:"+R.s));
+  const title=(R._gungu?R._gungu+" ":"")+R._dong+" 카드단말기 / 토스단말기 설치 | "+R._sido+(R._gungu?" "+R._gungu:"")+" 카드단말기 전문 — "+BRAND;
+  const desc=fillC(pick(DESC_C,seed),R);
+  const url=SITE+"/card/"+encodeURIComponent(R.s);
+  const sibs=(GROUPS.get(R._sido+"|"+R._gungu)||[]).filter(x=>x.s!==R.s).slice(0,12);
+  const near=sibs.length?("<div class=near><h3>"+esc(R._gungu||R._sido)+" 인근 동네</h3><div class=g>"+
+     sibs.map(x=>"<a href=\"/card/"+x.s+"\">"+esc(x._dong)+"</a>").join("")+
+     (R._gunguSlug?("<a class='more' href=\"/sigungu/"+R._gunguSlug+"\">전체 보기 →</a>"):"")+
+     "</div></div>"):"";
+  const body =
+   "<div class='bgart'>"+bgArt()+"</div>"+
+   "<div class='col rpage'>"+
+   "<nav class='crumb2'>"+
+     "<a href=\"/\">홈</a><span class=sep>/</span>"+
+     "<a href=\"/sido/"+R._sidoSlug+"\">"+esc(R._sido)+"</a><span class=sep>/</span>"+
+     (R._gungu?("<a href=\"/sigungu/"+R._gunguSlug+"\">"+esc(R._gungu)+"</a><span class=sep>/</span>"):"")+
+     "<span class=cur>"+esc(R._dong)+"</span>"+
+   "</nav>"+
+   "<article>"+
+     heroBanner(photoFor(seed), esc(R.n), R._dong+" 카드단말기 / 토스단말기 설치 안내")+
+     "<div class='meta2'><span>발행 <b>"+korDate(pub)+"</b></span><span>수정 <b>"+korDate(mod)+"</b></span><span><b>"+esc(R._sido)+"</b></span></div>"+
+     buildCardArticle(R)+
+     "<div class=near><h3>함께 보기</h3><div class=g><a href=\"/r/"+R.s+"\">"+esc(R._dong)+" 포스기 설치 안내 →</a></div></div>"+
+     "<div class=cta><div class=t>"+esc(fillC(pick(CTA_T_C,hash(R.s+"cct")),R))+"</div><p>"+esc(fillC(pick(CTA_B_C,hash(R.s+"ccb")),R))+"</p>"+telBtn("")+"</div>"+
+     near+
+   "</article></div>";
+
+  const jsonld=[
+   {"@context":"https://schema.org","@type":"Article",
+    "headline":R._dong+" 카드단말기 / 토스단말기 설치 안내","inLanguage":"ko-KR",
+    "datePublished":isoDate(pub),"dateModified":isoDate(mod),
+    "author":{"@type":"Organization","name":BRAND},"publisher":{"@type":"Organization","name":BRAND},
+    "mainEntityOfPage":url,"image":photoFor(seed),"about":R.n+" 카드단말기 설치",
+    "speakable":{"@type":"SpeakableSpecification","cssSelector":[".lead",".ansbox"]}},
+   {"@context":"https://schema.org","@type":"HowTo","name":R._dong+" 카드단말기 개통 절차","totalTime":"P3D","step":[
+     {"@type":"HowToStep","position":1,"name":"상담","text":"매장 위치와 업종, 계산이 일어나는 자리를 확인합니다."},
+     {"@type":"HowToStep","position":2,"name":"서류·심사","text":"사업자등록증 등 기본 서류로 가맹 신청과 심사를 진행합니다."},
+     {"@type":"HowToStep","position":3,"name":"설치·개통","text":"방문해 회선을 연결하고 시험 승인으로 개통을 확인합니다."},
+     {"@type":"HowToStep","position":4,"name":"사후","text":"장애 대응과 소모품, 이후 교체까지 지원합니다."}]},
+   {"@context":"https://schema.org","@type":"LocalBusiness","name":BRAND+" — "+R._dong,"telephone":PHONE,"areaServed":{"@type":"Place","name":R.n},"priceRange":"상담 후 안내","url":url,"description":desc},
+   {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
+     {"@type":"ListItem","position":1,"name":"홈","item":SITE+"/"},
+     {"@type":"ListItem","position":2,"name":R._sido},
+     {"@type":"ListItem","position":3,"name":R._gungu||R._sido},
+     {"@type":"ListItem","position":4,"name":R._dong,"item":url}]},
+   {"@context":"https://schema.org","@type":"FAQPage","mainEntity":cardFaqJsonLd(R)},
+   {"@context":"https://schema.org","@type":"Service","serviceType":"카드단말기 설치","name":R._dong+" 카드단말기 / 토스단말기 설치","provider":{"@type":"Organization","name":BRAND,"telephone":PHONE},"areaServed":{"@type":"Place","name":R.n}}
   ];
   return shell({title,desc,url,article:true,jsonld,image:photoFor(seed)}, body);
 }
@@ -1642,18 +2130,42 @@ function findPage(qstr){
 }
 
 // ---------- sitemap / robots / og ----------
-function sitemap(){
+/* ── 사이트맵 ────────────────────────────────────────────────
+   /r 6,597 + /card 6,597 이라 단일 파일이 2MB 를 넘는다. 인덱스 + 3개로 쪼갠다. */
+const XMLHEAD = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+function sitemapIndex(){
   const today=isoDate(new Date());
-  let u="<?xml version=\"1.0\" encoding=\"UTF-8\"?><urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">";
+  let x=XMLHEAD+"<sitemapindex xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">";
+  ["/sitemap-main.xml","/sitemap-r.xml","/sitemap-card.xml"].forEach(function(p){
+    x+="<sitemap><loc>"+SITE+p+"</loc><lastmod>"+today+"</lastmod></sitemap>";
+  });
+  return x+"</sitemapindex>";
+}
+function sitemapCard(){
+  let u=XMLHEAD+"<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">";
+  for(const r of REGIONS){
+    /* seed 를 "card:" 로 갈라야 /r 과 같은 날 몰리지 않는다 */
+    const mod=modifiedDate(hash("card:"+r.s));
+    u+="<url><loc>"+SITE+"/card/"+r.s+"</loc><lastmod>"+isoDate(mod)+"</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>";
+  }
+  return u+"</urlset>";
+}
+function sitemapR(){
+  let u=XMLHEAD+"<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">";
+  for(const r of REGIONS){
+    const mod=modifiedDate(hash(r.s));
+    u+="<url><loc>"+SITE+"/r/"+r.s+"</loc><lastmod>"+isoDate(mod)+"</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>";
+  }
+  return u+"</urlset>";
+}
+function sitemapMain(){
+  const today=isoDate(new Date());
+  let u=XMLHEAD+"<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">";
   u+="<url><loc>"+SITE+"/</loc><lastmod>"+today+"</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>";
   u+="<url><loc>"+SITE+"/list</loc><lastmod>"+today+"</lastmod><changefreq>daily</changefreq><priority>0.6</priority></url>";
   u+=postSitemapXml();   /* 정보성 글 — lastmod 는 실제 발행일 */
   SIDOS.forEach(function(s){ const sl=SIDO_SLUGS[s]; if(sl){ const m=isoDate(modifiedDate(hash("sido:"+s))); u+="<url><loc>"+SITE+"/sido/"+sl+"</loc><lastmod>"+m+"</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>"; } });
   for(const k in GUNGU_SLUGS){ const m=isoDate(modifiedDate(hash("gungu:"+k))); u+="<url><loc>"+SITE+"/sigungu/"+GUNGU_SLUGS[k]+"</loc><lastmod>"+m+"</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>"; }
-  for(const r of REGIONS){
-    const mod=modifiedDate(hash(r.s));
-    u+="<url><loc>"+SITE+"/r/"+r.s+"</loc><lastmod>"+isoDate(mod)+"</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>";
-  }
   return u+"</urlset>";
 }
 function rfc822(d){ return d.toUTCString(); }
@@ -1774,9 +2286,18 @@ function rssFeed(){
   x+='<description>전국 시·군·구·읍·면·동 포스기·카드단말기 설치 안내. 유선·무선·포스·간편결제, 동네 상황에 맞춘 기준으로.</description>';
   x+='<language>ko</language><lastBuildDate>'+rfc822(now)+'</lastBuildDate><ttl>1440</ttl>';
   x+=postRssXml();   /* 정보성 글을 맨 앞에 둔다 */
+  const listC=REGIONS.map(function(r){return {r:r,m:modifiedDate(hash("card:"+r.s))};}).sort(function(a,b){return b.m-a.m;}).slice(0,50);
+  listC.forEach(function(o){ const r=o.r, u=SITE+"/card/"+r.s, desc=fillC(pick(DESC_C,hash("card:"+r.s)),r);
+    x+='<item>';
+    x+='<title><![CDATA['+r._dong+' 카드단말기 / 토스단말기 설치 안내 — '+r.n+']]></title>';
+    x+='<link>'+u+'</link><guid isPermaLink="true">'+u+'</guid>';
+    x+='<pubDate>'+rfc822(o.m)+'</pubDate>';
+    x+='<description><![CDATA['+desc+']]></description>';
+    x+='</item>';
+  });
   list.forEach(function(o){ const r=o.r, u=SITE+"/r/"+r.s, desc=fill(pick(DESC,hash(r.s)),r);
     x+='<item>';
-    x+='<title><![CDATA['+r._dong+' 포스기·카드단말기 설치 안내 — '+r.n+']]></title>';
+    x+='<title><![CDATA['+r._dong+' 포스기 설치 안내 — '+r.n+']]></title>';
     x+='<link>'+u+'</link><guid isPermaLink="true">'+u+'</guid>';
     x+='<pubDate>'+rfc822(o.m)+'</pubDate>';
     x+='<description><![CDATA['+desc+']]></description>';
@@ -1795,9 +2316,18 @@ function atomFeed(){
   x+='<link href="'+SITE+'/atom.xml" rel="self"/>';
   x+='<id>'+SITE+'/</id>';
   x+='<updated>'+now.toISOString()+'</updated>';
+  const listC=REGIONS.map(function(r){return {r:r,m:modifiedDate(hash("card:"+r.s))};}).sort(function(a,b){return b.m-a.m;}).slice(0,50);
+  listC.forEach(function(o){ const r=o.r, u=SITE+"/card/"+r.s, desc=fillC(pick(DESC_C,hash("card:"+r.s)),r);
+    x+='<entry>';
+    x+='<title>'+esc(r._dong+' 카드단말기 / 토스단말기 설치 안내 — '+r.n)+'</title>';
+    x+='<link href="'+u+'"/><id>'+u+'</id>';
+    x+='<updated>'+o.m.toISOString()+'</updated>';
+    x+='<summary>'+esc(desc)+'</summary>';
+    x+='</entry>';
+  });
   list.forEach(function(o){ const r=o.r, u=SITE+"/r/"+r.s, desc=fill(pick(DESC,hash(r.s)),r);
     x+='<entry>';
-    x+='<title>'+esc(r._dong+' 포스기·카드단말기 설치 안내 — '+r.n)+'</title>';
+    x+='<title>'+esc(r._dong+' 포스기 설치 안내 — '+r.n)+'</title>';
     x+='<link href="'+u+'"/><id>'+u+'</id>';
     x+='<updated>'+o.m.toISOString()+'</updated>';
     x+='<summary>'+esc(desc)+'</summary>';
@@ -1808,6 +2338,8 @@ function atomFeed(){
 function listPage(){
   const latest=REGIONS.map(function(r){return {r:r,m:modifiedDate(hash(r.s))};}).sort(function(a,b){return b.m-a.m;}).slice(0,120);
   const latestLinks=latest.map(function(o){return "<a href=\"/r/"+o.r.s+"\">"+esc(o.r._dong)+" <small style='color:var(--muted)'>"+esc(o.r._gungu||o.r._sido)+"</small></a>";}).join("");
+  const latestC=REGIONS.map(function(r){return {r:r,m:modifiedDate(hash("card:"+r.s))};}).sort(function(a,b){return b.m-a.m;}).slice(0,120);
+  const latestLinksC=latestC.map(function(o){return "<a href=\"/card/"+o.r.s+"\">"+esc(o.r._dong)+" <small style='color:var(--muted)'>"+esc(o.r._gungu||o.r._sido)+"</small></a>";}).join("");
   const sidoLinks=SIDOS.map(function(s){return "<a href=\"/sido/"+(SIDO_SLUGS[s]||"")+"\">"+esc(s)+"<span class=ar>›</span></a>";}).join("");
   const body=
    "<div class='bgart'>"+bgArt()+"</div>"+
@@ -1817,8 +2349,10 @@ function listPage(){
      "<div class='r-eyebrow'>전체 안내 목록</div>"+
      "<h1>포스기·카드단말기 동네별 안내 — 전체 목록</h1>"+
      "<p class='listing-intro'>최근 업데이트된 동네 안내와 시·도 전체를 한곳에 모았습니다. 우리 동네를 눌러 들어가세요.</p>"+
-     "<h2>최근 업데이트</h2>"+
+     "<h2>포스기 — 최근 업데이트</h2>"+
      "<div class='lgrid'>"+latestLinks+"</div>"+
+     "<h2>카드단말기 · 토스단말기 — 최근 업데이트</h2>"+
+     "<div class='lgrid'>"+latestLinksC+"</div>"+
      "<h2>시 · 도 전체</h2>"+
      "<div class='lgrid'>"+sidoLinks+"</div>"+
    "</article></div>";
@@ -1836,7 +2370,7 @@ const LLMS_TXT="# "+BRAND+" (365posmall.com)\n\n"
 +"> 전국 시·군·구·읍·면·동 단위 포스기·카드단말기 설치 안내 서비스. 포스기(POS), 유선·무선 카드단말기, 간편결제를 업종과 매장 동선에 맞춰 안내합니다. 무료 상담, 방문 설치, 교체·신규 모두 가능. 문의 "+PHONE+".\n\n"
 +"## 주요 서비스\n"
 +"- 포스기(POS) 설치 — 주문 접수·매출 집계·정산·재고 관리를 한 화면에서 처리하는 매장 운영 시스템\n"
-+"- 카드단말기 설치 — 유선 데스크형과 무선 휴대형, 신용·체크카드와 간편결제 지원\n"
++"- 카드단말기·토스단말기 설치 — 유선 데스크형과 무선 휴대형, 신용·체크카드와 간편결제 지원\n"
 +"- 업종·동선 맞춤 구성 — 카페·음식점·소매·뷰티·병의원 등 매장 형태에 맞춰 장비와 배치를 제안\n"
 +"- 카드 가맹 신청 대행 — 사업자등록증 등 서류 안내와 가맹 등록 절차 진행\n"
 +"- 방문 설치와 사용 교육 — 설치 후 현장에서 사용법을 안내\n"
@@ -1846,7 +2380,11 @@ const LLMS_TXT="# "+BRAND+" (365posmall.com)\n\n"
 +"- [사이트맵]("+SITE+"/sitemap.xml)\n"
 +"- [RSS]("+SITE+"/rss.xml) · [Atom]("+SITE+"/atom.xml)\n\n"
 +"## 안내 범위\n"
-+"- 장비 종류: 포스기(POS), 유선 카드단말기, 무선(휴대용) 단말기, 간편결제(QR·앱)\n"
++"- 장비 종류: 포스기(POS), 유선 카드단말기, 무선(휴대용) 단말기, 토스단말기, 간편결제(QR·앱)\n"
++"\n## 페이지 구성\n"
++"- /r/{지역슬러그} — 동네별 포스기 설치 안내 (주문·매출·재고·정산 축)\n"
++"- /card/{지역슬러그} — 동네별 카드단말기·토스단말기 설치 안내 (승인·매입·회선·개통 축)\n"
++"- 두 페이지는 같은 동네 슬러그를 쓰며 서로 링크되어 있습니다.\n"
 +"- 지역: 전국 17개 시·도, 시·군·구, 읍·면·동(약 6,597개 동네)\n"
 +"- 제공: 가맹 등록·서류 안내, 방문 설치, 교체, 교육, 사후 지원\n\n"
 +"## 자주 묻는 질문\n"
@@ -1854,7 +2392,7 @@ const LLMS_TXT="# "+BRAND+" (365posmall.com)\n\n"
 +"- Q. 설치까지 얼마나 걸리나요? A. 상담·가맹·서류 정리 후 방문 설치·개통까지 보통 며칠 안에 마무리됩니다.\n"
 +"- Q. 기존 장비 교체도 되나요? A. 됩니다. 가맹 정보를 살리면서 장비만 최신으로 바꾸는 경우가 많아 영업 공백이 거의 없습니다.\n"
 +"- Q. 어떤 결제 수단을 지원하나요? A. 신용·체크카드, 각종 간편결제(QR·앱), 유선·무선 단말기를 폭넓게 지원합니다.\n\n"
-+"## 서비스 제공 주체\n- 상호: "+BRAND+"\n- 서비스: 전국 포스기·카드단말기 신규 설치 및 교체, 방문 설치\n- 지역: 대한민국 전역(17개 시·도)\n\n"
++"## 서비스 제공 주체\n- 상호: "+BRAND+"\n- 서비스: 전국 포스기·카드단말기·토스단말기 신규 설치 및 교체, 방문 설치\n- 지역: 대한민국 전역(17개 시·도)\n\n"
 +"## 연락\n- 전화 및 문자: "+PHONE+"\n";
 
 // ---------- IndexNow (빙/얀덱스 등 즉시 색인 알림) ----------
@@ -1863,6 +2401,7 @@ function allUrls(){
   SIDOS.forEach(function(s){ const sl=SIDO_SLUGS[s]; if(sl) urls.push(SITE+"/sido/"+sl); });
   for(const k in GUNGU_SLUGS) urls.push(SITE+"/sigungu/"+GUNGU_SLUGS[k]);
   for(const r of REGIONS) urls.push(SITE+"/r/"+r.s);
+  for(const r of REGIONS) urls.push(SITE+"/card/"+r.s);
   return urls;
 }
 function todaysUpdatedUrls(){
@@ -1871,6 +2410,8 @@ function todaysUpdatedUrls(){
   SIDOS.forEach(function(s){ if(isoDate(modifiedDate(hash("sido:"+s)))===td){ const sl=SIDO_SLUGS[s]; if(sl) urls.push(SITE+"/sido/"+sl);} });
   for(const k in GUNGU_SLUGS){ if(isoDate(modifiedDate(hash("gungu:"+k)))===td) urls.push(SITE+"/sigungu/"+GUNGU_SLUGS[k]); }
   for(const r of REGIONS){ if(isoDate(modifiedDate(hash(r.s)))===td) urls.push(SITE+"/r/"+r.s); }
+  /* seed 가 갈려 있어 /r 과 다른 날에 돈다 */
+  for(const r of REGIONS){ if(isoDate(modifiedDate(hash("card:"+r.s)))===td) urls.push(SITE+"/card/"+r.s); }
   return urls;
 }
 async function submitIndexNow(urls,env,ctx,source){
@@ -2113,7 +2654,10 @@ const ua=request.headers.get("User-Agent")||"";if(!TG_BOT_RE.test(ua)&&TG_LABEL[
     }
     /* 사이트맵·RSS 생성 함수는 동기라 POSTS_CACHE 를 먼저 채워 준다 */
     if(path.startsWith("/sitemap")||path==="/rss.xml"||path==="/feed.xml"||path==="/rss"||path==="/feed"||path==="/atom.xml"||path==="/atom") await loadPosts(env);
-    if(path==="/sitemap.xml") return resp(sitemap(),"application/xml; charset=UTF-8");
+    if(path==="/sitemap.xml") return resp(sitemapIndex(),"application/xml; charset=UTF-8");
+    if(path==="/sitemap-main.xml") return resp(sitemapMain(),"application/xml; charset=UTF-8");
+    if(path==="/sitemap-r.xml") return resp(sitemapR(),"application/xml; charset=UTF-8");
+    if(path==="/sitemap-card.xml") return resp(sitemapCard(),"application/xml; charset=UTF-8");
     if(path==="/rss.xml"||path==="/feed.xml"||path==="/rss"||path==="/feed") return resp(rssFeed(),"application/rss+xml; charset=UTF-8");
     if(path==="/atom.xml"||path==="/atom") return resp(atomFeed(),"application/atom+xml; charset=UTF-8");
     if(path==="/list"||path==="/sitemap.html") return resp(listPage(),"text/html; charset=UTF-8");
@@ -2140,6 +2684,11 @@ const ua=request.headers.get("User-Agent")||"";if(!TG_BOT_RE.test(ua)&&TG_LABEL[
       const slug=path.slice(3);
       const R=BY_SLUG.get(slug);
       if(R) return resp(regionPage(R),"text/html; charset=UTF-8");
+    }
+    if(path.startsWith("/card/")){
+      const slug=path.slice(6);
+      const R=BY_SLUG.get(slug);
+      if(R) return resp(cardPage(R),"text/html; charset=UTF-8");
     }
     return new Response(notFound(),{status:404,headers:{"content-type":"text/html; charset=UTF-8"}});
   },
