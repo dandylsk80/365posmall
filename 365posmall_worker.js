@@ -213,7 +213,7 @@ async function indexnowFetchChain(opt){
 /* 대시보드 방문자 집계용 봇 UA 필터 (크롤러를 방문자로 세지 않기 위함) */
 const BOT_UA_RE = /bot|crawl|spider|slurp|mediapartners|googlebot|bingbot|yandex|baidu|duckduckbot|facebookexternalhit|semrush|ahrefs|mj12bot|dotbot|petalbot|bytespider|headlesschrome|python-requests|curl|wget|yeti|daumoa|cs\.daum\.net|compatible;\s*daum\/|lighthouse|pagespeed|inspectiontool|googleother|applebot|amazonbot|archiver|scrapy|node-fetch|okhttp|go-http|libwww|httpclient|dataforseo|serpstat|zoominfo|bubing|linkdex/i;
 // ============================================================
-//  365posmall_worker.js — 365 Pos Mall (포스기·카드단말기 지역 안내)
+//  365posmall_worker.js — 365포스몰 (포스기·카드단말기 지역 안내)
 //  · 메인: 모던 블루 컨셉 (가격/수치/허위 리뷰 없음)
 //  · /r/<지역슬러그> : 전국 시군구읍면동 페이지 (동적 발행)
 //  · 글은 지역마다 변형 생성 → 유사도 최소화 / 수치 미포함
@@ -820,25 +820,9 @@ function buildArticle(R){
   html += "<h2>"+esc(R._dong)+" "+(hash(R.s+"moreh")%2?"포스기, 더 알아두면 좋은 것들":"포스기 자세한 안내")+"</h2>";
   html += keybox;
 
-  // ── 후기 블록 (표시용 예시 — 실제 후기로 교체 권장) ──
-  const RVN=["김","이","박","최","정","한","조","윤","임","장"];
-  const RVQ=[
-    ["카페 사장","설치 다음 날 바로 장사 시작했어요. 생각보다 훨씬 빨랐습니다."],
-    ["식당 운영","포스랑 주방 전표가 딱 맞물려서 홀이 안 꼬여요. 피크타임이 편해졌습니다."],
-    ["미용실","예약이랑 결제가 한 번에 되니 응대가 한결 수월해졌어요."],
-    ["편의점","무선 단말기로 바꾸고 나서 계산 줄이 확 줄었습니다."],
-    ["분식집","간편결제까지 전부 되니 손님이 계산대에서 안 돌아가요."],
-    ["옷가게","교체 상담부터 개통까지 하루 만에 끝났습니다. 영업 공백이 없었어요."],
-    ["정육점","현금 없이 오는 손님이 많은데 이제 결제가 막힘이 없네요."],
-    ["학원 데스크","정기 결제 관리가 깔끔해져서 마감이 편합니다."]
-  ];
-  function reviewBlk(){
-    const a=hash(R.s+"rv1")%RVQ.length; let b=hash(R.s+"rv2")%RVQ.length; if(b===a)b=(b+1)%RVQ.length;
-    const card=function(i,k){
-      const nm=RVN[hash(R.s+"rn"+k)%RVN.length];
-      return "<div class='rv'><div class='rv-top'><div class='rv-av'>"+nm+"</div><div><div class='rv-nm'>"+nm+" 사장님</div><div class='rv-loc'>"+esc(R._gungu||R._sido)+" · "+esc(RVQ[i][0])+"</div></div><div class='rv-star'>&#9733;&#9733;&#9733;&#9733;&#9733;</div></div><p class='rv-tx'>"+esc(RVQ[i][1])+"</p></div>";
-    };
-    return "<div class='reviews'>"+card(a,"a")+card(b,"b")+"</div>";
+  /* 지어낸 후기·별점은 싣지 않는다. 그 자리에 무엇을 하지 않는지만 한 줄로 밝힌다. */
+  function noFakeBlk(){
+    return "<div class='callout'><span class='co-k'>원칙</span><p>가짜 별점·후기를 쓰지 않습니다. 설치 후 실제 피드백만 반영합니다.</p></div>";
   }
 
   // ── 도입 전/후 화살표 블록 ──
@@ -876,7 +860,7 @@ function buildArticle(R){
       "</div>";
   }
 
-  const midBlocks=shuffle([reviewBlk(),arrowsBlk(),chkBlk(),pquoteBlk(),sminiBlk()], hash(R.s+"mb"));
+  const midBlocks=shuffle([noFakeBlk(),arrowsBlk(),chkBlk(),pquoteBlk(),sminiBlk()], hash(R.s+"mb"));
   // 짧은 글 ↔ 시각 블록을 번갈아 배치 (긴 문단 연속 방지)
   const pickIds=restIds.slice(0,4);
   pickIds.forEach(function(id,idx){
@@ -1223,14 +1207,6 @@ article p.lead{font-size:17.5px;color:var(--ink);font-weight:500}
 .faq summary::-webkit-details-marker{display:none}
 .faq summary::before{content:"Q.";color:var(--blue);font-weight:800;margin-right:8px}
 .faq details p{padding:0 0 15px;color:#4A5871;font-size:14.5px}
-.reviews{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:30px 0}
-.rv{border:1px solid var(--line);border-radius:12px;padding:18px 18px;background:#fff}
-.rv-top{display:flex;align-items:center;gap:10px;margin-bottom:11px}
-.rv-av{width:36px;height:36px;border-radius:50%;background:var(--sky);color:var(--blue);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:14px;flex-shrink:0}
-.rv-nm{font-weight:700;font-size:14px;color:var(--ink);line-height:1.2}
-.rv-loc{font-size:12px;color:var(--muted)}
-.rv-star{color:#F0A020;font-size:12px;letter-spacing:1px;margin-left:auto;flex-shrink:0}
-.rv-tx{font-size:14px;line-height:1.75;color:#2A3648;margin:0}
 .baf{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;margin:30px 0;padding:24px 22px;border:1px solid var(--line);border-radius:12px;background:var(--soft)}
 .baf-c{text-align:center}
 .baf-k{font-size:11px;font-weight:800;letter-spacing:.1em;margin-bottom:8px}
@@ -1250,7 +1226,7 @@ article p.lead{font-size:17.5px;color:var(--ink);font-weight:500}
 .smini .sm{border:1px solid var(--line);border-radius:12px;padding:20px 16px;text-align:center;background:#fff}
 .smini .sm-n{font-weight:800;font-size:25px;letter-spacing:-.02em;color:var(--blue);line-height:1.1}
 .smini .sm-c{font-size:12.5px;color:var(--muted);margin-top:7px;line-height:1.4}
-@media(max-width:600px){.reviews{grid-template-columns:1fr}.baf{grid-template-columns:1fr;gap:10px}.baf-arrow{transform:rotate(90deg)}.chk-g{grid-template-columns:1fr}.smini{grid-template-columns:1fr}}
+@media(max-width:600px){.baf{grid-template-columns:1fr;gap:10px}.baf-arrow{transform:rotate(90deg)}.chk-g{grid-template-columns:1fr}.smini{grid-template-columns:1fr}}
 .cta{margin:48px 0 10px;padding:36px;background:var(--navy);color:#E8EEF8;border-radius:14px}
 .cta .t{font-size:21px;font-weight:800;margin-bottom:8px;letter-spacing:-.015em;color:#fff}
 .cta p{color:#9FB0CC;font-size:14.5px;margin-bottom:20px}
@@ -1289,7 +1265,7 @@ article p.lead{font-size:17.5px;color:var(--ink);font-weight:500}
 `;
 
 function shell(o, body){
-  const logo="<span class='logo-pos'>POS</span><span class='logo-word'>365 Pos Mall</span>";
+  const logo="<span class='logo-pos'>POS</span><span class='logo-word'>365포스몰</span>";
   const icTel="<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'><path d='M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.5 2.1L8 10a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.5c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.7 2z'/></svg>";
   const icMsg="<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'><path d='M21 11.5a8.4 8.4 0 0 1-9 8.4 8.6 8.6 0 0 1-3.4-.7L3 21l1.8-5.6A8.4 8.4 0 1 1 21 11.5z'/></svg>";
   return "<!DOCTYPE html><html lang=ko><head>"+head(o)+"</head><body>"+
@@ -2496,7 +2472,7 @@ function resp(html,type,extra){
 
 /* ─── 텔레그램 전환 알림 (전화·문자 버튼 클릭 시 즉시 알림) ─── */
 const TG_LABEL = { tel: '전화 버튼 클릭', sms: '문자 버튼 클릭', contact: '상담 신청 접수' };
-const TG_SITE   = '365 Pos Mall';
+const TG_SITE   = '365포스몰';
 const TG_DOMAIN = '365posmall.com';
 const TG_ORIGIN = 'https://365posmall.com';
 function tgDescribe(path){
