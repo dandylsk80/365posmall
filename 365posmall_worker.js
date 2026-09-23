@@ -239,7 +239,7 @@ function telBtn(cls, label, attrs){
 const PHONE     = "010-9876-8282";               // 표시용 전화번호
 const PHONE_TEL = "01098768282";                 // tel/sms 링크용(숫자만)
 const OG_IMAGE  = SITE + "/og.svg";
-const BRAND     = "365 Pos Mall";
+const BRAND     = "365포스몰";
 // -------- 검색엔진 소유확인 (발급받은 'content' 값만 붙여넣기, 없으면 빈칸) --------
 const GOOGLE_VERIFY = "";   // Google Search Console (HTML 태그 방식)
 const NAVER_VERIFY  = "d1137b06efd9abdc45cad2e6b8227917cd64e717";   // 네이버 서치어드바이저
@@ -364,17 +364,17 @@ function applySyn(s,seed){
 }
 // 핵심어 토큰: {K}=포스기, {DK}=동네+핵심어(완전조합), {D2}=지역명 대신 쓰는 대명사형
 const KW_R = "포스기";
-const D2POOL = ["이 동네","우리 동네","같은 상권","이 지역","가까운 상권"];
+const D2POOL = ["이 동네","우리 동네","이 지역"];
 // «가|나|다» 중 하나를 씨앗으로 고른다 (같은 문장이라도 페이지마다 갈린다)
 function pickVar(s,seed){ let i=0; return String(s).replace(/\u00ab([^\u00bb]*)\u00bb/g,function(_,g){ const a=g.split("|"); return a[(seed+(i++)*7)%a.length]; }); }
 function fill(s,R){
   s=pickVar(s,R._syn);
-  let d2i=0;
+  let d2i=0; const d2used=[];
   s=s.replace(/\{DK\}/g,R._dong+" "+KW_R).replace(/\{K\}/g,KW_R)
-     .replace(/\{D2\}/g,function(){ return D2POOL[(R._syn+(d2i++)*11)%D2POOL.length]; });
+     .replace(/\{D2\}/g,function(){ const v=D2POOL[(R._syn+(d2i++)*11)%D2POOL.length]; if(d2used.indexOf(v)<0)d2used.push(v); return v; });
   s=s.replace(/\{F\}/g,R.n).replace(/\{S\}/g,R._sido).replace(/\{G\}/g,R._gungu||R._sido).replace(/\{D\}/g,R._dong);
   s=applySyn(s,R._syn);
-  s=fixJosa(s,[R.n,R._sido,R._gungu||R._sido,R._dong]);
+  s=fixJosa(s,[R.n,R._sido,R._gungu||R._sido,R._dong].concat(d2used));
   if(R._dedup){ // 시도/시군구 글: 같은 지역명이 인접 반복되는 경우 정리
     const names=[R._dong,R._gungu,R._sido].filter(function(v,i,a){return v&&a.indexOf(v)===i;});
     for(const nm of names){ let prev; do{ prev=s;
@@ -382,6 +382,28 @@ function fill(s,R){
     }while(s!==prev); }
   }
   return s;
+}
+
+/* 인근 링크용 시도 단위 목록 — 읍면동이 적은 군 지역은 같은 시군구만으로는
+   내부 링크가 20개대로 떨어진다. 같은 시도의 다른 동네로 채운다. */
+const SIDO_ALL = new Map();
+for (const r of REGIONS) {
+  if (!SIDO_ALL.has(r._sido)) SIDO_ALL.set(r._sido, []);
+  SIDO_ALL.get(r._sido).push(r);
+}
+function nearSibs(R, n){
+  const out=[], seen=new Set([R.s]);
+  for(const x of (GROUPS.get(R._sido+"|"+R._gungu)||[])){ if(!seen.has(x.s)){ seen.add(x.s); out.push(x); if(out.length>=n) return out; } }
+  for(const x of (SIDO_ALL.get(R._sido)||[])){ if(!seen.has(x.s)){ seen.add(x.s); out.push(x); if(out.length>=n) return out; } }
+  return out;
+}
+
+/* 제목 형식: "○○동 카드단말기 설치 | ○○시".
+   30자를 넘으면 뒤 지역을 떼어 맞춘다 — 검색결과에서 잘리면 핵심어가 먼저 죽는다. */
+function shortTitle(R,kw){
+  const base=R._dong+" "+kw+" 설치";
+  const full=base+" | "+(R._gungu||R._sido);
+  return full.length<=30 ? full : base;
 }
 
 const DAY=86400000, PERIOD=18;
@@ -549,9 +571,9 @@ const FAQ = [
    "물론입니다. {G}의 매장에서 잔고장이나 속도 문제로 불편하셨다면 교체를 권합니다. 영업 공백 없이 진행됩니다."]}
 ];
 const DESC = [
- "{F} 포스기 설치 안내. 업종과 매장 동선에 맞춘 포스기 구성, 가맹 등록부터 개통과 사후관리까지 한 흐름으로 정리했습니다.",
- "{D}에서 포스기를 새로 들이거나 교체하려는 사장님을 위한 실전 가이드. {G} 상권 특성에 맞춘 선택 기준을 담았습니다.",
- "{F}의 계산대, 무엇부터 준비할까요. 포스기 사양을 고르는 기준부터 설치 절차까지 매장 기준으로 풀어 드립니다."
+ "{F} 포스기 설치·교체 방문 안내. 업종과 매장 동선에 맞춰 포스기 사양과 주변 기기를 구성하고, 가맹 등록부터 개통·사후관리까지 한 번에 진행합니다. 설치비·월 관리비 0원. 지금 "+PHONE+"로 전화 주시면 바로 안내해 드립니다.",
+ "{D}에서 포스기를 새로 들이거나 교체하려는 사장님을 위한 안내입니다. {G} 상권과 매장 규모에 맞춰 필요한 만큼만 골라 드리고, 설치부터 사용법 교육까지 이어집니다. 설치비·월 관리비 0원, 상담은 "+PHONE+"로 전화 한 통이면 됩니다.",
+ "{F}의 계산대, 무엇부터 준비할까요. 포스기 사양을 고르는 기준부터 가맹 서류와 설치 절차까지 매장 기준으로 풀어 드립니다. 설치비·월 관리비 0원이고 견적만 받아 보셔도 됩니다. "+PHONE+"로 편하게 문의하세요."
 ];
 const CTA_T = [
  "{D} 매장, 견적부터 받아 보세요",
@@ -733,19 +755,22 @@ function buildArticle(R){
   };
   const nn=(i)=>((i<9?"0":"")+(i+1));
   const geo = (id)=>(hash(R.s+id+"geo")%10 < 7) ? esc(R._dong)+" " : "";
-  /* 본문 완전조합을 만들 섹션 8개 */
-  const DKSEC = new Set(shuffle(Object.keys(KSENT), hash(R.s+"dk")).slice(0,8));
+  /* H2 8개에 동네명을 고정하면서 제목 쪽 완전조합이 늘었다 — 본문 쪽을 줄여 총 7~12 를 지킨다 */
+  const DKSEC = new Set(shuffle(Object.keys(KSENT), hash(R.s+"dk")).slice(0,3));
   /* H2 전용: 핵심어로 시작하는 HEADK 앞에 동네명을 붙인다.
      H2 로 나가는 것은 아래 coreIds 3개뿐이므로 반드시 그 안에서 골라야 한다. */
   const __all=shuffle(["s2","s3","s4","s5","s6","s7","s8","s10","s11","s12","s13","s14","s15","s16","s17","s18","s19"], hash(R.s+"ord"));
   const coreIds=__all.slice(0,3), restIds=__all.slice(3);
   const KH2 = new Set(coreIds.filter((x)=>HEADK[x]).slice(0,2));
-  const headFor = (id)=> (KH2.has(id) && HEADK[id])
+  /* H2 11개 중 8개에 동네명을 고정한다 — core 3 + 절차 + 더알기 + 승격 2 + FAQ.
+     나머지 3개(승격 2·마무리)는 그대로 두어 제목이 한 패턴으로 굳는 것을 막는다. */
+  const headFor = (id,forceGeo)=> (KH2.has(id) && HEADK[id])
     ? esc(R._dong)+" "+esc(fill(pick(HEADK[id],hash(R.s+id+"hk")),R))
-    : geo(id)+h(id);
-  const SEC = (id)=>"<h2>"+headFor(id)+"</h2><p>"+compose(id,3)+"</p>";
-  const SECMORE = (id)=>"<h2>"+headFor(id)+"</h2><p>"+compose(id,3)+"</p>";
-  const SECMINI = (id)=>"<h3>"+h(id)+"</h3><p>"+compose(id,2)+"</p>";
+    : (forceGeo ? esc(R._dong)+" " : geo(id))+h(id);
+  const SEC = (id)=>"<h2>"+headFor(id,true)+"</h2><p>"+compose(id,3)+"</p>";
+  const SECMORE = (id)=>"<h2>"+headFor(id,true)+"</h2><p>"+compose(id,3)+"</p>";
+  /* 기존 H3 → H2 승격. 문단도 3문장으로 올려 승격 전 분량을 지킨다 */
+  const SECMINI = (id,i)=>"<h2>"+(i<2?headFor(id,true):h(id))+"</h2><p>"+compose(id,3)+"</p>";
 
   // --- 답변 우선 요약 박스 (AEO/GEO: AI·음성 검색이 인용) ---
   const ANS=[
@@ -792,7 +817,7 @@ function buildArticle(R){
   html += flow;
 
   // 더 알아두면 좋은 것들 — 섹션 사이에 시각 블록을 끼워 리듬 부여
-  html += "<h2>"+geo("moreh")+(hash(R.s+"moreh")%2?"더 알아두면 좋은 것들":"자세한 안내")+"</h2>";
+  html += "<h2>"+esc(R._dong)+" "+(hash(R.s+"moreh")%2?"포스기, 더 알아두면 좋은 것들":"포스기 자세한 안내")+"</h2>";
   html += keybox;
 
   // ── 후기 블록 (표시용 예시 — 실제 후기로 교체 권장) ──
@@ -853,14 +878,16 @@ function buildArticle(R){
 
   const midBlocks=shuffle([reviewBlk(),arrowsBlk(),chkBlk(),pquoteBlk(),sminiBlk()], hash(R.s+"mb"));
   // 짧은 글 ↔ 시각 블록을 번갈아 배치 (긴 문단 연속 방지)
-  const pickIds=restIds.slice(0,6);
+  const pickIds=restIds.slice(0,4);
   pickIds.forEach(function(id,idx){
-    html += SECMINI(id);
+    html += SECMINI(id,idx);
     if(idx<midBlocks.length){ html += midBlocks[idx]; }
   });
+  /* 섹션이 줄어 남는 시각 블록은 뒤에 이어 붙인다 — 분량이 깎이지 않게 */
+  for(let i=pickIds.length;i<midBlocks.length;i++){ html += midBlocks[i]; }
 
   // FAQ
-  html += "<h2>"+geo("faq")+esc(applySyn(pick(HEADS.faq,hash(R.s+"faq")),R._syn))+"</h2><div class=faq>";
+  html += "<h2>"+esc(R._dong)+" "+esc(applySyn(pick(HEADS.faq,hash(R.s+"faq")),R._syn))+"</h2><div class=faq>";
   faqItems(R).forEach((it,i)=>{
     html += "<details"+(i===0?" open":"")+"><summary>"+esc(it.q)+"</summary><p>"+esc(it.a)+"</p></details>";
   });
@@ -1489,11 +1516,11 @@ setTimeout(showAll,1400);})();
 function regionPage(R){
   const seed=hash(R.s);
   const pub=publishedDate(seed), mod=modifiedDate(seed);
-  const title=(R._gungu?R._gungu+" ":"")+R._dong+" 포스기 설치 | "+R._sido+(R._gungu?" "+R._gungu:"")+" 포스기 전문 — "+BRAND;
+  const title=shortTitle(R,"포스기");
   const desc=fill(pick(DESC,seed),R);
   const url=SITE+"/r/"+encodeURIComponent(R.s);
   // 인근(같은 시군구) 링크
-  const sibs=(GROUPS.get(R._sido+"|"+R._gungu)||[]).filter(x=>x.s!==R.s).slice(0,12);
+  const sibs=nearSibs(R,24);
   const near=sibs.length?("<div class=near><h3>"+esc(R._gungu||R._sido)+" 인근 동네</h3><div class=g>"+
      sibs.map(x=>"<a href=\"/r/"+x.s+"\">"+esc(x._dong)+"</a>").join("")+
      (R._gunguSlug?("<a class='more' href=\"/sigungu/"+R._gunguSlug+"\">전체 보기 →</a>"):"")+
@@ -1512,6 +1539,8 @@ function regionPage(R){
      "<div class='meta2'><span>발행 <b>"+korDate(pub)+"</b></span><span>수정 <b>"+korDate(mod)+"</b></span><span><b>"+esc(R._sido)+"</b></span></div>"+
      buildArticle(R)+
      "<div class=near><h3>함께 보기</h3><div class=g><a href=\"/card/"+R.s+"\">"+esc(R._dong)+" 카드단말기 / 토스단말기 설치 안내 →</a></div></div>"+
+     (sibs.length?("<div class=near><h3>"+esc(R._gungu||R._sido)+" 인근 동네 카드단말기</h3><div class=g>"+
+       sibs.slice(0,12).map(x=>"<a href=\"/card/"+x.s+"\">"+esc(x._dong)+"</a>").join("")+"</div></div>"):"")+
      "<div class=cta><div class=t>"+esc(fill(pick(CTA_T,hash(R.s+"ct")),R))+"</div><p>"+esc(fill(pick(CTA_B,hash(R.s+"cb")),R))+"</p>"+telBtn("")+"</div>"+
      near+
    "</article></div>";
@@ -1549,7 +1578,7 @@ function regionPage(R){
 // ============================================================
 const KW_C  = "카드단말기";
 const KW_C2 = "토스단말기";
-const D2POOL_C = ["이 상권","같은 골목","이 근방","가까운 거리","이 일대"];
+const D2POOL_C = ["이 동네","우리 동네","이 근방","이 일대"];
 
 /* H2 자리용 (앞에 동네명이 70% 확률로 붙는다) */
 const HEADS_C = {
@@ -1816,9 +1845,9 @@ const FAQ_C = [
    "지금 쓰시는 상태를 알려 주시면 교체가 맞는지, 점검으로 될지부터 판단해 드립니다."]}
 ];
 const DESC_C = [
- "{F} 카드단말기·토스단말기 설치 안내. 회선과 사양, 가맹 신청부터 개통과 사후까지 한 흐름으로 정리했습니다.",
- "{D}에서 카드단말기나 토스단말기를 새로 들이거나 교체하려는 사장님을 위한 안내. {G} 상권에 맞춘 기준을 담았습니다.",
- "{F}의 계산대, 무엇부터 정할까요. 회선 선택부터 개통 절차까지 매장 기준으로 풀어 드립니다."
+ "{F} 카드단말기·토스단말기 설치·교체 방문 안내. 유선·무선 회선과 간편결제(QR·앱)를 매장에 맞춰 구성하고, 가맹 신청부터 개통·사후까지 한 번에 처리합니다. 설치비·월 관리비 0원. 지금 "+PHONE+"로 전화 주시면 바로 안내해 드립니다.",
+ "{D}에서 카드단말기나 토스단말기를 새로 들이거나 교체하려는 사장님을 위한 안내입니다. {G} 상권과 계산대 자리에 맞춰 회선을 잡고, 시험 승인까지 확인한 뒤 넘겨 드립니다. 설치비·월 관리비 0원, 상담은 "+PHONE+"로 전화 한 통이면 됩니다.",
+ "{F}의 계산대, 무엇부터 정할까요. 회선 선택부터 가맹 심사와 개통 절차까지 매장 기준으로 풀어 드립니다. 설치비·월 관리비 0원이고 견적만 받아 보셔도 됩니다. "+PHONE+"로 편하게 문의하세요."
 ];
 const ANS_C = [
  "{F}에서 카드단말기와 토스단말기 설치·교체를 방문으로 안내합니다. 유선·무선 회선과 간편결제(QR·앱)를 매장에 맞춰 구성하고, 가맹 신청부터 개통까지 한 번에 처리합니다.",
@@ -1833,21 +1862,20 @@ const SEC_IDS_C = ["s2","s3","s4","s5","s6","s7","s8","s10","s11","s12","s13","s
 
 function fillC(s,R){
   s=pickVar(s,R._syn);
-  let d2i=0;
+  let d2i=0; const d2used=[];
   s=s.replace(/\{DK\}/g,R._dong+" "+KW_C).replace(/\{K\}/g,KW_C)
-     .replace(/\{D2\}/g,function(){ return D2POOL_C[(R._syn+(d2i++)*11)%D2POOL_C.length]; });
+     .replace(/\{D2\}/g,function(){ const v=D2POOL_C[(R._syn+(d2i++)*11)%D2POOL_C.length]; if(d2used.indexOf(v)<0)d2used.push(v); return v; });
   s=s.replace(/\{F\}/g,R.n).replace(/\{S\}/g,R._sido).replace(/\{G\}/g,R._gungu||R._sido).replace(/\{D\}/g,R._dong);
   s=applySyn(s,R._syn);
-  s=fixJosa(s,[R.n,R._sido,R._gungu||R._sido,R._dong]);
+  s=fixJosa(s,[R.n,R._sido,R._gungu||R._sido,R._dong].concat(d2used));
   return s;
 }
 
 function buildCardArticle(R){
   const h = (id)=>esc(applySyn(pick(HEADS_C[id], hash(R.s+"c"+id)), R._syn));
-  /* 완전조합 7~9회를 만들 섹션 — /r 의 8개보다 적게 잡아 danmalgi 와 경합을 피한다 */
-  /* 고정 5회(title·H1·핵심 H2 2개·개통 H2) + 아래 3개 = 7~9회.
-     danmalgi /r 이 11회로 주력을 잡으므로 여기는 낮춰 경합을 피한다. */
-  const DKSEC = new Set(shuffle(Object.keys(KSENT_C), hash(R.s+"cdk")).slice(0,4));
+  /* 완전조합 총 7~12회를 만드는 섹션 수. H2 8개에 동네명을 고정한 뒤 실측으로 맞췄다
+     (표본 100: /r 8~12, /card 7~12). danmalgi 와의 경합을 피해 /card 를 낮게 잡는다. */
+  const DKSEC = new Set(shuffle(Object.keys(KSENT_C), hash(R.s+"cdk")).slice(0,5));
   /* 토스단말기 본문 문장 — 4개 섹션에 1개씩 (본문 3~5회) */
   const TXSEC = new Set(shuffle(SEC_IDS_C, hash(R.s+"ctx")).slice(0,4));
 
@@ -1881,16 +1909,17 @@ function buildCardArticle(R){
      실제 H2 와 겹치지 않아 비율이 14%까지 떨어진다 — 반드시 H2 자리 안에서 고른다. */
   const H2SLOTS = coreIds.concat(["flowh","moreh"]);
   const TH2 = new Set(shuffle(H2SLOTS, hash(R.s+"cth")).slice(0, 3+(hash(R.s+"cthn")%2)));
-  const headFor = (id)=>{
+  /* H2 11개 중 8개에 동네명 고정 — /r 과 같은 규칙 */
+  const headFor = (id,forceGeo)=>{
     if(KH2.has(id) && HEADK_C[id]){
       const pool=(TH2.has(id) && TOSSK_C[id]) ? TOSSK_C[id] : HEADK_C[id];
       return esc(R._dong)+" "+esc(fillC(pick(pool,hash(R.s+"c"+id+"hk")),R));
     }
-    if(TH2.has(id) && TOSSS_C[id]) return esc(fillC(pick(TOSSS_C[id],hash(R.s+"c"+id+"th")),R));
-    return geo(id)+h(id);
+    if(TH2.has(id) && TOSSS_C[id]) return (forceGeo?esc(R._dong)+" ":"")+esc(fillC(pick(TOSSS_C[id],hash(R.s+"c"+id+"th")),R));
+    return (forceGeo ? esc(R._dong)+" " : geo(id))+h(id);
   };
-  const SEC = (id)=>"<h2>"+headFor(id)+"</h2><p>"+compose(id,3)+"</p>";
-  const SECMINI = (id)=>"<h3>"+h(id)+"</h3><p>"+compose(id,2)+"</p>";
+  const SEC = (id)=>"<h2>"+headFor(id,true)+"</h2><p>"+compose(id,3)+"</p>";
+  const SECMINI = (id,i)=>"<h2>"+(i<1?headFor(id,true):h(id))+"</h2><p>"+compose(id,3)+"</p>";
 
   const answer="<div class='ansbox'><div class='ansbox-t'>요약</div><p>"+esc(fillC(pick(ANS_C,hash(R.s+"cans")),R))+"</p></div>";
   const KB1C=["{D} 어디서나 카드단말기·토스단말기 설치와 교체를 안내합니다.","{D} 전역으로 방문해 카드단말기와 토스단말기를 개통합니다.","{D} 매장까지 찾아가 결제 장비를 맞춰 드립니다."];
@@ -1925,9 +1954,9 @@ function buildCardArticle(R){
       ? esc(R._dong)+" 카드단말기·토스단말기 "+(hash(R.s+"cflowh")%2?"개통은 이렇게 진행됩니다":"신청부터 개통까지")
       : esc(R._dong)+" 카드단말기 "+(hash(R.s+"cflowh")%2?"개통은 이렇게 진행됩니다":"신청부터 개통까지"))+"</h2>";
   html += flow;
-  html += "<h2>"+(TH2.has("moreh")
-      ? geo("moreh")+"카드단말기·토스단말기 더 알아두기"
-      : geo("moreh")+(hash(R.s+"cmoreh")%2?"더 알아두면 좋은 것들":"자세한 안내"))+"</h2>";
+  html += "<h2>"+esc(R._dong)+" "+(TH2.has("moreh")
+      ? "카드단말기·토스단말기 더 알아두기"
+      : (hash(R.s+"cmoreh")%2?"카드단말기, 더 알아두면 좋은 것들":"카드단말기 자세한 안내"))+"</h2>";
   html += keybox;
 
   const CHKI_C=["사업자등록증 준비","매장 통신 회선 확인","계산이 일어나는 자리 점검","주력 결제 수단 파악","기존 가맹 상태 확인","개업 예정일 확인","입금 계좌 준비","업종 인허가 서류 확인"];
@@ -1947,18 +1976,20 @@ function buildCardArticle(R){
       "</div>";
   }
   const midBlocks=shuffle([chkBlk(),pquoteBlk(),sminiBlk()], hash(R.s+"cmb"));
-  const pickIds=restIds.slice(0,6);
+  const pickIds=restIds.slice(0,4);
   pickIds.forEach(function(id,idx){
-    html += SECMINI(id);
+    html += SECMINI(id,idx);
     if(idx<midBlocks.length){ html += midBlocks[idx]; }
   });
+  for(let i=pickIds.length;i<midBlocks.length;i++){ html += midBlocks[i]; }
 
-  html += "<h2>"+geo("faq")+esc(applySyn(pick(HEADS_C.faq,hash(R.s+"cfaq")),R._syn))+"</h2><div class=faq>";
+  html += "<h2>"+esc(R._dong)+" "+esc(applySyn(pick(HEADS_C.faq,hash(R.s+"cfaq")),R._syn))+"</h2><div class=faq>";
   cardFaqItems(R).forEach((it,i)=>{
     html += "<details"+(i===0?" open":"")+"><summary>"+esc(it.q)+"</summary><p>"+esc(it.a)+"</p></details>";
   });
   html += "</div>";
-  html += "<h2>"+(hash(R.s+"cend")%2?"카드단말기 선택, 정리하면":"마무리 — 카드단말기 고르는 기준")+"</h2><p>"+compose("s9",3)+"</p>";
+  /* 마무리 H2 에 동네명+핵심어를 고정한다 — 섹션 추첨이 어긋난 페이지에서 완전조합이 7 밑으로 떨어졌다 */
+  html += "<h2>"+esc(R._dong)+" "+(hash(R.s+"cend")%2?"카드단말기 선택, 정리하면":"카드단말기 고르는 기준 정리")+"</h2><p>"+compose("s9",3)+"</p>";
   return html;
 }
 function cardFaqItems(R){
@@ -1977,10 +2008,10 @@ const CTA_B_C = ["위치와 업종만 알려 주시면 맞는 구성으로 정�
 function cardPage(R){
   const seed=hash("card:"+R.s);
   const pub=publishedDate(seed), mod=modifiedDate(hash("card:"+R.s));
-  const title=(R._gungu?R._gungu+" ":"")+R._dong+" 카드단말기 / 토스단말기 설치 | "+R._sido+(R._gungu?" "+R._gungu:"")+" 카드단말기 전문 — "+BRAND;
+  const title=shortTitle(R,"카드단말기");
   const desc=fillC(pick(DESC_C,seed),R);
   const url=SITE+"/card/"+encodeURIComponent(R.s);
-  const sibs=(GROUPS.get(R._sido+"|"+R._gungu)||[]).filter(x=>x.s!==R.s).slice(0,12);
+  const sibs=nearSibs(R,24);
   const near=sibs.length?("<div class=near><h3>"+esc(R._gungu||R._sido)+" 인근 동네</h3><div class=g>"+
      sibs.map(x=>"<a href=\"/card/"+x.s+"\">"+esc(x._dong)+"</a>").join("")+
      (R._gunguSlug?("<a class='more' href=\"/sigungu/"+R._gunguSlug+"\">전체 보기 →</a>"):"")+
@@ -1999,6 +2030,8 @@ function cardPage(R){
      "<div class='meta2'><span>발행 <b>"+korDate(pub)+"</b></span><span>수정 <b>"+korDate(mod)+"</b></span><span><b>"+esc(R._sido)+"</b></span></div>"+
      buildCardArticle(R)+
      "<div class=near><h3>함께 보기</h3><div class=g><a href=\"/r/"+R.s+"\">"+esc(R._dong)+" 포스기 설치 안내 →</a></div></div>"+
+     (sibs.length?("<div class=near><h3>"+esc(R._gungu||R._sido)+" 인근 동네 포스기</h3><div class=g>"+
+       sibs.slice(0,12).map(x=>"<a href=\"/r/"+x.s+"\">"+esc(x._dong)+"</a>").join("")+"</div></div>"):"")+
      "<div class=cta><div class=t>"+esc(fillC(pick(CTA_T_C,hash(R.s+"cct")),R))+"</div><p>"+esc(fillC(pick(CTA_B_C,hash(R.s+"ccb")),R))+"</p>"+telBtn("")+"</div>"+
      near+
    "</article></div>";
@@ -2032,6 +2065,7 @@ function sidoArtR(sido){ const key="sido:"+sido; return {n:sido, s:key, _sido:si
 function gunguArtR(sido,gungu){ const key="gungu:"+sido+"|"+gungu; return {n:sido+" "+gungu, s:key, _sido:sido, _gungu:gungu, _dong:gungu, _syn:hash(key), _dedup:true}; }
 function listingPage(o){
   const items=o.items.map(it=>"<a href=\""+it.href+"\">"+esc(it.label)+"<span class=ar>›</span></a>").join("");
+  const items2=(o.items2||[]).map(it=>"<a href=\""+it.href+"\">"+esc(it.label)+"<span class=ar>›</span></a>").join("");
   const meta = o.pub ? ("<div class='meta2'><span>발행 <b>"+korDate(o.pub)+"</b></span><span>수정 <b>"+korDate(o.mod)+"</b></span><span><b>"+esc(o.metaTag)+"</b></span></div>") : "";
   const body=
    "<div class='bgart'>"+bgArt()+"</div>"+
@@ -2044,6 +2078,7 @@ function listingPage(o){
      "<h2>"+esc(o.gridTitle||"바로가기")+"</h2>"+
      "<p class='listing-intro'>"+esc(o.intro)+"</p>"+
      "<div class='lgrid'>"+items+"</div>"+
+     (items2 ? ("<h2>"+esc(o.gridTitle2||"")+"</h2><p class='listing-intro'>"+esc(o.intro2||"")+"</p><div class='lgrid'>"+items2+"</div>") : "")+
      "<div class=cta><div class=t>"+esc(o.ctaT)+"</div><p>"+esc(o.ctaB)+"</p>"+telBtn("")+"</div>"+
    "</article></div>";
   return shell({title:o.title,desc:o.desc,url:o.url,article:true,jsonld:o.jsonld,image:o.image}, body);
@@ -2051,10 +2086,14 @@ function listingPage(o){
 function sidoPage(sido){
   const slug=SIDO_SLUGS[sido], url=SITE+"/sido/"+slug;
   const gungus=SIDO_GUNGUS.get(sido)||[];
-  let items=[];
+  let items=[], items2=[];
   if(gungus.length) items=gungus.map(g=>({label:g, href:"/sigungu/"+(GUNGU_SLUGS[sido+"|"+g]||"")}));
   const direct=GROUPS.get(sido+"|")||[];
-  if(direct.length) items=items.concat(direct.map(r=>({label:r._dong, href:"/r/"+r.s})));
+  if(direct.length){
+    items=items.concat(direct.map(r=>({label:r._dong+" 포스기", href:"/r/"+r.s})));
+    /* /card 는 여기 말고는 진입점이 없었다 — 허브에서 직접 건다 */
+    items2=direct.map(r=>({label:r._dong+" 카드단말기", href:"/card/"+r.s}));
+  }
   const R=sidoArtR(sido), seed=hash(R.s), pub=publishedDate(seed), mod=modifiedDate(seed);
   return listingPage({
     title: sido+" 포스기·카드단말기 설치 안내 — "+(gungus.length?"시군구":"읍면동")+" | "+BRAND,
@@ -2068,6 +2107,9 @@ function sidoPage(sido){
     gridTitle: sido+"의 "+(gungus.length?"시·군·구 바로가기":"읍·면·동 바로가기"),
     intro: sido+"의 "+(gungus.length?"시·군·구":"읍·면·동")+"를 눌러 우리 동네 포스기·카드단말기 안내로 들어가세요.",
     items: items,
+    items2: items2,
+    gridTitle2: items2.length? (sido+"의 읍·면·동 카드단말기 바로가기") : "",
+    intro2: items2.length? (sido+"의 읍·면·동을 눌러 카드단말기·토스단말기 안내로 들어가세요.") : "",
     ctaT: sido+", 어디서든 설치",
     ctaB: "매장 위치와 업종만 알려 주세요. "+sido+" 어느 동네든 맞는 단말기를 함께 찾아 드립니다.",
     jsonld:[
@@ -2082,7 +2124,10 @@ function sidoPage(sido){
 function sigunguPage(info){
   const sido=info.sido, gungu=info.gungu, key=info.key;
   const slug=GUNGU_SLUGS[key], sidoSlug=SIDO_SLUGS[sido], url=SITE+"/sigungu/"+slug;
-  const items=(GROUPS.get(key)||[]).map(r=>({label:r._dong, href:"/r/"+r.s}));
+  const dongs=GROUPS.get(key)||[];
+  const items=dongs.map(r=>({label:r._dong+" 포스기", href:"/r/"+r.s}));
+  /* 고아였던 /card 6,477개를 여기서 계층에 붙인다 */
+  const items2=dongs.map(r=>({label:r._dong+" 카드단말기", href:"/card/"+r.s}));
   const R=gunguArtR(sido,gungu), seed=hash(R.s), pub=publishedDate(seed), mod=modifiedDate(seed);
   return listingPage({
     title: gungu+" 포스기·카드단말기 설치 안내 — 읍면동 | "+BRAND,
@@ -2093,9 +2138,12 @@ function sigunguPage(info){
     eyebrow: esc(sido+" "+gungu),
     h1: gungu+" 포스기·카드단말기 안내",
     article: buildArticle(R),
-    gridTitle: gungu+"의 읍·면·동 바로가기",
-    intro: gungu+"의 읍·면·동을 눌러 우리 동네 포스기·카드단말기 안내로 들어가세요.",
+    gridTitle: gungu+"의 읍·면·동 포스기 바로가기",
+    intro: gungu+"의 읍·면·동을 눌러 우리 동네 포스기 안내로 들어가세요.",
     items: items,
+    items2: items2,
+    gridTitle2: gungu+"의 읍·면·동 카드단말기 바로가기",
+    intro2: gungu+"의 읍·면·동을 눌러 카드단말기·토스단말기 안내로 들어가세요.",
     ctaT: gungu+"에서 시작하세요",
     ctaB: "매장 위치와 업종만 알려 주세요. "+gungu+"에 맞는 단말기를 함께 짚어 드립니다.",
     jsonld:[
@@ -2142,19 +2190,20 @@ function sitemapIndex(){
   return x+"</sitemapindex>";
 }
 function sitemapCard(){
+  /* lastmod 는 전 URL 오늘 날짜로 낸다 — 경쟁 2곳(thesavenpos·taxzip365)이 같은 방식이고,
+     분산 표기는 재크롤 주기를 늘리기만 했다. IndexNow 회차 선정에 쓰는 modifiedDate 는 건드리지 않는다. */
+  const today=isoDate(new Date());
   let u=XMLHEAD+"<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">";
   for(const r of REGIONS){
-    /* seed 를 "card:" 로 갈라야 /r 과 같은 날 몰리지 않는다 */
-    const mod=modifiedDate(hash("card:"+r.s));
-    u+="<url><loc>"+SITE+"/card/"+r.s+"</loc><lastmod>"+isoDate(mod)+"</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>";
+    u+="<url><loc>"+SITE+"/card/"+r.s+"</loc><lastmod>"+today+"</lastmod><changefreq>daily</changefreq><priority>0.6</priority></url>";
   }
   return u+"</urlset>";
 }
 function sitemapR(){
+  const today=isoDate(new Date());
   let u=XMLHEAD+"<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">";
   for(const r of REGIONS){
-    const mod=modifiedDate(hash(r.s));
-    u+="<url><loc>"+SITE+"/r/"+r.s+"</loc><lastmod>"+isoDate(mod)+"</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>";
+    u+="<url><loc>"+SITE+"/r/"+r.s+"</loc><lastmod>"+today+"</lastmod><changefreq>daily</changefreq><priority>0.6</priority></url>";
   }
   return u+"</urlset>";
 }
@@ -2164,8 +2213,8 @@ function sitemapMain(){
   u+="<url><loc>"+SITE+"/</loc><lastmod>"+today+"</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>";
   u+="<url><loc>"+SITE+"/list</loc><lastmod>"+today+"</lastmod><changefreq>daily</changefreq><priority>0.6</priority></url>";
   u+=postSitemapXml();   /* 정보성 글 — lastmod 는 실제 발행일 */
-  SIDOS.forEach(function(s){ const sl=SIDO_SLUGS[s]; if(sl){ const m=isoDate(modifiedDate(hash("sido:"+s))); u+="<url><loc>"+SITE+"/sido/"+sl+"</loc><lastmod>"+m+"</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>"; } });
-  for(const k in GUNGU_SLUGS){ const m=isoDate(modifiedDate(hash("gungu:"+k))); u+="<url><loc>"+SITE+"/sigungu/"+GUNGU_SLUGS[k]+"</loc><lastmod>"+m+"</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>"; }
+  SIDOS.forEach(function(s){ const sl=SIDO_SLUGS[s]; if(sl){ u+="<url><loc>"+SITE+"/sido/"+sl+"</loc><lastmod>"+today+"</lastmod><changefreq>daily</changefreq><priority>0.8</priority></url>"; } });
+  for(const k in GUNGU_SLUGS){ u+="<url><loc>"+SITE+"/sigungu/"+GUNGU_SLUGS[k]+"</loc><lastmod>"+today+"</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>"; }
   return u+"</urlset>";
 }
 function rfc822(d){ return d.toUTCString(); }
