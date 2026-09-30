@@ -1012,7 +1012,7 @@ function sidoLinks(p, sx){
 function coverageFaq(sx){
   const x=STATS[sx.n];
   const q = x.gunN ? (sx.a+"의 군 지역(읍·면) 매장도 방문 설치가 되나요?") : (sx.a+" 어느 구·동에서든 방문 설치가 되나요?");
-  const a = "상담 때 매장 주소를 알려 주시면 방문 가능 여부와 날짜를 먼저 안내드립니다."+
+  const a = "상담 때 "+esc(sx.a)+" 매장 주소를 알려 주시면 방문 가능 여부와 날짜를 먼저 안내드립니다."+
     (NARR[sx.s].isl ? " "+esc(J(NARR[sx.s].isl,"은","는"))+" 배편·거리 때문에 일정을 따로 잡습니다." : "");
   return [q,a];
 }
@@ -1120,9 +1120,10 @@ function checklist(title, items){
     items.map(function(x){ return "<div class=chk-i><span class=ck>✓</span><span>"+x+"</span></div>"; }).join("")+"</div></div>";
 }
 function callout(k, html){ return "<div class=callout><span class=co-k>"+k+"</span><p>"+html+"</p></div>"; }
+function cardNames(cards){ return cards.map(function(c){ return c.name; }).join("·"); }
 function eqCards(cards){
-  return "<div class=eqgrid>"+cards.map(function(c){
-    return "<div class=eq><div class=eq-h><span class=eq-i aria-hidden=true>"+c.ico+"</span><b>"+esc(c.name)+"</b><em>"+c.badge+"</em></div>"+
+  return "<div class=eqgrid>"+cards.map(function(c,i){
+    return "<div class=eq id=eq-"+(i+1)+"><div class=eq-h><span class=eq-i aria-hidden=true>"+c.ico+"</span><b>"+esc(c.name)+"</b><em>"+c.badge+"</em></div>"+
       "<dl>"+c.rows.map(function(r){ return "<dt>"+r[0]+"</dt><dd>"+esc(r[1])+"</dd>"; }).join("")+"</dl></div>"; }).join("")+"</div>";
 }
 function thumbKey(p, sx){ return p+(sx?"-"+sx.s:""); }
@@ -1198,25 +1199,25 @@ function nearSentence(sx, label, fn){
 
 // ---------- 제품별 공통 흐름 (지역 조건은 인자로) ----------
 function posSteps(sx){ return [
-  ["상담·현장 확인","업종·좌석·주방","업종, 좌석과 테이블 수, 주방 위치, 매장 인터넷 회선이 어디까지 들어와 있는지 확인합니다."],
-  ["구성·계약 방식","장비 목록 확정","필요한 장비 목록을 정하고 구매·렌탈·약정 설치 가운데 계약 방식을 고릅니다."],
-  ["가맹·밴 등록","서류 확인","카드 가맹이 없으면 서류로 가맹을 신청하고, 이미 있으면 새 단말기만 밴(VAN)사에 등록합니다."],
-  ["방문 설치","배치·메뉴 등록","장비를 배치하고 선을 정리한 뒤 메뉴·테이블을 등록합니다. "+esc(gunSentence(sx))],
-  ["테스트·교육","결제·마감 확인","실제 카드로 결제·취소, 주방 출력, 하루 마감 정산까지 직접 해 봅니다."]
+  ["상담·현장 확인","업종·좌석·주방",esc(sx.a)+" 매장의 업종, 좌석과 테이블 수, 주방 위치, 인터넷 회선이 계산대 어디까지 들어와 있는지부터 확인합니다."],
+  ["구성·계약 방식","장비 목록 확정","필요한 장비 목록을 정하고, "+esc(sx.a)+"에서 영업할 기간에 맞춰 구매·렌탈·약정 설치 가운데 계약 방식을 고릅니다."],
+  ["가맹·밴 등록","서류 확인","이미 "+esc(sx.a)+"에서 영업 중이라 카드 가맹이 있으면 새 단말기만 밴(VAN)사에 등록하고, 새로 여는 매장은 서류로 가맹을 신청합니다."],
+  ["방문 설치","배치·메뉴 등록","기사가 "+esc(sx.a)+" 매장을 찾아 장비를 배치하고 선을 정리한 뒤 메뉴·테이블을 등록합니다. "+esc(gunSentence(sx))],
+  ["테스트·교육","결제·마감 확인","실제 카드로 결제·취소, 주방 출력, 하루 마감 정산까지 직접 해 보고 "+esc(sx.a)+" 매장 영업시간에 맞게 설정을 마무리합니다."]
 ]; }
 function cardSteps(sx){ return [
-  ["서류 준비","사업자·신분증·통장","사업자등록증, 대표자 신분증, 결제 대금 받을 통장 사본을 준비하고, 신고·허가 업종이면 영업신고증도 챙깁니다."],
-  ["기종·밴 선택","회선에 맞춰","매장 회선(인터넷·전화선·LTE)과 받을 결제 수단에 맞춰 기종과 밴(VAN)사를 정합니다."],
-  ["가맹 심사","카드사별 진행","밴사를 통해 카드사별 가맹 심사가 진행됩니다. 이미 가맹된 매장은 단말기 등록만 합니다."],
-  ["설치·개통","방문 연결","단말기를 계산대에 놓고 회선을 연결합니다. "+esc(gunSentence(sx))],
-  ["테스트·정산","입금 주기 확인","실제 카드로 결제·취소를 해 보고, 카드사별 입금 주기와 매출 조회 방법을 확인합니다."]
+  ["서류 준비","사업자·신분증·통장",esc(sx.a)+" 매장의 사업자등록증, 대표자 신분증, 결제 대금 받을 통장 사본을 준비하고, 신고·허가 업종이면 영업신고증도 챙깁니다."],
+  ["기종·밴 선택","회선에 맞춰",esc(sx.a)+" 매장에 들어온 회선(인터넷·전화선·LTE)과 받을 결제 수단에 맞춰 기종과 밴(VAN)사를 정합니다."],
+  ["가맹 심사","카드사별 진행","밴사를 통해 카드사별 가맹 심사가 진행되고, "+esc(sx.a)+"에서 이미 가맹된 매장은 단말기 등록만 합니다."],
+  ["설치·개통","방문 연결","기사가 "+esc(sx.a)+" 매장을 찾아 단말기를 계산대에 놓고 회선을 연결합니다. "+esc(gunSentence(sx))],
+  ["테스트·정산","입금 주기 확인","실제 카드로 결제·취소를 해 보고, 카드사별 입금 주기와 매출 조회 방법까지 확인하면 "+esc(sx.a)+" 매장 개통이 끝납니다."]
 ]; }
 function wlSteps(sx){ return [
-  ["사용 장소 확인","테이블·야외·출장","어디서 결제하는지(테이블, 테라스, 야외 행사, 출장지)와 하루 결제 건수를 확인합니다."],
-  ["통신 방식 선택","LTE·Wi-Fi·블루투스","쓰는 자리의 신호에 맞춰 LTE 내장형, Wi-Fi형, 블루투스 연결형 가운데 고릅니다."],
-  ["단말기 등록","밴사 등록","이미 카드 가맹이 있으면 새 단말기만 밴(VAN)사에 등록하고, 없으면 가맹부터 진행합니다."],
-  ["현장 신호 테스트","자리마다 확인","실제로 결제할 자리에서 승인 속도와 신호를 확인합니다. "+esc(gunSentence(sx))],
-  ["충전·보관","배터리 운용","충전 거치대 위치와 여분 배터리 운용, 분실했을 때 사용 정지 방법을 안내합니다."]
+  ["사용 장소 확인","테이블·야외·출장",esc(sx.a)+" 매장에서 어디서 결제하는지(테이블, 테라스, 야외 행사, 출장지)와 하루 결제 건수를 확인합니다."],
+  ["통신 방식 선택","LTE·Wi-Fi·블루투스","결제할 자리의 신호에 맞춰 "+esc(sx.a)+" 매장에 맞는 방식을 LTE 내장형, Wi-Fi형, 블루투스 연결형 가운데 고릅니다."],
+  ["단말기 등록","밴사 등록","이미 "+esc(sx.a)+"에서 카드 가맹이 있는 매장은 새 단말기만 밴(VAN)사에 등록하고, 없으면 가맹부터 진행합니다."],
+  ["현장 신호 테스트","자리마다 확인","기사가 "+esc(sx.a)+" 매장에서 실제로 결제할 자리마다 승인 속도와 신호를 확인합니다. "+esc(gunSentence(sx))],
+  ["충전·보관","배터리 운용","충전 거치대 위치와 여분 배터리 운용, 분실했을 때 사용 정지 방법을 "+esc(sx.a)+" 매장 영업 방식에 맞춰 안내합니다."]
 ]; }
 const COST_TBL = {
   "pos":[["초기 비용","장비값 전액","적음","적거나 없음"],["월 비용","프로그램·통신비","렌탈료 + 프로그램·통신비","약정 조건에 따라 다름"],["계약 기간","없음","렌탈 기간","약정 기간"],["고장 났을 때","보증 기간 뒤 자부담","렌탈 조건에 따라 교체","약정 조건 확인"],["맞는 매장","오래 운영할 매장","초기 자금을 아끼려는 매장","밴사 조건이 맞는 매장"]],
@@ -1289,15 +1290,15 @@ function posSido(sx){
     [sx.a+"에서 포스기를 많이 쓰는 업종은 어디인가요?",
      esc(sx.a)+"의 음식점 가운데 한식이 "+fmt(x.m["음식|한식"])+"곳으로 가장 많고, 김밥·분식·치킨·빵집 등 간이 음식점이 "+fmt(x.m["음식|기타 간이"])+"곳, 카페가 "+fmt(x.s["카페"])+"곳, 주점이 "+fmt(x.m["음식|주점"])+"곳입니다. 소매 쪽에서는 편의점 "+fmt(x.s["편의점"])+"곳, 슈퍼마켓 "+fmt(x.s["슈퍼마켓"])+"곳이 포스를 주로 씁니다."],
     [sx.a+"에 배달·포장 위주 음식점은 얼마나 되나요?",
-     "치킨 "+fmt(x.s["치킨"])+"곳, 피자 "+fmt(x.s["피자"])+"곳, 버거 "+fmt(x.s["버거"])+"곳, 김밥·만두·분식 "+fmt(x.s["김밥/만두/분식"])+"곳으로 모두 "+fmt(deliv)+"곳이고, 음식점의 "+pct(deliv,food)+"%입니다(전국 "+pct(ndeliv,NAT.l["음식"])+"%). 이런 가게는 배달 앱 주문을 포스 화면에서 함께 받는 구성이 편합니다."],
+     "치킨 "+fmt(x.s["치킨"])+"곳, 피자 "+fmt(x.s["피자"])+"곳, 버거 "+fmt(x.s["버거"])+"곳, 김밥·만두·분식 "+fmt(x.s["김밥/만두/분식"])+"곳으로 모두 "+fmt(deliv)+"곳이고, 음식점의 "+pct(deliv,food)+"%입니다(전국 "+pct(ndeliv,NAT.l["음식"])+"%). 이런 가게 "+fmt(deliv)+"곳은 배달 앱 주문을 포스 화면에서 함께 받는 구성이 편합니다."],
     [dongName(d0[0])+"처럼 음식점이 몰린 곳은 설치를 언제 하나요?",
      esc(dongName(d0[0]))+"에는 음식점이 "+fmt(d0[1])+"곳 등록되어 있어 "+esc(sx.a)+"에서 가장 많습니다. 이런 곳은 식사 시간 영업이 바빠, 설치 시간은 오픈 전이나 브레이크 타임처럼 손님이 적은 때로 상담 때 정합니다."],
     ["위층이나 지하 매장도 포스 설치에 문제가 없나요?",
-     esc(J(sx.a,"은","는"))+" 층 정보가 있는 업소 가운데 "+up.toFixed(0)+"%가 2층 이상이나 지하에 있습니다(전국 "+upperPct(NAT).toFixed(0)+"%). 층수보다 인터넷 회선이 어디까지 들어와 있는지, 계산대에서 주방까지 선을 끌 수 있는지가 중요해 현장에서 먼저 확인합니다."],
+     esc(J(sx.a,"은","는"))+" 층 정보가 있는 업소 가운데 "+up.toFixed(0)+"%가 2층 이상이나 지하에 있습니다(전국 "+upperPct(NAT).toFixed(0)+"%). 층수보다 "+esc(sx.a)+" 매장 건물에 인터넷 회선이 어디까지 들어와 있는지, 계산대에서 주방까지 선을 끌 수 있는지가 중요해 현장에서 먼저 확인합니다."],
     [sx.a+"에서 카페를 열면 포스 구성은 어떻게 하나요?",
      esc(sx.a)+"의 카페는 "+fmt(x.s["카페"])+"곳으로 음식점의 "+cafeS.toFixed(1)+"%이며, 음식점 가운데 카페 비중은 17개 시·도 가운데 "+rk(rCafe,"높습니다.","낮습니다.")+" 카페는 포스 본체·카드 연동 단말기·영수증 프린터가 기본이고, 손님이 많으면 진동벨이나 키오스크를 더합니다."],
     [sx.a+"는 편의점·슈퍼마켓이 많은 편인가요?",
-     "편의점 "+fmt(x.s["편의점"])+"곳과 슈퍼마켓 "+fmt(x.s["슈퍼마켓"])+"곳을 더하면 "+fmt(conv)+"곳으로 전체 업소의 "+pct(conv,x.t)+"%입니다(전국 "+pct(nconv,NAT.t)+"%). 이 업종은 바코드 스캐너와 상품 등록이 핵심이라, 상품 목록을 파일로 옮길 수 있는지부터 확인합니다."],
+     "편의점 "+fmt(x.s["편의점"])+"곳과 슈퍼마켓 "+fmt(x.s["슈퍼마켓"])+"곳을 더하면 "+fmt(conv)+"곳으로 전체 업소의 "+pct(conv,x.t)+"%입니다(전국 "+pct(nconv,NAT.t)+"%). 이 "+fmt(conv)+"곳은 바코드 스캐너와 상품 등록이 핵심이라, 상품 목록을 파일로 옮길 수 있는지부터 확인합니다."],
     ["지금 쓰는 포스기를 바꾸면 카드 가맹을 다시 해야 하나요?",
      "카드 가맹은 사업자 기준이라 장비만 바꿀 때는 보통 다시 신청하지 않습니다. 밴(VAN)사를 바꾸면 새 밴사를 통해 단말기 등록을 다시 하고, 기존 약정이 남아 있으면 해지 조건부터 확인합니다."],
     [sx.a+" 주점은 포스 마감을 어떻게 맞추나요?",
@@ -1328,14 +1329,14 @@ function posSido(sx){
     vsSentence(sx, v, "업종")+
     vsTable(sx.a+" 포스를 주로 쓰는 업종의 매장 수", "업종", v)+
     hN(6, esc(sx.a)+"에서 먼저 볼 업종별 장비 구성")+
-    "<p>업소 수와 전국 대비 비중을 기준으로 고른 네 업종에 필요한 장비를 정리했습니다. 다른 업종은 <a href=\"/pos\">포스기 안내</a>에 있습니다.</p>"+
+    "<p>"+esc(sx.a)+"의 업소 수와 전국 대비 비중을 기준으로 고른 "+esc(cardNames(cards))+" 네 업종에 필요한 장비를 정리했고, 다른 업종은 <a href=\"/pos\">포스기 안내</a>에 있습니다.</p>"+
     eqCards(cards)+
     hN(7, "설치 절차 — 상담부터 교육까지")+
     flowBlock(steps)+stepList(steps)+
     hN(8, "구매 vs 렌탈 vs 약정 설치")+
     costTable("pos", sx)+
     callout("📍 "+esc(sx.a), esc(gunSentence(sx))+" 층 정보가 있는 업소의 "+up.toFixed(0)+"%가 2층 이상·지하에 있어 회선 위치와 주방까지 배선 거리를 먼저 봅니다."+(NARR[sx.s].isl?" "+esc(J(NARR[sx.s].isl,"은","는"))+" 배편·거리 때문에 방문 일정을 따로 잡습니다.":""))+
-    "<p>구체적인 금액은 매장 구성을 들은 뒤 견적으로 안내합니다. 항목별 설명은 <a href=\"/cost\">비용 구조 안내</a>에 있습니다.</p>"+
+    "<p>"+esc(sx.a)+" 매장의 구체적인 금액은 구성을 들은 뒤 견적으로 안내하며, 항목별 설명은 <a href=\"/cost\">비용 구조 안내</a>에 있습니다.</p>"+
     hN(9, "설치 전 체크리스트")+
     checklist("✅ "+esc(sx.a)+" 포스기 설치 전 확인", CHECK["pos"])+
     hN(10, esc(sx.a)+" 포스기 자주 묻는 질문")+faqBlock(faq);
@@ -1419,7 +1420,7 @@ function cardSido(sx){
       ["결제 잦은 업종", function(y){ return pct(payF(y),y.t)+"%"; }],
       ["군 지역 비율", function(y){ return pct(y.gun,y.t)+"%"; }]]})+
     hN(6, esc(sx.a)+"에서 먼저 볼 업종별 단말기 구성")+
-    "<p>업소 수와 전국 대비 비중을 기준으로 고른 네 대분류의 기종·회선 기준입니다.</p>"+
+    "<p>"+esc(sx.a)+"의 업소 수와 전국 대비 비중을 기준으로 고른 "+esc(cardNames(cards))+" 네 대분류의 기종·회선 기준입니다.</p>"+
     eqCards(cards)+
     hN(7, "설치 절차 — 서류부터 정산 확인까지")+
     flowBlock(steps)+stepList(steps)+
@@ -1461,19 +1462,19 @@ function wlSido(sx){
     [sx.a+"에서 무선단말기를 쓸 만한 업종은 얼마나 되나요?",
      "무선 결제가 잦은 여덟 업종만 더해도 "+fmt(wsum)+"곳으로 "+esc(sx.a)+" 업소의 "+pct(wsum,x.t)+"%입니다(전국 "+pct(nwsum,NAT.t)+"%). 이 가운데 "+esc(J(v.top[0].name,"이","가"))+" "+fmt(v.top[0].n)+"곳으로 가장 많습니다."],
     [sx.a+"의 지하·건물 안쪽 매장에서 LTE가 잘 안 잡히면 어떻게 하나요?",
-     esc(sx.a)+"에는 지하 매장이 "+fmt(f.B||0)+"곳, 2층 이상 매장이 "+fmt(f.up||0)+"곳 등록되어 있습니다. 신호가 약한 곳은 매장 Wi-Fi로 붙는 기종이나 블루투스로 포스·휴대폰에 연결하는 기종을 고르고, 설치 전에 자리에서 신호를 먼저 확인합니다."],
+     esc(sx.a)+"에는 지하 매장이 "+fmt(f.B||0)+"곳, 2층 이상 매장이 "+fmt(f.up||0)+"곳 등록되어 있습니다. 이 "+fmt((f.B||0)+(f.up||0))+"곳처럼 지하·위층이라 신호가 약할 수 있는 매장은 매장 Wi-Fi로 붙는 기종이나 블루투스로 포스·휴대폰에 연결하는 기종을 고르고, 설치 전에 자리에서 신호를 먼저 확인합니다."],
     [sx.a+" 놀이·체육 시설에서도 무선 결제를 하나요?",
-     esc(sx.a)+"에는 유원지·오락 시설이 "+fmt(fun)+"곳, 스포츠 서비스 업소가 "+fmt(sport)+"곳 있습니다. 매표소 밖 현장 판매나 야외 시설 이용료처럼 자리를 옮겨 받는 결제에 무선단말기를 씁니다."],
+     esc(sx.a)+"에는 유원지·오락 시설이 "+fmt(fun)+"곳, 스포츠 서비스 업소가 "+fmt(sport)+"곳 있습니다. 이 "+fmt(fun+sport)+"곳에서는 매표소 밖 현장 판매나 야외 시설 이용료처럼 자리를 옮겨 받는 결제에 무선단말기를 씁니다."],
     [sx.a+" 숙박업소에서도 무선단말기를 쓰나요?",
-     esc(sx.a)+"에는 숙박업소가 "+fmt(stay)+"곳 있습니다. 프런트 결제는 유선 단말기로 하고, 객실·부대시설·조식 결제처럼 프런트 밖에서 받을 때 무선단말기를 함께 쓰는 구성이 많습니다."],
+     esc(sx.a)+"에는 숙박업소가 "+fmt(stay)+"곳 있습니다. 프런트 결제는 유선 단말기로 하고, 객실·부대시설·조식 결제처럼 프런트 밖에서 받을 때 무선단말기를 더하는 구성을 "+esc(sx.a)+" 숙박업소에 권합니다."],
     [sx.a+" 카페 테라스·야외 좌석 결제에도 쓰나요?",
-     esc(sx.a)+"의 카페는 "+fmt(x.s["카페"])+"곳으로 전체 업소의 "+cafeR.toFixed(2)+"%입니다(전국 "+ncafeR.toFixed(2)+"%). 테라스나 대기 줄에서 미리 결제받을 때는 매장 Wi-Fi로 붙는 기종이 통신비 없이 쓰기 좋습니다."],
+     esc(sx.a)+"의 카페는 "+fmt(x.s["카페"])+"곳으로 전체 업소의 "+cafeR.toFixed(2)+"%입니다(전국 "+ncafeR.toFixed(2)+"%). 테라스나 대기 줄에서 미리 결제받는 "+esc(sx.a)+" 카페라면 매장 Wi-Fi로 붙는 기종이 통신비 없이 쓰기 좋습니다."],
     [sx.a+" 세차장·정비소에서도 무선단말기를 쓰나요?",
-     esc(sx.a)+"에는 자동차 수리·세차 업소가 "+fmt(car)+"곳 있습니다. 작업장이나 차량 옆에서 결제하는 일이 많아 LTE 내장형에 보호 케이스를 함께 쓰는 구성이 흔합니다."],
+     esc(sx.a)+"에는 자동차 수리·세차 업소가 "+fmt(car)+"곳 있습니다. 작업장이나 차량 옆에서 결제하는 일이 많아 "+esc(sx.a)+" 세차장·정비소에는 LTE 내장형에 보호 케이스를 함께 쓰는 구성을 권합니다."],
     ["야외 행사에서 하루 종일 쓸 수 있나요?",
      "기종마다 배터리 용량이 달라 행사 시간과 예상 결제 건수를 알려 주시면 맞는 기종과 여분 배터리 구성을 안내합니다. 겨울철 야외에서는 배터리가 더 빨리 닳습니다."],
     [sx.a+"에서 숙박·놀이·수리 업소 가운데 어떤 곳이 많나요?",
-     "소분류로 보면 "+x.sW.slice(0,4).map(function(r){ return esc(r[0])+" "+fmt(r[1])+"곳"; }).join(", ")+" 순입니다. 객실이나 시설 안을 오가며 결제하는 곳은 Wi-Fi형, 야외나 출장 결제가 많은 곳은 LTE 내장형이 맞습니다."],
+     "소분류로 보면 "+x.sW.slice(0,4).map(function(r){ return esc(r[0])+" "+fmt(r[1])+"곳"; }).join(", ")+" 순입니다. "+esc(sx.a)+"에서도 객실이나 시설 안을 오가며 결제하는 곳은 Wi-Fi형, 야외나 출장 결제가 많은 곳은 LTE 내장형이 맞습니다."],
     coverageFaq(sx)
   ];
   const body=
@@ -1494,14 +1495,14 @@ function wlSido(sx){
       ["위층·지하", function(y){ return upperPct(y).toFixed(0)+"%"; }],
       ["군 지역 비율", function(y){ return pct(y.gun,y.t)+"%"; }]]})+
     hN(4, "업소가 많이 모인 행정동")+
-    "<p>업소가 몰린 곳은 건물마다 Wi-Fi 신호가 겹치고 행사 때 휴대폰 통신이 붐빌 수 있어, 연결 방식을 두 가지 이상 준비해 두는 편이 안전합니다.</p>"+
+    "<p>"+esc(dongName(x.dong[0][0]))+"처럼 업소가 몰린 곳은 건물마다 Wi-Fi 신호가 겹치고 행사 때 휴대폰 통신이 붐빌 수 있어, 연결 방식을 두 가지 이상 준비해 두는 편이 안전합니다.</p>"+
     table(sx.a+" 업소가 많은 행정동 상위 8곳", ["순위","시·군·구 · 행정동","업소 수"], x.dong.slice(0,8).map(function(d,i){ return [CIRC[i], esc(dongName(d[0])), fmt(d[1])]; }), [2])+
     allGuBlock(sx, "숙박·놀이·수리 업소 분포", [["전체",function(g){ return fmt(g[1]); }],["숙박",function(g){ return fmt(g[4]); }],["예술·스포츠",function(g){ return fmt(g[5]); }],["수리·개인",function(g){ return fmt(g[6]); }]], x.dong20, "업소가 많은 행정동")+
     hN(5, "숙박·놀이·수리 소분류 상위 10")+
     subSentence(sx, x.sW, "숙박·놀이·수리 업소")+
     subTable(sx, x.sW, sx.a+" 숙박·예술·스포츠·수리·개인 소분류 상위 10", (x.l["숙박"]||0)+(x.l["예술·스포츠"]||0)+(x.l["수리·개인"]||0), "세 업종 중 비중")+
     hN(6, esc(sx.a)+"에서 먼저 볼 업종별 무선단말기 구성")+
-    "<p>업소 수와 전국 대비 비중을 기준으로 고른 네 업종의 통신·배터리 기준입니다.</p>"+
+    "<p>"+esc(sx.a)+"의 업소 수와 전국 대비 비중을 기준으로 고른 "+esc(cardNames(cards))+" 네 업종의 통신·배터리 기준입니다.</p>"+
     eqCards(cards)+
     hN(7, "설치 절차 — 장소 확인부터 충전까지")+
     flowBlock(steps)+stepList(steps)+
@@ -1531,14 +1532,14 @@ function sidoProductPage(p, sx){
     thumbFig(key, c.alt)+
     c.lead+c.body+
     srcNote()+
-    ctaBox(sx.a+" 매장 상황을 알려 주세요", "위치와 업종, 지금 쓰는 장비를 알려 주시면 맞는 "+P.name+" 구성을 정리해 드립니다.")+
+    ctaBox(sx.a+" 매장 상황을 알려 주세요", "매장이 "+sx.a+" 어디에 있는지와 업종, 지금 쓰는 장비를 알려 주시면 맞는 "+P.name+" 구성을 정리해 드립니다.")+
     sidoLinks(p,sx);
   const jsonld=[orgLd(),
     {"@context":"https://schema.org","@type":"Service","name":sx.a+" "+P.name+" 설치 안내","serviceType":P.name+" 설치","url":url,"image":ogPng(key),
      "provider":orgRef(),"areaServed":{"@type":"AdministrativeArea","name":sx.n},"description":c.desc,
      "hasOfferCatalog":offerCatalog(sx.a+" "+P.name+" 설치 서비스", P.name)},
     {"@context":"https://schema.org","@type":"ItemList","name":sx.a+"에서 먼저 볼 업종별 "+P.name+" 구성","itemListOrder":"https://schema.org/ItemListUnordered","numberOfItems":c.cards.length,
-     "itemListElement":c.cards.map(function(k,i){ return {"@type":"ListItem","position":i+1,"name":k.name+" "+P.name+" 구성","description":k.rows.map(function(r){ return r[0].replace(/^💡 /,"")+": "+r[1]; }).join(" / ")}; })},
+     "itemListElement":c.cards.map(function(k,i){ return {"@type":"ListItem","position":i+1,"url":url+"#eq-"+(i+1),"name":k.name+" "+P.name+" 구성","description":k.rows.map(function(r){ return r[0].replace(/^💡 /,"")+": "+r[1]; }).join(" / ")}; })},
     crumbLd(cr), faqLd(c.faq)
   ];
   return shell({title:c.title, desc:c.desc, url:url, jsonld:jsonld, nav:"/"+p, image:ogPng(key), imageAlt:c.alt, preload:thumbPreload(key)}, pageFrame({crumbs:cr}, inner));
