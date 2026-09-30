@@ -10,3 +10,7 @@ crons = ["0 3 * * *"]
 binding = "DB"
 database_name = "allcare_stats"
 database_id = "d53a86d3-c541-4a3d-9358-bca98b1f71b4"
+
+# 사진(WebP)은 public/img 에서 같은 도메인 정적 자산으로 낸다. 파일이 없는 주소만 워커로 넘어간다.
+[assets]
+directory = "./public"
