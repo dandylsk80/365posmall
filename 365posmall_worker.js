@@ -2791,6 +2791,41 @@ function legacyTarget(path){
   if((k==="pos"||k==="card-terminal") && seg.length===3 && SIDO_BY_S.has(seg[2])) return "/"+k;
   return null;
 }
+/* ===== 엣지 HTML 캐시 (Cache API) =====
+   Workers 응답은 Cache-Control 만으로는 엣지에 저장되지 않아 caches.default 를 직접 쓴다.
+   HTML_CACHE_VER: 본문·템플릿을 바꿔 배포할 때 반드시 올린다 — 올리면 이전 캐시는 모두 무시된다.
+   postVer(): 글 수 + 최신 발행일. 글이 발행되면 5분(POSTS_CACHE TTL) 안에 모든 키가 바뀐다.
+   글 본문만 수정한 경우는 키가 안 바뀐다 — /post/* 는 1시간 뒤 새로 만든다. */
+const HTML_CACHE_VER = "1";
+function postVer(){ const r=POSTS_CACHE.rows||[]; return r.length+"-"+(r[0]?String(r[0].published_at||""):""); }
+function edgeTtl(path){
+  if(path.startsWith("/post/")||path==="/sitemap.xml"||path==="/llms.txt"||/^\/(rss|feed|atom)(\.xml)?$/.test(path)) return 3600;
+  return 21600;
+}
+async function edgeCached(ctx, path, make){
+  const key=new Request(SITE+path+"?_cv="+HTML_CACHE_VER+"."+encodeURIComponent(postVer()), {method:"GET"});
+  const cache=caches.default;
+  try{
+    const hit=await cache.match(key);
+    if(hit){
+      const r=new Response(hit.body, hit);
+      r.headers.set("cache-control", hit.headers.get("x-browser-cc")||"public, max-age=600");
+      r.headers.delete("x-browser-cc"); r.headers.set("x-edge-cache","HIT");
+      return r;
+    }
+  }catch(e){}
+  const res=await make();
+  if(!res || res.status!==200) return res;
+  const bcc=res.headers.get("cache-control")||"public, max-age=600";
+  const store=new Response(res.clone().body, res);
+  store.headers.set("x-browser-cc", bcc);
+  store.headers.set("cache-control", "public, max-age="+edgeTtl(path));
+  const put=cache.put(key, store).catch(function(){});
+  if(ctx&&ctx.waitUntil) ctx.waitUntil(put);
+  const out=new Response(res.body, res); out.headers.set("x-edge-cache","MISS");
+  return out;
+}
+
 const HOME_MOVED = new Set(["/list","/sitemap.html","/find","/biz"]);
 
 const __APP = {
@@ -2804,11 +2839,10 @@ const __APP = {
     if (await tkDup(env, '365posmall', b.type, (b.page || '').slice(0, 300), request.headers.get('CF-Connecting-IP') || '')) {
       return new Response(JSON.stringify({ ok: true, dup: 1 }), { headers: { 'content-type': 'application/json', 'access-control-allow-origin': '*' } });
     }
-const ua=request.headers.get("User-Agent")||"";if(!TG_BOT_RE.test(ua)&&TG_LABEL[b.type]){const tgp=tgNotify(env, b.type,(b.page||"/").slice(0,300),b.ref||"",ua, String(b.b || "").slice(0, 40), b.q||"");if(ctx&&ctx.waitUntil)ctx.waitUntil(tgp);else await tgp;}const ip=request.headers.get("CF-Connecting-IP")||"";const ts=new Date().toISOString();if(env&&env.DB&&!(b.type==="view"&&BOT_UA_RE.test(request.headers.get("User-Agent")||"")||(b.type==="view"&&skipViewCf(request, request.headers.get("CF-Connecting-IP")||"")))&&(b.type==="tel"||b.type==="sms"||b.type==="contact"||b.type==="view")){await env.DB.prepare('INSERT INTO events (site,type,page,ref,ip,ts,ua,device,source,keyword) VALUES (?,?,?,?,?,?,?,?,?,?)')
-            .bind('365posmall', b.type, (b.page||'').slice(0,300), (b.ref||'').slice(0,120), ip, ts, ...tkMeta(request.headers.get('User-Agent')||'', b.ref||'', '365posmall.com', b.q||"")).run();}}catch(e){}return new Response(JSON.stringify({ok:true}),{headers:{"Content-Type":"application/json","Access-Control-Allow-Origin":"*"}});}
+const ua=request.headers.get("User-Agent")||"";if(!TG_BOT_RE.test(ua)&&TG_LABEL[b.type]){const tgp=tgNotify(env, b.type,(b.page||"/").slice(0,300),b.ref||"",ua, String(b.b || "").slice(0, 40), b.q||"");if(ctx&&ctx.waitUntil)ctx.waitUntil(tgp);else await tgp;}const ip=request.headers.get("CF-Connecting-IP")||"";const ts=new Date().toISOString();if(env&&env.DB&&!(b.type==="view"&&BOT_UA_RE.test(request.headers.get("User-Agent")||"")||(b.type==="view"&&skipViewCf(request, request.headers.get("CF-Connecting-IP")||"")))&&(b.type==="tel"||b.type==="sms"||b.type==="contact"||b.type==="view")){const __ev=env.DB.prepare('INSERT INTO events (site,type,page,ref,ip,ts,ua,device,source,keyword) VALUES (?,?,?,?,?,?,?,?,?,?)')
+            .bind('365posmall', b.type, (b.page||'').slice(0,300), (b.ref||'').slice(0,120), ip, ts, ...tkMeta(request.headers.get('User-Agent')||'', b.ref||'', '365posmall.com', b.q||"")).run();const __evp=Promise.resolve(__ev).catch(()=>{});if(ctx&&ctx.waitUntil)ctx.waitUntil(__evp);else await __evp;}}catch(e){}return new Response(JSON.stringify({ok:true}),{headers:{"Content-Type":"application/json","Access-Control-Allow-Origin":"*"}});}
     if(path==="/api/track"&&request.method==="OPTIONS")return new Response(null,{headers:{"Access-Control-Allow-Origin":"*","Access-Control-Allow-Methods":"POST,OPTIONS","Access-Control-Allow-Headers":"Content-Type"}});
     if(path==="/robots.txt") return new Response(ROBOTS,{headers:{"content-type":"text/plain; charset=UTF-8","cache-control":"no-cache, no-store, max-age=0"}});
-    if(path==="/llms.txt") return resp(llmsTxt(),"text/plain; charset=UTF-8");
     if(GOOGLE_VERIFY_FILE && path==="/"+GOOGLE_VERIFY_FILE) return resp("google-site-verification: "+GOOGLE_VERIFY_FILE,"text/plain; charset=UTF-8");
     if(BING_VERIFY && path==="/BingSiteAuth.xml") return resp('<?xml version="1.0"?><users><user>'+BING_VERIFY+'</user></users>',"application/xml; charset=UTF-8");
     if(INDEXNOW_KEY && path==="/"+INDEXNOW_KEY+".txt") return resp(INDEXNOW_KEY,"text/plain; charset=UTF-8");
@@ -2832,6 +2866,8 @@ const ua=request.headers.get("User-Agent")||"";if(!TG_BOT_RE.test(ua)&&TG_LABEL[
     if(path==="/sitemap-main.xml"||path==="/sitemap-r.xml"||path==="/sitemap-card.xml") return moved("/sitemap.xml");
 
     await loadPosts(env);
+    const __run=async()=>{
+    if(path==="/llms.txt") return resp(llmsTxt(),"text/plain; charset=UTF-8");
     if(path==="/sitemap.xml") return resp(sitemapAll(),"application/xml; charset=UTF-8",{"cache-control":"public, max-age=3600"});
     if(path==="/rss.xml"||path==="/feed.xml"||path==="/rss"||path==="/feed") return resp(rssFeed(),"application/rss+xml; charset=UTF-8");
     if(path==="/atom.xml"||path==="/atom") return resp(atomFeed(),"application/atom+xml; charset=UTF-8");
@@ -2855,6 +2891,10 @@ const ua=request.headers.get("User-Agent")||"";if(!TG_BOT_RE.test(ua)&&TG_LABEL[
       if(HOME_MOVED.has(bare)) return moved("/");
     }
     return new Response(notFound(),{status:404,headers:{"content-type":"text/html; charset=UTF-8"}});
+    };
+    /* 엣지 캐시 — GET 200 만. 쿼리(utm 등)는 키에서 뺀다(유입 추적은 브라우저가 location.search 로 읽는다) */
+    if(request.method==="GET" && typeof caches!=="undefined") return edgeCached(ctx, path, __run);
+    return __run();
   },
   async scheduled(event,env,ctx){
     try{ POSTS_CACHE.at=0; await loadPosts(env); }catch(e){}
