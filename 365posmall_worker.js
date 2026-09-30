@@ -259,13 +259,14 @@ const DATA_SRC     = "소상공인시장진흥공단 상가(상권)정보";
 const DATA_URL     = "https://www.data.go.kr/data/15083033/fileData.do";
 
 /* 사진은 public/img 에서 Workers 정적 자산으로 같은 도메인에서 나간다(WebP·크기 고정).
+   화면 표시용은 800px 이하 WebP(50KB 안팎)만 쓴다. og:image 만 public/og/*.png 1200×630. (2026-10-01)
    홈 배경 사진만 여기서 쓰고, 페이지별 대표 이미지는 public/og 에 있다. */
 const IMG = {
-  "home-hero":        {w:1600,h:1200, s:[800,1600]},
-  "home-region":      {w:1400,h:935,  s:[700,1400]},
-  "home-quote":       {w:1400,h:933,  s:[700,1400]},
-  "home-sido":        {w:1400,h:933,  s:[700,1400]},
-  "home-close":       {w:1400,h:933,  s:[700,1400]}
+  "home-hero":        {w:800,h:600, s:[400,800]},
+  "home-region":      {w:800,h:534, s:[400,800]},
+  "home-quote":       {w:800,h:533, s:[400,800]},
+  "home-sido":        {w:800,h:533, s:[400,800]},
+  "home-close":       {w:800,h:533, s:[400,800]}
 };
 function imgUrl(name,w){ return "/img/"+name+"-"+w+".webp"; }
 function imgTag(name, alt, opt){
@@ -983,9 +984,9 @@ function eqCards(cards){
       "<dl>"+c.rows.map(function(r){ return "<dt>"+r[0]+"</dt><dd>"+esc(r[1])+"</dd>"; }).join("")+"</dl></div>"; }).join("")+"</div>";
 }
 function thumbFig(key, alt){
-  return "<figure class=thumb><img src=\"/og/"+key+"-1200.webp\" srcset=\"/og/"+key+"-600.webp 600w, /og/"+key+"-1200.webp 1200w\" sizes=\"(max-width:768px) 100vw, 720px\" width=\"1200\" height=\"630\" alt=\""+esc(alt)+"\" fetchpriority=\"high\" decoding=\"async\"></figure>";
+  return "<figure class=thumb><img src=\"/og/"+key+"-800.webp\" srcset=\"/og/"+key+"-400.webp 400w, /og/"+key+"-800.webp 800w\" sizes=\"(max-width:768px) 100vw, 720px\" width=\"800\" height=\"420\" alt=\""+esc(alt)+"\" fetchpriority=\"high\" decoding=\"async\"></figure>";
 }
-function thumbPreload(key){ return {href:"/og/"+key+"-1200.webp", srcset:"/og/"+key+"-600.webp 600w, /og/"+key+"-1200.webp 1200w", sizes:"(max-width:768px) 100vw, 720px"}; }
+function thumbPreload(key){ return {href:"/og/"+key+"-800.webp", srcset:"/og/"+key+"-400.webp 400w, /og/"+key+"-800.webp 800w", sizes:"(max-width:768px) 100vw, 720px"}; }
 function ogPng(key){ return SITE+"/og/"+key+".png"; }
 
 const COST_TBL = {
@@ -2256,7 +2257,7 @@ function homePage(){
    "</div></div></div>"+
    "</div>";
   return shell({title:BRAND+" — 업종별 포스기·카드단말기·토스단말기 설치 안내", desc:"음식점·카페·편의점·미용실·학원·병의원 등 12개 업종별 포스기·카드단말기 설치 안내. 업종 계산대 동선에 맞는 장비 구성, 비용 요인, 설치 절차를 정리했습니다.", url:SITE+"/",
-    preload:{href:imgUrl("home-hero",1600), srcset:hero.s.map(function(w){ return imgUrl("home-hero",w)+" "+w+"w"; }).join(", "), sizes:"100vw"},
+    preload:{href:imgUrl("home-hero",800), srcset:hero.s.map(function(w){ return imgUrl("home-hero",w)+" "+w+"w"; }).join(", "), sizes:"100vw"},
     image:ogPng("home"), imageAlt:BRAND+" — 업종별 포스기·카드단말기 설치 안내",
     jsonld:[orgLd(), {"@context":"https://schema.org","@type":"WebSite","@id":SITE+"/#website","name":BRAND,"url":SITE+"/","inLanguage":"ko-KR","publisher":orgRef()},
       {"@context":"https://schema.org","@type":"ItemList","name":BRAND+" 업종별 안내","numberOfItems":BIZ.length,
