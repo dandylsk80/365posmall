@@ -2557,6 +2557,12 @@ function llmsTxt(){
 }
 
 // ---------- IndexNow ----------
+/* cron 과 /indexnow/today 가 같은 목록을 쓴다: 최근 7일 글 → 사이트맵 페이지 전체(중복 제거) */
+function cronUrls(){
+  const seen=new Set(), out=[];
+  for(const u of postFreshUrls().concat(pageUrls())){ if(!seen.has(u)){ seen.add(u); out.push(u); } }
+  return out;
+}
 function allUrls(){ return pageUrls().concat((POSTS_CACHE.rows||[]).map(function(p){ return POST_ORIGIN+"/post/"+p.slug+"/"; })); }
 async function submitIndexNow(urls,env,ctx,source){
   if(!INDEXNOW_KEY || !urls || !urls.length) return {sent:0,batches:0};
@@ -2849,7 +2855,7 @@ const ua=request.headers.get("User-Agent")||"";if(!TG_BOT_RE.test(ua)&&TG_LABEL[
     if(path==="/indexnow/today"||path==="/indexnow/all"){
       if(url.searchParams.get("key")!==INDEXNOW_KEY) return new Response("forbidden",{status:403});
       await loadPosts(env);
-      const urls=path.endsWith("/all")?allUrls():postFreshUrls();
+      const urls=path.endsWith("/all")?allUrls():cronUrls();
       const res=await submitIndexNow(urls,env,null,"manual");
       return new Response(JSON.stringify({requested:urls.length,sent:res.sent,batches:res.batches,naver:res.naver}),{headers:{"content-type":"application/json; charset=UTF-8"}});
     }
@@ -2898,9 +2904,9 @@ const ua=request.headers.get("User-Agent")||"";if(!TG_BOT_RE.test(ua)&&TG_LABEL[
   },
   async scheduled(event,env,ctx){
     try{ POSTS_CACHE.at=0; await loadPosts(env); }catch(e){}
-    /* 매일 전 페이지 제출은 폐기했다 — 최근 7일 안에 발행된 글이 있을 때만 제출한다 */
-    const fresh=postFreshUrls();
-    if(fresh.length) ctx.waitUntil(submitIndexNow(fresh,env,null,"cron"));
+    /* 2026-10-08: 사이트맵 전 페이지(업종×제품 49p + 고정)를 매일 1회 제출하고, 최근 7일 글은 앞에 싣는다 */
+    const urls=cronUrls();
+    if(urls.length) ctx.waitUntil(submitIndexNow(urls,env,null,"cron"));
   }
 };
 
