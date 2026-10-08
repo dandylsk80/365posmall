@@ -2256,7 +2256,7 @@ function homePage(){
      "</div>"+
    "</div></div></div>"+
    "</div>";
-  return shell({title:BRAND+" — 업종별 포스기·카드단말기·토스단말기 설치 안내", desc:"음식점·카페·편의점·미용실·학원·병의원 등 12개 업종별 포스기·카드단말기 설치 안내. 업종 계산대 동선에 맞는 장비 구성, 비용 요인, 설치 절차를 정리했습니다.", url:SITE+"/",
+  return shell({title:"업종별 포스기·카드단말기·토스단말기 설치 안내 | "+BRAND, desc:"음식점·카페·편의점·미용실·학원·병의원 등 12개 업종별 포스기·카드단말기 설치 안내. 업종 계산대 동선에 맞는 장비 구성, 비용 요인, 설치 절차를 정리했습니다.", url:SITE+"/",
     preload:{href:imgUrl("home-hero",800), srcset:hero.s.map(function(w){ return imgUrl("home-hero",w)+" "+w+"w"; }).join(", "), sizes:"100vw"},
     image:ogPng("home"), imageAlt:BRAND+" — 업종별 포스기·카드단말기 설치 안내",
     jsonld:[orgLd(), {"@context":"https://schema.org","@type":"WebSite","@id":SITE+"/#website","name":BRAND,"url":SITE+"/","inLanguage":"ko-KR","publisher":orgRef()},
@@ -2297,7 +2297,7 @@ const FAQ_ALL = [
 
 const PAGES = {
   "/about": function(){ return staticPage({path:"/about", type:"AboutPage", eyebrow:"회사 소개", h1:BRAND+" 소개",
-    title:"회사 소개 — "+BRAND, desc:J(BRAND,"은","는")+" 포스기·카드단말기·무선단말기 상담과 카드 가맹 서류 안내, 방문 설치, 교체와 사후 지원을 합니다. 사업자 정보와 일하는 방식을 안내합니다.",
+    title:"회사 소개 | "+BRAND, desc:J(BRAND,"은","는")+" 포스기·카드단말기·무선단말기 상담과 카드 가맹 서류 안내, 방문 설치, 교체와 사후 지원을 합니다. 사업자 정보와 일하는 방식을 안내합니다.",
     html:
       "<p class=lead>"+J(BRAND,"은","는")+" 매장에 맞는 결제 장비를 고르고, 카드 가맹 서류를 챙기고, 설치와 사용 교육까지 한 번에 안내하는 곳입니다.</p>"+
       hN(0,"하는 일")+eqCards([
@@ -2375,7 +2375,7 @@ const PAGES = {
       "<p>상담 때 받은 연락처와 내용의 처리 방법은 <a href=\"/privacy\" style=\"color:var(--blue)\">개인정보처리방침</a>을 보세요.</p>"}); },
 
   "/privacy": function(){ return staticPage({path:"/privacy", eyebrow:"개인정보처리방침", h1:"개인정보처리방침", cta:false,
-    title:"개인정보처리방침 — "+BRAND, desc:BRAND+" 개인정보처리방침. 상담 때 받는 정보와 사이트 방문 기록의 수집 항목, 이용 목적, 보유 기간, 문의처를 안내합니다.",
+    title:"개인정보처리방침 | "+BRAND, desc:BRAND+" 개인정보처리방침. 상담 때 받는 정보와 사이트 방문 기록의 수집 항목, 이용 목적, 보유 기간, 문의처를 안내합니다.",
     html:
       "<p class=lead>"+BRAND+"(이하 '회사')는 상담과 서비스 제공에 필요한 최소한의 정보만 받으며, 아래와 같이 처리합니다.</p>"+
       "<h2>수집하는 정보와 목적</h2>"+
@@ -2394,7 +2394,7 @@ const PAGES = {
       "<h2>문의처</h2>"+table("개인정보 문의", ["항목","내용"], [["전화·문자",PHONE]])}); },
 
   "/terms": function(){ return staticPage({path:"/terms", eyebrow:"이용약관", h1:"이용약관", cta:false,
-    title:"이용약관 — "+BRAND, desc:BRAND+" 웹사이트 이용약관. 정보 제공 범위, 이용자 책임, 저작권, 면책과 분쟁 해결 기준을 안내합니다.",
+    title:"이용약관 | "+BRAND, desc:BRAND+" 웹사이트 이용약관. 정보 제공 범위, 이용자 책임, 저작권, 면책과 분쟁 해결 기준을 안내합니다.",
     html:
       "<h2>목적</h2><p>이 약관은 "+BRAND+"(이하 '회사')가 운영하는 웹사이트(365posmall.com)의 이용 조건을 정합니다.</p>"+
       "<h2>제공하는 정보</h2><p>사이트는 포스기·카드단말기·무선단말기와 설치 절차에 관한 일반 정보, 공공데이터를 집계한 업종별 자료를 제공합니다. 실제 계약 조건(금액, 약정, 수수료 등)은 개별 계약서가 우선합니다.</p>"+
@@ -2757,7 +2757,7 @@ function logIndexnow(env, ctx, row){
 
 
 function notFound(){
-  return shell({title:"페이지를 찾을 수 없습니다 — "+BRAND, desc:"요청하신 페이지가 없습니다.", url:SITE+"/", noindex:true},
+  return shell({title:"페이지를 찾을 수 없습니다 | "+BRAND, desc:"요청하신 페이지가 없습니다.", url:SITE+"/", noindex:true},
    "<div class=col><section class=hero><span class=eyebrow><i></i>404</span><h1 class=serif style=\"font-size:clamp(30px,6vw,56px);margin-top:16px\">페이지를 찾을 수 없습니다.</h1>"+
    "<p class=sub>주소가 바뀌었거나 없는 페이지입니다. <a href=\"/\" style=\"color:var(--blue);text-decoration:underline\">홈</a>에서 장비와 업종을 골라 보세요.</p></section>"+
    "<div class=near><div class=g>"+PROD_KEYS.map(function(k){ return "<a href=\"/"+k+"\">"+PROD[k].name+" 안내</a>"; }).join("")+BIZ.map(function(b){ return "<a href=\""+bizUrl(b)+"\">"+b.ico+" "+esc(b.name)+"</a>"; }).join("")+"<a href=\"/faq\">자주 묻는 질문</a></div></div></div>");
@@ -2796,7 +2796,7 @@ function legacyTarget(path){
    HTML_CACHE_VER: 본문·템플릿을 바꿔 배포할 때 반드시 올린다 — 올리면 이전 캐시는 모두 무시된다.
    postVer(): 글 수 + 최신 발행일. 글이 발행되면 5분(POSTS_CACHE TTL) 안에 모든 키가 바뀐다.
    글 본문만 수정한 경우는 키가 안 바뀐다 — /post/* 는 1시간 뒤 새로 만든다. */
-const HTML_CACHE_VER = "1";
+const HTML_CACHE_VER = "2";   /* 2026-10-08 사이트명 통일(title 끝 | 365포스몰) */
 function postVer(){ const r=POSTS_CACHE.rows||[]; return r.length+"-"+(r[0]?String(r[0].published_at||""):""); }
 function edgeTtl(path){
   if(path.startsWith("/post/")||path==="/sitemap.xml"||path==="/llms.txt"||/^\/(rss|feed|atom)(\.xml)?$/.test(path)) return 3600;
