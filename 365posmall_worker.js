@@ -2213,7 +2213,7 @@ function homePage(){
      bizGrid(null)+
    "</div></section>"+
 
-   "<section class='jsec secbg'><div class='sbg'>"+imgTag("home-region","")+"</div><div class='wrap reveal'>"+
+   "<section class='jsec secbg'><div class='sbg'>"+imgTag("home-sido","")+"</div><div class='wrap reveal'>"+
      "<div class='jkr'>업종 기준</div>"+
      "<h2 class='jh2'>평균적인 매장이 아니라,<br>우리 업종 계산대 기준으로.</h2>"+
      "<div class='jwhy-grid'>"+
@@ -2802,7 +2802,7 @@ function legacyTarget(path){
    HTML_CACHE_VER: 본문·템플릿을 바꿔 배포할 때 반드시 올린다 — 올리면 이전 캐시는 모두 무시된다.
    postVer(): 글 수 + 최신 발행일. 글이 발행되면 5분(POSTS_CACHE TTL) 안에 모든 키가 바뀐다.
    글 본문만 수정한 경우는 키가 안 바뀐다 — /post/* 는 1시간 뒤 새로 만든다. */
-const HTML_CACHE_VER = "2";   /* 2026-10-08 사이트명 통일(title 끝 | 365포스몰) */
+const HTML_CACHE_VER = "3";   /* 2026-10-12 홈 지역 섹션 배경 사진 교체 */
 function postVer(){ const r=POSTS_CACHE.rows||[]; return r.length+"-"+(r[0]?String(r[0].published_at||""):""); }
 function edgeTtl(path){
   if(path.startsWith("/post/")||path==="/sitemap.xml"||path==="/llms.txt"||/^\/(rss|feed|atom)(\.xml)?$/.test(path)) return 3600;
