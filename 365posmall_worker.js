@@ -235,7 +235,7 @@ document.addEventListener('click',show,true);})();
 `;
 /* 본문·푸터용 전화 버튼. aria-label 을 고정해 추적 라벨(b)이 흔들리지 않게 한다 */
 function telBtn(cls, label, attrs){
-  return "<a "+(cls?"class='"+cls+"' ":"")+(attrs?attrs+" ":"")+"href=\"tel:"+PHONE_TEL+"\" data-tel aria-label=\"전화 상담\"><span class=tel-lb>"+(label||"전화 상담")+"</span></a>";
+  return "<a "+(cls?"class='"+cls+"' ":"")+(attrs?attrs+" ":"")+"href=\"tel:"+PHONE_TEL+"\" data-tel aria-label=\"전화 상담\"><span class=tel-lb>"+(label||"전화 상담")+"</span></a><span class='telt tbtxt'>전화 "+PHONE+"</span>";
 }
 
 const PHONE     = "010-9876-8282";               // 표시용 전화번호
@@ -368,6 +368,9 @@ function head(o){
   ].join("");
 }
 const CSS = `
+/* PC(769px~)는 전화를 걸 수 없으니 tel: 버튼을 숨기고 번호를 일반 텍스트로 보인다. 모바일은 그대로 */
+.telt{display:none}
+@media(min-width:769px){a[href^="tel:"]{display:none!important}.telt{display:inline-flex;align-items:center}.telt.htel{font-size:14px;font-weight:700;color:var(--ink);padding:9px 0}.telt.tbtxt{font-weight:700;font-size:16px}.telt.fabt{gap:8px;padding:12px 17px;border-radius:10px;font-weight:700;font-size:14px;background:var(--ink);color:#fff;box-shadow:0 8px 24px -10px rgba(11,21,38,.4)}.telt.fabt .fab-ic{display:inline-flex;width:17px;height:17px}.telt.fabt .fab-ic svg{width:100%;height:100%}}
 :root{--bg:#FAFBFC;--card:#FFFFFF;--ink:#0B1526;--navy:#0E1B2E;--blue:#1E5BD8;--blue2:#14418F;--sky:#EDF2FB;--muted:#64748B;--line:#E5E9F0;--soft:#F4F6F9}
 *{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth;overflow-x:hidden}
@@ -842,7 +845,7 @@ function shell(o, body){
       "<a class=brand href=\"/\">"+logo+"</a>"+
       "<div class=hcall>"+
         "<a class='hbtn' href=\"sms:"+PHONE_TEL+"\">문자 문의</a>"+
-        "<a class='hbtn call' href=\"tel:"+PHONE_TEL+"\"><span class='w-full'>"+PHONE+"</span><span class='w-min'>전화</span></a>"+
+        "<a class='hbtn call' href=\"tel:"+PHONE_TEL+"\"><span class='w-full'>"+PHONE+"</span><span class='w-min'>전화</span></a><span class='telt htel'>"+PHONE+"</span>"+
       "</div>"+
     "</div></div>"+nav+"</header><main id=main>"+ body +"</main>"+
     "<footer><div class=wrap><div class=flogo>"+logo+"</div>"+
@@ -852,7 +855,7 @@ function shell(o, body){
       "<p class=fbiz>상호 "+BRAND+" · 전화 "+PHONE+"</p>"+
     "</div></footer>"+
     "<div class=floatbtns>"+
-      "<a class='fab fab-call' href=\"tel:"+PHONE_TEL+"\" aria-label=\"전화 상담\"><span class=fab-ic>"+icTel+"</span><span class=fab-t>전화 상담</span></a>"+
+      "<a class='fab fab-call' href=\"tel:"+PHONE_TEL+"\" aria-label=\"전화 상담\"><span class=fab-ic>"+icTel+"</span><span class=fab-t>전화 상담</span></a><span class='telt fabt'><span class=fab-ic>"+icTel+"</span>"+PHONE+"</span>"+
       "<a class='fab fab-sms' href=\"sms:"+PHONE_TEL+"\" aria-label=\"문자 상담\"><span class=fab-ic>"+icMsg+"</span><span class=fab-t>문자 상담</span></a>"+
     "</div>"+
     "<script>"+REVEAL_JS+TELBTN_JS+"</script>"+
@@ -2802,7 +2805,7 @@ function legacyTarget(path){
    HTML_CACHE_VER: 본문·템플릿을 바꿔 배포할 때 반드시 올린다 — 올리면 이전 캐시는 모두 무시된다.
    postVer(): 글 수 + 최신 발행일. 글이 발행되면 5분(POSTS_CACHE TTL) 안에 모든 키가 바뀐다.
    글 본문만 수정한 경우는 키가 안 바뀐다 — /post/* 는 1시간 뒤 새로 만든다. */
-const HTML_CACHE_VER = "3";   /* 2026-10-12 홈 지역 섹션 배경 사진 교체 */
+const HTML_CACHE_VER = "4";   /* 2026-10-12 홈 지역 섹션 배경 사진 교체 */
 function postVer(){ const r=POSTS_CACHE.rows||[]; return r.length+"-"+(r[0]?String(r[0].published_at||""):""); }
 function edgeTtl(path){
   if(path.startsWith("/post/")||path==="/sitemap.xml"||path==="/llms.txt"||/^\/(rss|feed|atom)(\.xml)?$/.test(path)) return 3600;
