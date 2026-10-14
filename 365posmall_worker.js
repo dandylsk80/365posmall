@@ -2789,15 +2789,23 @@ function renderPage(path){
   }
   return null;
 }
-/* 옛 주소 → 새 주소 (3차 재구성, 2026-09-30).
-   시·도×제품·무선단말기·옛 /r·/card·/sigungu·/sido 는 모두 해당 제품 페이지로 모은다. */
+/* 옛 주소 → 새 주소 (3차 재구성 2026-09-30 · 누락 보완 2026-10-14).
+   옛 허브 루트(/r·/card·/sido·/sigungu·/region)와 그 아래 전부, /pos|/card-terminal 아래 업종 키가 아닌 조각(시도·구·동 등 깊이 무관),
+   업종 페이지 뒤에 붙은 조각(/pos/restaurant/…), /biz/{모르는 키}, /list/* 를 가장 가까운 새 페이지로 모은다.
+   살아 있는 49쪽(/pos·/card-terminal·/biz/{업종}·/pos|/card-terminal/{업종}·고정)은 null 을 돌려 렌더로 넘긴다. 끝 슬래시는 여기서 떼고 본다 */
 function legacyTarget(path){
-  const seg=path.split("/"), k=seg[1];
+  const seg=path.replace(/\/+$/,"").split("/"), k=seg[1]||"", s2=seg[2]||"";
+  if(!k) return null;
   if(k==="wireless-terminal") return "/card-terminal";
-  if(seg.length<3 || !seg[2]) return null;
-  if(k==="r"||k==="sigungu"||k==="sido") return "/pos";
+  if(k==="r"||k==="sigungu"||k==="sido"||k==="region") return "/pos";
   if(k==="card") return "/card-terminal";
-  if((k==="pos"||k==="card-terminal") && seg.length===3 && SIDO_BY_S.has(seg[2])) return "/"+k;
+  if(k==="pos"||k==="card-terminal"){
+    if(!s2) return null;
+    if(BIZ_BY.has(s2)) return seg.length>3?"/"+k+"/"+s2:null;
+    return "/"+k;
+  }
+  if(k==="biz"){ if(!s2) return "/"; return BIZ_BY.has(s2)?(seg.length>3?"/biz/"+s2:null):"/"; }
+  if(k==="list"||k==="find"||k==="sitemap.html") return "/";
   return null;
 }
 /* ===== 엣지 HTML 캐시 (Cache API) =====
@@ -2869,7 +2877,9 @@ const ua=request.headers.get("User-Agent")||"";if(!TG_BOT_RE.test(ua)&&TG_LABEL[
     if(path==="/favicon-32.png") return new Response(b64bytes(FAVICON_PNG32_B64),{headers:{"content-type":"image/png","cache-control":"public, max-age=86400"}});
     if(path==="/apple-touch-icon.png"||path==="/apple-touch-icon-precomposed.png") return new Response(b64bytes(APPLE_PNG_B64),{headers:{"content-type":"image/png","cache-control":"public, max-age=86400"}});
 
-    /* 옛 주소 1.3만 — 한 번에 새 페이지(200)로 */
+    /* 옛 주소 1.3만 — 한 번에 새 페이지(200)로 (엣지 캐시보다 앞이라 404 캐시와 무관) */
+    /* 링크 뒤에 sms:·tel: 조각이 붙은 주소(크롤러가 버튼 href 를 이어 붙인 것)는 조각을 떼고 그 주소의 새 페이지로 한 번에 */
+    if(/\/(sms|tel):[^/]*\/?$/.test(path)){ const st=path.replace(/\/(sms|tel):[^/]*\/?$/,"")||"/"; return moved(HOME_MOVED.has(st)?"/":(legacyTarget(st)||(st==="/post"?"/post/":st))); }
     if(HOME_MOVED.has(path)) return moved("/");
     const lg=legacyTarget(path); if(lg) return moved(lg);
     if(path==="/sitemap-main.xml"||path==="/sitemap-r.xml"||path==="/sitemap-card.xml") return moved("/sitemap.xml");
