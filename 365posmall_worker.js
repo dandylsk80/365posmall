@@ -2122,6 +2122,17 @@ const HUB = {
          ["가게를 옮기면 단말기를 다시 설치해야 하나요?","주소가 바뀌면 사업자등록 정정과 카드사 가맹 정보 변경이 필요하고, 새 매장 회선에 맞춰 단말기를 다시 설치합니다."]]
   }
 };
+/* 전체 안내 — 사이트 전 페이지 제목 링크(본문 아래, 제목만). /pos 에만 붙인다(홈은 본문에서 이미 전부 링크). */
+const FIXED_NAME={"/about":"회사 소개","/cost":"비용 구조 안내","/install":"설치 절차와 준비 서류","/faq":"자주 묻는 질문","/contact":"상담 문의","/privacy":"개인정보처리방침","/terms":"이용약관"};
+function allPagesBlock(){
+  const a=function(h,t){ return "<a href=\""+h+"\">"+esc(t)+"</a>"; };
+  const g=function(t,links){ return "<div class=near><h3>"+esc(t)+"</h3><div class=g>"+links.join("")+"</div></div>"; };
+  return "<h2>전체 안내</h2>"+
+    g("업종별 안내", BIZ.map(function(b){ return a(bizUrl(b), kw(b)+" 포스기·카드단말기"); }))+
+    PROD_KEYS.map(function(p){ return g("업종별 "+PROD[p].name, BIZ.map(function(b){ return a(bizUrl(b,p), kw(b)+" "+PROD[p].name); })); }).join("")+
+    g("이용 안내", [a("/","홈")].concat(PROD_KEYS.map(function(k){ return a("/"+k, PROD[k].full+" 안내"); }), FIXED.map(function(f){ return a(f, FIXED_NAME[f]||f); })))+
+    ((POSTS_CACHE.rows||[]).length ? g("포스기 정보", [a("/post/","글 목록")].concat(POSTS_CACHE.rows.map(function(x){ return a("/post/"+esc(x.slug)+"/", x.title); }))) : "");
+}
 function productPage(p){
   const H=HUB[p], P=PROD[p], url=SITE+"/"+p;
   const cr=[["홈","/"],[P.name,"/"+p]];
@@ -2133,7 +2144,8 @@ function productPage(p){
     "<h2>"+esc(P.name)+" 자주 묻는 질문</h2>"+faqBlock(H.faq.map(function(f){ return [f[0], esc(f[1])]; }))+
     srcNote()+
     ctaBox(P.name+" 상담", "매장 업종과 규모, 지금 쓰는 장비를 알려 주시면 맞는 구성을 정리해 드립니다.")+
-    "<div class=near><h3>다른 장비 안내</h3><div class=g>"+PROD_KEYS.filter(function(k){return k!==p;}).map(function(k){ return "<a href=\"/"+k+"\">"+esc(PROD[k].full)+" 안내 →</a>"; }).join("")+"</div></div>";
+    "<div class=near><h3>다른 장비 안내</h3><div class=g>"+PROD_KEYS.filter(function(k){return k!==p;}).map(function(k){ return "<a href=\"/"+k+"\">"+esc(PROD[k].full)+" 안내 →</a>"; }).join("")+"</div></div>"+
+    (p==="pos"?allPagesBlock():"");
   const jsonld=[orgLd(),
     {"@context":"https://schema.org","@type":"Service","name":P.full+" 설치 안내","serviceType":P.name+" 설치","url":url,"image":ogPng(p),"provider":orgRef(),"areaServed":{"@type":"Country","name":"대한민국"},"description":H.desc,
      "hasOfferCatalog":offerCatalog(P.name+" 설치 서비스", P.name)},
@@ -2813,7 +2825,7 @@ function legacyTarget(path){
    HTML_CACHE_VER: 본문·템플릿을 바꿔 배포할 때 반드시 올린다 — 올리면 이전 캐시는 모두 무시된다.
    postVer(): 글 수 + 최신 발행일. 글이 발행되면 5분(POSTS_CACHE TTL) 안에 모든 키가 바뀐다.
    글 본문만 수정한 경우는 키가 안 바뀐다 — /post/* 는 1시간 뒤 새로 만든다. */
-const HTML_CACHE_VER = "4";   /* 2026-10-12 홈 지역 섹션 배경 사진 교체 */
+const HTML_CACHE_VER = "5";   /* 2026-10-26 /pos 전체 안내 링크 묶음 */
 function postVer(){ const r=POSTS_CACHE.rows||[]; return r.length+"-"+(r[0]?String(r[0].published_at||""):""); }
 function edgeTtl(path){
   if(path.startsWith("/post/")||path==="/sitemap.xml"||path==="/llms.txt"||/^\/(rss|feed|atom)(\.xml)?$/.test(path)) return 3600;
