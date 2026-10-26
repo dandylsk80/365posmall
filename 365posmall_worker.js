@@ -2786,6 +2786,17 @@ function notFound(){
 function resp(html,type,extra){
   return new Response(html,{headers:Object.assign({"content-type":type,"cache-control":"public, max-age=600"},extra||{})});
 }
+/* 옛 지역 주소(r/{동}·card/{동}·sigungu/{x}·sido/{x}) 13,468개 — 새 구조에 내용이 대응하는 페이지가 없어 410. 허브(/r·/card·…)와 시도×제품 51·/wireless-terminal·/list 는 301 유지 */
+const GONE_KEYS=new Set(["r","card","sigungu","sido"]);
+function legacyGone(path){ const seg=path.replace(/\/+$/,"").split("/"); return GONE_KEYS.has(seg[1]||"") && !!seg[2]; }
+function goneHtml(){
+  return shell({title:"정리된 페이지 | "+BRAND, desc:"찾으시는 페이지는 정리되었습니다.", url:SITE+"/", noindex:true},
+   "<div class=col><section class=hero><span class=eyebrow><i></i>"+esc(BRAND)+"</span><h1 class=serif style=\"font-size:clamp(28px,5.5vw,50px);margin-top:16px\">찾으시는 페이지는 정리되었습니다.</h1>"+
+   "<p class=sub>지역별 안내 페이지는 장비별 안내로 합쳐졌습니다. 아래에서 장비를 골라 보세요.</p></section>"+
+   "<div class=near><div class=g><a href=\"/pos\">포스기 안내</a><a href=\"/card-terminal\">카드단말기 안내</a><a href=\"/card-terminal#wireless\">무선단말기 안내</a></div></div>"+
+   "<p style=\"margin-top:22px\">"+telBtn("go")+"</p></div>");
+}
+function gone(){ return new Response(goneHtml(),{status:410,headers:{"content-type":"text/html; charset=UTF-8","x-robots-tag":"noindex","cache-control":"public, max-age=86400"}}); }
 function moved(path){ return new Response(null,{status:301,headers:{"location":SITE+path,"cache-control":"public, max-age=86400"}}); }
 
 /* 새 페이지 라우팅 — 있으면 HTML, 없으면 null */
@@ -2891,7 +2902,8 @@ const ua=request.headers.get("User-Agent")||"";if(!TG_BOT_RE.test(ua)&&TG_LABEL[
 
     /* 옛 주소 1.3만 — 한 번에 새 페이지(200)로 (엣지 캐시보다 앞이라 404 캐시와 무관) */
     /* 링크 뒤에 sms:·tel: 조각이 붙은 주소(크롤러가 버튼 href 를 이어 붙인 것)는 조각을 떼고 그 주소의 새 페이지로 한 번에 */
-    if(/\/(sms|tel):[^/]*\/?$/.test(path)){ const st=path.replace(/\/(sms|tel):[^/]*\/?$/,"")||"/"; return moved(HOME_MOVED.has(st)?"/":(legacyTarget(st)||(st==="/post"?"/post/":st))); }
+    if(/\/(sms|tel):[^/]*\/?$/.test(path)){ const st=path.replace(/\/(sms|tel):[^/]*\/?$/,"")||"/"; if(legacyGone(st)) return gone(); return moved(HOME_MOVED.has(st)?"/":(legacyTarget(st)||(st==="/post"?"/post/":st))); }
+    if(legacyGone(path)) return gone();
     if(HOME_MOVED.has(path)) return moved("/");
     const lg=legacyTarget(path); if(lg) return moved(lg);
     if(path==="/sitemap-main.xml"||path==="/sitemap-r.xml"||path==="/sitemap-card.xml") return moved("/sitemap.xml");
