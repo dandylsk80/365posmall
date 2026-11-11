@@ -2572,12 +2572,10 @@ function atomFeed(){
   }
   return x+'</feed>';
 }
-const BLOCK_BOTS=["SemrushBot","AhrefsBot","AhrefsSiteAudit","MJ12bot","DotBot","DataForSeoBot","BLEXBot","rogerbot","SEOkicks","Barkrowler","serpstatbot"];
 const AI_BOTS=["GPTBot","OAI-SearchBot","ChatGPT-User","PerplexityBot","Perplexity-User","Google-Extended","ClaudeBot","anthropic-ai","Claude-Web","Applebot-Extended","CCBot","Amazonbot","Bytespider","Bingbot","YandexBot"];
 const ROBOTS=(DAUM_VERIFY?"#DaumWebMasterTool:"+DAUM_VERIFY+"\n":"")+(NAVER_VERIFY?"#naver-site-verification:"+NAVER_VERIFY+"\n":"")
   +"User-agent: *\nAllow: /\n\n"
   +AI_BOTS.map(function(b){return "User-agent: "+b+"\nAllow: /\n"+(b==="GPTBot"?"Crawl-delay: 10\n":"");}).join("\n")
-  +"\n# SEO 분석 크롤러 — 색인에 도움 안 되므로 차단\n"+BLOCK_BOTS.map(function(b){return "User-agent: "+b+"\nDisallow: /\n";}).join("")
   +"\n# llms.txt: "+SITE+"/llms.txt\nSitemap: "+SITE+"/sitemap.xml\n";
 function llmsTxt(){
   return "# "+BRAND+" (365posmall.com)\n\n"
